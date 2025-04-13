@@ -3,9 +3,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { AnimatePresence } from "framer-motion";
+import Layout from "./components/layout";
 import Index from "./pages/Index";
 import Playlist from "./pages/playlist";
 import Explore from "./pages/explore";
@@ -53,9 +54,9 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <Layout>
           <AnimatedRoutes />
-        </BrowserRouter>
+        </Layout>
       </TooltipProvider>
     </PlayerProvider>
   </QueryClientProvider>
