@@ -1,7 +1,7 @@
-
-import { Play, Heart } from "lucide-react";
+import { Play, Heart, Pause } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { usePlayer, Song } from "@/contexts/PlayerContext";
 
 interface TrackItemProps {
   title: string;
@@ -9,10 +9,13 @@ interface TrackItemProps {
   duration: string;
   explicit?: boolean;
   imageUrl?: string;
+  audioUrl?: string; 
   index?: number;
   showIndex?: boolean;
   showImage?: boolean;
   showHeart?: boolean;
+  id?: string;
+  songs?: Song[];
 }
 
 const TrackItem = ({
@@ -21,12 +24,41 @@ const TrackItem = ({
   duration,
   explicit = false,
   imageUrl,
+  audioUrl = "",
   index,
   showIndex = true,
   showImage = false,
   showHeart = true,
+  id = "",
+  songs = [],
 }: TrackItemProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const { playSong, currentSong, isPlaying, togglePlayPause } = usePlayer();
+  
+  const isCurrentSong = currentSong?.title === title && currentSong?.artist === artist;
+  
+  const handlePlay = () => {
+    if (isCurrentSong) {
+      // If this is the current song, just toggle play/pause
+      togglePlayPause();
+    } else {
+      // Otherwise, play this song
+      if (!audioUrl) return; // Don't play if no audio URL
+      
+      const song: Song = {
+        id: id || String(Math.random()),
+        title,
+        artist,
+        duration,
+        explicit,
+        imageUrl: imageUrl || "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
+        audioUrl
+      };
+      
+      // If we have a songs array, play in context of that list, otherwise just play this song
+      playSong(song, songs.length > 0 ? songs : [song]);
+    }
+  };
 
   return (
     <div
@@ -36,9 +68,19 @@ const TrackItem = ({
     >
       {showIndex && index && (
         <div className="flex items-center justify-center w-6 text-sm text-zinc-400">
-          {isHovered ? (
-            <button className="text-white hover:text-tidal-blue">
-              <Play size={15} fill="currentColor" />
+          {isHovered || isCurrentSong ? (
+            <button 
+              className={cn(
+                "text-white hover:text-tidal-blue",
+                isCurrentSong && isPlaying ? "text-tidal-blue" : ""
+              )}
+              onClick={handlePlay}
+            >
+              {isCurrentSong && isPlaying ? (
+                <Pause size={15} />
+              ) : (
+                <Play size={15} fill="currentColor" />
+              )}
             </button>
           ) : (
             <span>{index}</span>
@@ -54,7 +96,12 @@ const TrackItem = ({
       
       <div className="flex flex-col min-w-0">
         <div className="flex items-center">
-          <span className="text-sm font-medium text-white truncate">{title}</span>
+          <span className={cn(
+            "text-sm font-medium truncate",
+            isCurrentSong ? "text-tidal-blue" : "text-white"
+          )}>
+            {title}
+          </span>
           {explicit && (
             <span className="ml-2 px-1 text-[10px] bg-zinc-600 text-white rounded">E</span>
           )}

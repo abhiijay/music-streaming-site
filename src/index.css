@@ -34,6 +34,12 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+    
+    --tidal-black: #121212;
+    --tidal-gray: #282828;
+    --tidal-darkgray: #181818;
+    --tidal-hover: #2a2a2a;
+    --tidal-blue: #0063e5;
   }
 
   .dark {
@@ -85,5 +91,38 @@
 
   .playlist-item:hover {
     @apply bg-tidal-hover;
+  }
+  
+  /* Custom scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #777;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .pl-\[240px\] {
+    padding-left: 0 !important;
+  }
+  
+  .fixed.left-\[240px\] {
+    left: 0 !important;
   }
 }
