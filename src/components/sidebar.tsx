@@ -9,10 +9,9 @@ import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/comp
 
 interface SidebarProps {
   onClose?: () => void;
-  theme: "dark" | "light";
 }
 
-const Sidebar = ({ onClose, theme }: SidebarProps) => {
+const Sidebar = ({ onClose }: SidebarProps) => {
   const location = useLocation();
   const { toast } = useToast();
   const [playlists, setPlaylists] = useState([
@@ -43,21 +42,11 @@ const Sidebar = ({ onClose, theme }: SidebarProps) => {
   };
   
   return (
-    <div className={cn(
-      "h-full w-[240px] p-5 flex flex-col z-20 overflow-hidden border-r",
-      theme === "dark" 
-        ? "bg-tidal-black border-r-zinc-800/50" 
-        : "bg-white/90 backdrop-blur-sm border-r-slate-200/50"
-    )}>
+    <div className="h-full w-[240px] bg-tidal-black border-r border-r-zinc-800/50 p-5 flex flex-col z-20 overflow-hidden">
       {/* Close button for mobile */}
       {onClose && (
         <button 
-          className={cn(
-            "md:hidden absolute top-4 right-4 p-2 rounded-full hover:bg-opacity-80 transition-colors",
-            theme === "dark" 
-              ? "text-zinc-400 hover:text-white hover:bg-tidal-gray" 
-              : "text-slate-500 hover:text-slate-900 hover:bg-slate-200"
-          )}
+          className="md:hidden absolute top-4 right-4 p-2 text-zinc-400 hover:text-white"
           onClick={onClose}
         >
           <XIcon size={20} />
@@ -69,39 +58,13 @@ const Sidebar = ({ onClose, theme }: SidebarProps) => {
       </div>
       
       <nav className="space-y-1">
-        <NavItem 
-          icon={<HomeIcon size={20} />} 
-          label="Home" 
-          to="/" 
-          isActive={isActive("/")} 
-          onClick={onClose} 
-          theme={theme}
-        />
-        <NavItem 
-          icon={<SearchIcon size={20} />} 
-          label="Explore" 
-          to="/explore" 
-          isActive={isActive("/explore")} 
-          onClick={onClose}
-          theme={theme}
-        />
-        <NavItem 
-          icon={<BookOpenIcon size={20} />} 
-          label="For You" 
-          to="/for-you" 
-          isActive={isActive("/for-you")} 
-          onClick={onClose}
-          theme={theme}
-        />
+        <NavItem icon={<HomeIcon size={20} />} label="Home" to="/" isActive={isActive("/")} onClick={onClose} />
+        <NavItem icon={<SearchIcon size={20} />} label="Explore" to="/explore" isActive={isActive("/explore")} onClick={onClose} />
+        <NavItem icon={<BookOpenIcon size={20} />} label="For You" to="/for-you" isActive={isActive("/for-you")} onClick={onClose} />
       </nav>
       
       <div className="mt-8">
-        <h2 className={cn(
-          "text-sm uppercase font-semibold px-2 mb-2",
-          theme === "dark" ? "text-zinc-400" : "text-slate-500"
-        )}>
-          My Collection
-        </h2>
+        <h2 className="text-sm uppercase font-semibold text-zinc-400 px-2 mb-2">My Collection</h2>
         <nav className="space-y-1">
           <NavItem 
             icon={<ListMusicIcon size={20} />} 
@@ -109,7 +72,6 @@ const Sidebar = ({ onClose, theme }: SidebarProps) => {
             to="/collection/playlists" 
             isActive={isActive("/collection/playlists") || isActive("/collection")} 
             onClick={onClose}
-            theme={theme}
           />
           <NavItem 
             icon={<HeartIcon size={20} />} 
@@ -117,39 +79,22 @@ const Sidebar = ({ onClose, theme }: SidebarProps) => {
             to="/collection/favorites" 
             isActive={isActive("/collection/favorites")} 
             onClick={onClose}
-            theme={theme}
           />
         </nav>
       </div>
       
       <div className="mt-8 flex-1 overflow-hidden flex flex-col">
-        <h2 className={cn(
-          "text-sm uppercase font-semibold px-2 mb-2",
-          theme === "dark" ? "text-zinc-400" : "text-slate-500"
-        )}>
-          Playlists
-        </h2>
+        <h2 className="text-sm uppercase font-semibold text-zinc-400 px-2 mb-2">Playlists</h2>
         <div className="space-y-0.5 overflow-y-auto flex-1 scrollbar-thin pr-2">
           {playlists.map((playlist) => (
-            <PlaylistItem 
-              key={playlist.id} 
-              id={playlist.id} 
-              name={playlist.name} 
-              onClick={onClose}
-              theme={theme}
-            />
+            <PlaylistItem key={playlist.id} id={playlist.id} name={playlist.name} onClick={onClose} />
           ))}
         </div>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <button 
-                className={cn(
-                  "flex items-center px-2 py-2 mt-3 w-full rounded-md transition-all duration-200",
-                  theme === "dark" 
-                    ? "text-zinc-400 hover:text-white hover:bg-tidal-hover" 
-                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/70"
-                )}
+                className="flex items-center text-zinc-400 hover:text-white px-2 py-2 mt-3 w-full rounded-md hover:bg-tidal-hover transition-all duration-200"
                 onClick={handleCreatePlaylist}
               >
                 <PlusIcon size={18} className="mr-2" />
@@ -172,45 +117,30 @@ type NavItemProps = {
   to: string;
   isActive: boolean;
   onClick?: () => void;
-  theme: "dark" | "light";
 };
 
-const NavItem = ({ icon, label, to, isActive, onClick, theme }: NavItemProps) => (
+const NavItem = ({ icon, label, to, isActive, onClick }: NavItemProps) => (
   <Link
     to={to}
     className={cn(
       "flex items-center px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
-      theme === "dark" 
-        ? (isActive 
-            ? "bg-tidal-hover text-white" 
-            : "text-zinc-400 hover:bg-tidal-hover hover:text-white") 
-        : (isActive 
-            ? "bg-slate-200 text-slate-900" 
-            : "text-slate-600 hover:bg-slate-200/70 hover:text-slate-900")
+      isActive
+        ? "bg-tidal-hover text-white"
+        : "text-zinc-400 hover:bg-tidal-hover hover:text-white"
     )}
     onClick={onClick}
   >
-    <span className={cn(
-      "mr-3 transition-transform duration-200", 
-      isActive 
-        ? "text-tidal-blue scale-110" 
-        : ""
-    )}>
+    <span className={cn("mr-3 transition-transform duration-200", isActive ? "text-tidal-blue scale-110" : "")}>
       {icon}
     </span>
     <span>{label}</span>
   </Link>
 );
 
-const PlaylistItem = ({ id, name, onClick, theme }: { id: string, name: string, onClick?: () => void, theme: "dark" | "light" }) => (
+const PlaylistItem = ({ id, name, onClick }: { id: string, name: string, onClick?: () => void }) => (
   <Link 
     to={`/playlist/${id}`}
-    className={cn(
-      "block w-full text-left px-3 py-1.5 text-sm truncate playlist-item rounded-sm transition-all duration-200",
-      theme === "dark" 
-        ? "text-zinc-400 hover:text-white hover:bg-tidal-hover" 
-        : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
-    )}
+    className="block w-full text-left px-3 py-1.5 text-zinc-400 hover:text-white text-sm truncate playlist-item rounded-sm transition-all duration-200"
     onClick={onClick}
   >
     {name}
