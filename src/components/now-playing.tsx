@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { 
   PlayIcon, 
   PauseIcon, 
@@ -10,12 +10,17 @@ import {
   Volume2Icon,
   VolumeXIcon,
   Volume1Icon,
-  Maximize2Icon
+  Maximize2Icon,
+  MinimizeIcon,
+  HeartIcon,
+  MoreHorizontalIcon,
+  ListMusic
 } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const NowPlaying = () => {
   const { 
@@ -36,6 +41,8 @@ const NowPlaying = () => {
   } = usePlayer();
   
   const [showFullscreen, setShowFullscreen] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const progressBarRef = useRef<HTMLDivElement>(null);
   
   // Format time in MM:SS
   const formatTime = (timeInSeconds: number) => {
@@ -71,10 +78,67 @@ const NowPlaying = () => {
     setShowFullscreen(!showFullscreen);
   };
   
+  // Handle progress bar click for seeking
+  const handleProgressBarClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!progressBarRef.current) return;
+    
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / rect.width;
+    seek(pos * duration);
+  };
+  
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Space bar to toggle play/pause
+      if (e.code === 'Space' && !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
+        e.preventDefault();
+        togglePlayPause();
+      }
+      
+      // Right arrow to skip forward
+      if (e.code === 'ArrowRight' && !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
+        e.preventDefault();
+        nextSong();
+      }
+      
+      // Left arrow to previous
+      if (e.code === 'ArrowLeft' && !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
+        e.preventDefault();
+        previousSong();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [togglePlayPause, nextSong, previousSong]);
+  
+  // Create waveform visualization
+  const Waveform = () => {
+    return (
+      <div className="audio-visualizer">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <div
+            key={index}
+            className="audio-bar"
+            style={{
+              height: isPlaying ? `${15 + Math.random() * 15}px` : '5px',
+              animationDuration: `${0.8 + Math.random() * 0.5}s`,
+              animationDelay: `${index * 0.2}s`
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+  
   // If no song is playing, show a simplified player
   if (!currentSong) {
     return (
-      <div className="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900 border-t border-zinc-800 flex items-center px-4 z-30">
+      <div className="fixed bottom-0 left-0 right-0 h-20 glass-bar border-t border-zinc-800/50 flex items-center px-4 z-30">
         <div className="w-full text-center text-zinc-500">
           No track selected
         </div>
@@ -85,60 +149,116 @@ const NowPlaying = () => {
   return (
     <>
       {/* Normal player */}
-      <div className="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900 border-t border-zinc-800 flex items-center px-4 z-30">
+      <div className="fixed bottom-0 left-0 right-0 h-20 glass-bar border-t border-zinc-800/50 flex items-center px-4 z-30 transition-all duration-300">
         <div className="flex items-center flex-1 max-w-[240px]">
-          <Link to={`/album/${currentSong.id}`}>
+          <Link to={`/album/${currentSong.id}`} className="group overflow-hidden">
             <img
               src={currentSong.imageUrl}
               alt="Album cover"
-              className="h-12 w-12 mr-3 rounded-sm hover:opacity-80 transition-opacity"
+              className="h-12 w-12 mr-3 rounded-sm transition-all duration-300 group-hover:scale-105 group-hover:opacity-80"
             />
           </Link>
           <div className="mr-4">
-            <h4 className="text-sm font-medium text-white truncate">{currentSong.title}</h4>
-            <p className="text-xs text-zinc-400 truncate">{currentSong.artist}</p>
+            <h4 className="text-sm font-medium text-white truncate hover:text-tidal-blue transition-colors duration-200">
+              <Link to={`/album/${currentSong.id}`}>{currentSong.title}</Link>
+            </h4>
+            <p className="text-xs text-zinc-400 truncate hover:text-zinc-300 transition-colors duration-200">
+              <Link to={`/artist/${currentSong.artist.replace(/\s+/g, '-').toLowerCase()}`}>{currentSong.artist}</Link>
+            </p>
           </div>
         </div>
         
         <div className="flex flex-col items-center flex-1">
           <div className="flex items-center mb-2">
-            <button 
-              className={cn(
-                "text-zinc-400 hover:text-white mx-2",
-                shuffleMode && "text-tidal-blue"
-              )}
-              onClick={toggleShuffle}
-            >
-              <ShuffleIcon size={18} />
-            </button>
-            <button 
-              className="text-zinc-400 hover:text-white mx-2"
-              onClick={previousSong}
-            >
-              <SkipBackIcon size={18} />
-            </button>
-            <button
-              onClick={togglePlayPause}
-              className="bg-white text-black rounded-full p-1 mx-2 hover:bg-zinc-200"
-            >
-              {isPlaying ? <PauseIcon size={20} /> : <PlayIcon size={20} />}
-            </button>
-            <button 
-              className="text-zinc-400 hover:text-white mx-2"
-              onClick={nextSong}
-            >
-              <SkipForwardIcon size={18} />
-            </button>
-            <button 
-              className={cn(
-                "text-zinc-400 hover:text-white mx-2",
-                repeatMode !== "off" && "text-tidal-blue"
-              )}
-              onClick={toggleRepeat}
-            >
-              <RepeatIcon size={18} />
-              {repeatMode === "one" && <span className="absolute text-[10px] ml-[6px] mt-[2px]">1</span>}
-            </button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button 
+                    className={cn(
+                      "mx-2 transition-all duration-200 hover:scale-110",
+                      shuffleMode ? "text-tidal-blue" : "text-zinc-400 hover:text-white"
+                    )}
+                    onClick={toggleShuffle}
+                  >
+                    <ShuffleIcon size={18} className={cn(
+                      shuffleMode && "animate-pulse"
+                    )} />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {shuffleMode ? "Disable shuffle" : "Enable shuffle"}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button 
+                    className="text-zinc-400 hover:text-white mx-2 transition-all duration-200 hover:scale-110"
+                    onClick={previousSong}
+                  >
+                    <SkipBackIcon size={18} />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Previous track</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={togglePlayPause}
+                    className={cn(
+                      "bg-white text-black rounded-full p-1 mx-2 transition-all duration-300",
+                      isPlaying ? "hover:bg-zinc-200 animate-glow-pulse" : "hover:bg-zinc-200 hover:scale-105"
+                    )}
+                  >
+                    {isPlaying ? <PauseIcon size={20} /> : <PlayIcon size={20} />}
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {isPlaying ? "Pause" : "Play"}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button 
+                    className="text-zinc-400 hover:text-white mx-2 transition-all duration-200 hover:scale-110"
+                    onClick={nextSong}
+                  >
+                    <SkipForwardIcon size={18} />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Next track</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button 
+                    className={cn(
+                      "mx-2 transition-all duration-200 hover:scale-110",
+                      repeatMode !== "off" ? "text-tidal-blue" : "text-zinc-400 hover:text-white"
+                    )}
+                    onClick={toggleRepeat}
+                  >
+                    <RepeatIcon size={18} />
+                    {repeatMode === "one" && <span className="absolute text-[10px] ml-[6px] mt-[2px]">1</span>}
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {repeatMode === "off" && "Enable repeat"}
+                  {repeatMode === "all" && "Repeat one"}
+                  {repeatMode === "one" && "Disable repeat"}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
           
           <div className="flex items-center w-full max-w-xl">
@@ -146,17 +266,16 @@ const NowPlaying = () => {
               {formatTime(currentTime)}
             </span>
             <div 
-              className="flex-1 h-1 bg-zinc-700 rounded-full cursor-pointer"
-              onClick={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const pos = (e.clientX - rect.left) / rect.width;
-                seek(pos * duration);
-              }}
+              ref={progressBarRef}
+              className="flex-1 h-1 bg-zinc-700 rounded-full cursor-pointer group relative"
+              onClick={handleProgressBarClick}
             >
               <div 
-                className="h-full bg-white rounded-full" 
+                className="h-full bg-tidal-blue rounded-full relative"
                 style={{ width: `${progressPercentage}%` }}
-              ></div>
+              >
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"></div>
+              </div>
             </div>
             <span className="text-xs text-zinc-400 w-10 ml-2">
               {formatTime(duration)}
@@ -165,12 +284,41 @@ const NowPlaying = () => {
         </div>
         
         <div className="flex items-center justify-end flex-1 max-w-[240px]">
-          <button 
-            className="text-zinc-400 hover:text-white mx-2"
-            onClick={toggleMute}
-          >
-            {getVolumeIcon()}
-          </button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  className={cn(
+                    "mx-2 transition-all duration-200 hover:scale-110",
+                    liked ? "text-tidal-blue" : "text-zinc-400 hover:text-white"
+                  )}
+                  onClick={() => setLiked(!liked)}
+                >
+                  <HeartIcon size={18} className={cn(liked && "fill-tidal-blue")} />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {liked ? "Remove from favorites" : "Add to favorites"}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button 
+                  className="text-zinc-400 hover:text-white mx-2 transition-all duration-200 hover:scale-110"
+                  onClick={toggleMute}
+                >
+                  {getVolumeIcon()}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {volume === 0 ? "Unmute" : "Mute"}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
           <div className="w-20">
             <Slider
               value={[volume * 100]}
@@ -181,98 +329,209 @@ const NowPlaying = () => {
               className="h-1"
             />
           </div>
-          <button 
-            className="text-zinc-400 hover:text-white ml-4"
-            onClick={toggleFullscreen}
-          >
-            <Maximize2Icon size={18} />
-          </button>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button 
+                  className="text-zinc-400 hover:text-white ml-4 transition-all duration-200 hover:scale-110"
+                  onClick={toggleFullscreen}
+                >
+                  <Maximize2Icon size={18} />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                Full screen player
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
       
-      {/* Fullscreen player */}
+      {/* Fullscreen player with animation */}
       {showFullscreen && (
-        <div className="fixed inset-0 bg-zinc-900/95 z-50 flex flex-col justify-center items-center p-6">
-          <button 
-            className="absolute top-4 right-4 text-zinc-400 hover:text-white"
-            onClick={toggleFullscreen}
-          >
-            <Maximize2Icon size={24} />
-          </button>
+        <div className="fixed inset-0 bg-gradient-to-br from-tidal-black via-black to-tidal-darkgray/90 z-50 flex flex-col justify-center items-center p-6 animate-fade-in">
+          <div className="absolute top-4 right-4 flex space-x-4">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button 
+                    className="text-zinc-400 hover:text-white p-2 rounded-full transition-all duration-200 hover:bg-white/10"
+                    onClick={() => setLiked(!liked)}
+                  >
+                    <HeartIcon size={20} className={cn(
+                      "transition-transform duration-200 hover:scale-110",
+                      liked && "text-tidal-blue fill-tidal-blue"
+                    )} />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {liked ? "Remove from favorites" : "Add to favorites"}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button 
+                    className="text-zinc-400 hover:text-white p-2 rounded-full transition-all duration-200 hover:bg-white/10"
+                  >
+                    <ListMusic size={20} className="transition-transform duration-200 hover:scale-110" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>View queue</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button 
+                    className="text-zinc-400 hover:text-white p-2 rounded-full transition-all duration-200 hover:bg-white/10"
+                  >
+                    <MoreHorizontalIcon size={20} className="transition-transform duration-200 hover:scale-110" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>More options</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button 
+                    className="text-zinc-400 hover:text-white p-2 rounded-full transition-all duration-200 hover:bg-white/10"
+                    onClick={toggleFullscreen}
+                  >
+                    <MinimizeIcon size={20} className="transition-transform duration-200 hover:scale-110" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Exit full screen</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           
-          <div className="max-w-2xl w-full flex flex-col items-center">
-            <div className="w-full max-w-md aspect-square mb-8">
+          <div className="max-w-3xl w-full flex flex-col items-center animate-scale-in">
+            <div className="relative w-full max-w-md aspect-square mb-8 group">
+              <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <img 
                 src={currentSong.imageUrl}
                 alt={currentSong.title}
-                className="w-full h-full object-cover rounded-md"
+                className="w-full h-full object-cover rounded-md shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
               />
+              
+              {/* Waveform visualization when playing */}
+              {isPlaying && (
+                <div className="absolute bottom-4 left-4 z-20">
+                  <Waveform />
+                </div>
+              )}
             </div>
             
-            <div className="w-full text-center mb-6">
-              <h2 className="text-2xl font-bold text-white mb-2">{currentSong.title}</h2>
-              <p className="text-lg text-zinc-400">{currentSong.artist}</p>
+            <div className="w-full text-center mb-8">
+              <h2 className="text-3xl font-bold text-white mb-3">{currentSong.title}</h2>
+              <p className="text-xl text-zinc-300 mb-1 hover:text-tidal-blue transition-colors">
+                <Link to={`/artist/${currentSong.artist.replace(/\s+/g, '-').toLowerCase()}`}>
+                  {currentSong.artist}
+                </Link>
+              </p>
+              {currentSong.explicit && (
+                <span className="inline-block px-2 py-0.5 bg-zinc-700 text-zinc-300 text-xs rounded">
+                  EXPLICIT
+                </span>
+              )}
             </div>
             
-            <div className="w-full mb-6">
+            <div className="w-full mb-10">
               <div className="flex items-center justify-between w-full mb-2">
                 <span className="text-sm text-zinc-400">{formatTime(currentTime)}</span>
                 <span className="text-sm text-zinc-400">{formatTime(duration)}</span>
               </div>
               
               <div 
-                className="w-full h-1.5 bg-zinc-700 rounded-full cursor-pointer"
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const pos = (e.clientX - rect.left) / rect.width;
-                  seek(pos * duration);
-                }}
+                className="w-full h-2 bg-zinc-700 rounded-full cursor-pointer group relative"
+                onClick={handleProgressBarClick}
               >
                 <div 
-                  className="h-full bg-white rounded-full" 
+                  className="h-full bg-tidal-blue rounded-full transition-all duration-100 relative"
                   style={{ width: `${progressPercentage}%` }}
-                ></div>
+                >
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
               </div>
             </div>
             
-            <div className="flex items-center justify-center space-x-8">
+            <div className="flex items-center justify-center space-x-10">
               <button 
                 className={cn(
-                  "text-zinc-400 hover:text-white",
-                  shuffleMode && "text-tidal-blue"
+                  "p-2 transition-all duration-200",
+                  shuffleMode ? "text-tidal-blue" : "text-zinc-400 hover:text-white"
                 )}
                 onClick={toggleShuffle}
               >
-                <ShuffleIcon size={24} />
+                <ShuffleIcon size={24} className={cn(
+                  "transition-transform hover:scale-110",
+                  shuffleMode && "animate-pulse"
+                )} />
               </button>
+              
               <button 
-                className="text-zinc-400 hover:text-white"
+                className="text-zinc-400 hover:text-white p-2 transition-all duration-200"
                 onClick={previousSong}
               >
-                <SkipBackIcon size={24} />
+                <SkipBackIcon size={24} className="transition-transform hover:scale-110" />
               </button>
+              
               <button
                 onClick={togglePlayPause}
-                className="bg-white text-black rounded-full p-3 hover:bg-zinc-200"
+                className={cn(
+                  "bg-white text-black rounded-full p-4 transition-all duration-300",
+                  isPlaying ? "hover:bg-zinc-200 animate-glow-pulse" : "hover:bg-zinc-200 hover:scale-105"
+                )}
               >
-                {isPlaying ? <PauseIcon size={30} /> : <PlayIcon size={30} />}
+                {isPlaying ? 
+                  <PauseIcon size={30} className="transition-transform hover:scale-105" /> : 
+                  <PlayIcon size={30} className="transition-transform hover:scale-105" />
+                }
               </button>
+              
               <button 
-                className="text-zinc-400 hover:text-white"
+                className="text-zinc-400 hover:text-white p-2 transition-all duration-200"
                 onClick={nextSong}
               >
-                <SkipForwardIcon size={24} />
+                <SkipForwardIcon size={24} className="transition-transform hover:scale-110" />
               </button>
+              
               <button 
                 className={cn(
-                  "text-zinc-400 hover:text-white",
-                  repeatMode !== "off" && "text-tidal-blue"
+                  "p-2 transition-all duration-200",
+                  repeatMode !== "off" ? "text-tidal-blue" : "text-zinc-400 hover:text-white"
                 )}
                 onClick={toggleRepeat}
               >
-                <RepeatIcon size={24} />
-                {repeatMode === "one" && <span className="absolute text-xs ml-[10px] mt-[4px]">1</span>}
+                <div className="relative">
+                  <RepeatIcon size={24} className="transition-transform hover:scale-110" />
+                  {repeatMode === "one" && <span className="absolute text-xs ml-[10px] mt-[4px]">1</span>}
+                </div>
               </button>
+            </div>
+            
+            <div className="flex items-center mt-8">
+              <button 
+                className="text-zinc-400 hover:text-white mx-2"
+                onClick={toggleMute}
+              >
+                {getVolumeIcon()}
+              </button>
+              <Slider
+                value={[volume * 100]}
+                min={0}
+                max={100}
+                step={1}
+                onValueChange={(value) => setVolume(value[0] / 100)}
+                className="w-32 h-1"
+              />
             </div>
           </div>
         </div>
