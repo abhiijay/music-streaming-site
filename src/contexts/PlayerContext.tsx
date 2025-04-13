@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 
 // Define types for our songs and player state
@@ -38,7 +37,7 @@ export interface PlayerContextType {
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
 // Mock song data - these would normally come from a backend
-const mockSongs: Song[] = [
+export const mockSongs: Song[] = [
   {
     id: "1",
     title: "NOKIA",
@@ -315,5 +314,4 @@ export const usePlayer = () => {
   return context;
 };
 
-// Export our mock songs to be used in other components
-export const mockSongs = [...mockSongs];
+// No need to redefine mockSongs here, as we're already exporting it above
