@@ -77,7 +77,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border transition-colors duration-300;
   }
   body {
     @apply bg-tidal-black text-white;
@@ -157,6 +157,10 @@
     @apply bg-tidal-darkgray/70 backdrop-blur-md border border-white/5 bg-opacity-80;
   }
   
+  .glass-bar {
+    @apply backdrop-blur-md bg-black/20 border border-white/5;
+  }
+  
   /* Hover lift effect */
   .hover-lift {
     @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg;
@@ -219,18 +223,25 @@
   .tooltip-container:hover .tooltip {
     @apply visible opacity-100;
   }
+
+  /* Audio visualizer */
+  .audio-visualizer {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    gap: 2px;
+  }
+
+  .audio-bar {
+    background-color: var(--tidal-blue);
+    width: 3px;
+    border-radius: 3px;
+    animation: wave 1.2s ease-in-out infinite;
+  }
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .pl-\[240px\] {
-    padding-left: 0 !important;
-  }
-  
-  .fixed.left-\[240px\] {
-    left: 0 !important;
-  }
-  
   /* Touch ripple for mobile */
   .touch-ripple {
     position: relative;
