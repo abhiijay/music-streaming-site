@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { 
   PlayIcon, 
@@ -258,25 +257,30 @@ const NowPlaying = ({ theme = "dark" }: NowPlayingProps) => {
     );
   }
 
+  // Calculate dominant color if it exists as a CSS variable
+  const dominantColorStyle = dominantColor ? 
+    { background: `linear-gradient(to bottom, ${dominantColor} 0%, rgba(0, 0, 0, 0.8) 100%)` } : {};
+
   return (
     <>
-      {/* Normal player */}
+      {/* Normal player - Updated layout with full track info */}
       <div className={cn(
         "fixed bottom-0 left-0 right-0 h-20 border-t flex items-center px-4 z-30 transition-all duration-500",
-        theme === "dark" ? "glass-bar border-zinc-800/50" : "bg-white/90 backdrop-blur-md border-zinc-200 text-tidal-black"
-      )}>
+        theme === "dark" ? "glass-bar border-zinc-800/50" : "bg-white/90 backdrop-blur-md border-zinc-200 text-mq-navy"
+      )}
+      style={dominantColorStyle}>
         <div className="flex items-center flex-1 max-w-[240px]">
           <Link to={`/album/${currentSong.id}`} className="group overflow-hidden">
             <img
               src={currentSong.imageUrl}
-              alt="Album cover"
+              alt={currentSong.title}
               className="h-12 w-12 mr-3 rounded-sm transition-all duration-300 group-hover:scale-105 group-hover:opacity-80"
             />
           </Link>
-          <div className="mr-4">
+          <div className="mr-4 flex-1 min-w-0">
             <h4 className={cn(
               "text-sm font-medium truncate transition-colors duration-200",
-              theme === "dark" ? "text-white hover:text-tidal-blue" : "text-tidal-black hover:text-tidal-blue"
+              theme === "dark" ? "text-white hover:text-mq-yellow" : "text-mq-navy hover:text-mq-red"
             )}>
               <Link to={`/album/${currentSong.id}`}>{currentSong.title}</Link>
             </h4>
@@ -528,8 +532,9 @@ const NowPlaying = ({ theme = "dark" }: NowPlayingProps) => {
         <div 
           className={cn(
             "fixed bottom-20 right-0 w-full md:w-[400px] md:h-[calc(100vh-80px)] max-h-[70vh] z-40 border-l border-t animate-slide-in-right overflow-hidden",
-            theme === "dark" ? "bg-tidal-darkgray/95 backdrop-blur-md border-zinc-800/50" : "bg-white/90 backdrop-blur-md border-zinc-200"
+            theme === "dark" ? "bg-mq-navy/95 backdrop-blur-md border-zinc-800/50" : "bg-white/90 backdrop-blur-md border-zinc-200"
           )}
+          style={dominantColorStyle}
         >
           <div className={cn(
             "flex items-center justify-between p-4 border-b",
@@ -689,14 +694,15 @@ const NowPlaying = ({ theme = "dark" }: NowPlayingProps) => {
         </div>
       )}
       
-      {/* Fullscreen player with animation */}
+      {/* Fullscreen player with animation - Updated with gradient background */}
       {showFullscreen && (
         <div className={cn(
           "fixed inset-0 z-50 flex flex-col justify-center items-center p-6 animate-fade-in",
           theme === "dark"
-            ? "bg-gradient-to-br from-tidal-black via-black to-tidal-darkgray/90"
+            ? "bg-gradient-to-br from-mq-navy via-black to-mq-navy/90"
             : "bg-gradient-to-br from-white via-zinc-100 to-zinc-200/90"
-        )}>
+        )}
+        style={dominantColorStyle}>
           <div className="absolute top-4 right-4 flex space-x-4">
             <TooltipProvider>
               <Tooltip>
@@ -809,204 +815,4 @@ const NowPlaying = ({ theme = "dark" }: NowPlayingProps) => {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TooltipTrigger>
-                <TooltipContent>More options</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button 
-                    className={cn(
-                      "p-2 rounded-full transition-all duration-200 hover:scale-110",
-                      theme === "dark" 
-                        ? "text-zinc-400 hover:text-white hover:bg-white/10" 
-                        : "text-zinc-600 hover:text-tidal-black hover:bg-zinc-200/70"
-                    )}
-                    onClick={toggleFullscreen}
-                  >
-                    <MinimizeIcon size={20} className="transition-transform duration-200 hover:scale-110" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>Exit full screen</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-          
-          <div className="max-w-3xl w-full flex flex-col items-center animate-scale-in">
-            <div className="relative w-full max-w-md aspect-square mb-8 group">
-              <div className={cn(
-                "absolute inset-0 bg-gradient-to-br from-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md"
-              )}></div>
-              <img 
-                src={currentSong.imageUrl}
-                alt={currentSong.title}
-                className="w-full h-full object-cover rounded-md shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
-              />
-              
-              {/* Waveform visualization when playing */}
-              {isPlaying && (
-                <div className="absolute bottom-4 left-4 z-20">
-                  <Waveform />
-                </div>
-              )}
-            </div>
-            
-            <div className="w-full text-center mb-8">
-              <h2 className={cn(
-                "text-3xl font-bold mb-3",
-                theme === "dark" ? "text-white" : "text-tidal-black"
-              )}>
-                {currentSong.title}
-              </h2>
-              <p className={cn(
-                "text-xl mb-1 transition-colors",
-                theme === "dark" ? "text-zinc-300 hover:text-tidal-blue" : "text-zinc-800 hover:text-tidal-blue"
-              )}>
-                <Link to={`/artist/${currentSong.artist.replace(/\s+/g, '-').toLowerCase()}`}>
-                  {currentSong.artist}
-                </Link>
-              </p>
-              {currentSong.explicit && (
-                <span className={cn(
-                  "inline-block px-2 py-0.5 text-xs rounded",
-                  theme === "dark" ? "bg-zinc-700 text-zinc-300" : "bg-zinc-200 text-zinc-700"
-                )}>
-                  EXPLICIT
-                </span>
-              )}
-            </div>
-            
-            <div className="w-full mb-10">
-              <div className="flex items-center justify-between w-full mb-2">
-                <span className={cn(
-                  "text-sm",
-                  theme === "dark" ? "text-zinc-400" : "text-zinc-600"
-                )}>
-                  {formatTime(currentTime)}
-                </span>
-                <span className={cn(
-                  "text-sm",
-                  theme === "dark" ? "text-zinc-400" : "text-zinc-600"
-                )}>
-                  {formatTime(duration)}
-                </span>
-              </div>
-              
-              <div 
-                className={cn(
-                  "w-full h-2 rounded-full cursor-pointer group relative",
-                  theme === "dark" ? "bg-zinc-700" : "bg-zinc-300"
-                )}
-                onClick={handleProgressBarClick}
-              >
-                <div 
-                  className={cn(
-                    "h-full rounded-full transition-all duration-100 relative",
-                    theme === "dark" ? "bg-tidal-blue" : "bg-tidal-purple"
-                  )}
-                  style={{ width: `${progressPercentage}%` }}
-                >
-                  <div className={cn(
-                    "absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity",
-                    theme === "dark" ? "bg-white" : "bg-tidal-blue"
-                  )}></div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-center space-x-10">
-              <button 
-                className={cn(
-                  "p-2 transition-all duration-200",
-                  shuffleMode 
-                    ? "text-tidal-blue" 
-                    : theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-tidal-black"
-                )}
-                onClick={toggleShuffle}
-              >
-                <ShuffleIcon size={24} className={cn(
-                  "transition-transform hover:scale-110",
-                  shuffleMode && "animate-pulse"
-                )} />
-              </button>
-              
-              <button 
-                className={cn(
-                  "p-2 transition-all duration-200",
-                  theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-tidal-black"
-                )}
-                onClick={previousSong}
-              >
-                <SkipBackIcon size={24} className="transition-transform hover:scale-110" />
-              </button>
-              
-              <button
-                onClick={togglePlayPause}
-                className={cn(
-                  "rounded-full p-4 transition-all duration-300",
-                  theme === "dark"
-                    ? "bg-white text-black hover:bg-zinc-200"
-                    : "bg-tidal-blue text-white hover:bg-tidal-blue/90",
-                  isPlaying ? "animate-glow-pulse" : "hover:scale-105"
-                )}
-              >
-                {isPlaying ? 
-                  <PauseIcon size={30} className="transition-transform hover:scale-105" /> : 
-                  <PlayIcon size={30} className="transition-transform hover:scale-105" />
-                }
-              </button>
-              
-              <button 
-                className={cn(
-                  "p-2 transition-all duration-200",
-                  theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-tidal-black"
-                )}
-                onClick={nextSong}
-              >
-                <SkipForwardIcon size={24} className="transition-transform hover:scale-110" />
-              </button>
-              
-              <button 
-                className={cn(
-                  "p-2 transition-all duration-200",
-                  repeatMode !== "off" 
-                    ? "text-tidal-blue" 
-                    : theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-tidal-black"
-                )}
-                onClick={toggleRepeat}
-              >
-                <div className="relative">
-                  <RepeatIcon size={24} className="transition-transform hover:scale-110" />
-                  {repeatMode === "one" && <span className="absolute text-xs ml-[10px] mt-[4px]">1</span>}
-                </div>
-              </button>
-            </div>
-            
-            <div className="flex items-center mt-8">
-              <button 
-                className={cn(
-                  "mx-2",
-                  theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-tidal-black"
-                )}
-                onClick={toggleMute}
-              >
-                {getVolumeIcon()}
-              </button>
-              <Slider
-                value={[volume * 100]}
-                min={0}
-                max={100}
-                step={1}
-                onValueChange={(value) => setVolume(value[0] / 100)}
-                className="w-32 h-1"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
-
-export default NowPlaying;
+                <

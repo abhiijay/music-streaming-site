@@ -1,4 +1,5 @@
-import { HomeIcon, SearchIcon, BookOpenIcon, ListMusicIcon, PlusIcon, HeartIcon, XIcon } from "lucide-react";
+
+import { HomeIcon, SearchIcon, BookOpenIcon, ListMusicIcon, PlusIcon, HeartIcon, XIcon, UserIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import AppLogo from "./app-logo";
@@ -15,7 +16,7 @@ const Sidebar = ({ onClose, theme = "dark" }: SidebarProps) => {
   const location = useLocation();
   const { toast } = useToast();
   const [playlists, setPlaylists] = useState([
-    { id: "top-hits", name: "TIDAL's Top Hits" },
+    { id: "top-hits", name: "MQ's Top Hits" },
     { id: "pop-hits", name: "Pop Hits" },
     { id: "rock-classics", name: "Rock Classics" },
     { id: "rnb-favorites", name: "R&B Favorites" },
@@ -42,7 +43,7 @@ const Sidebar = ({ onClose, theme = "dark" }: SidebarProps) => {
   };
   
   return (
-    <div className="h-full w-[240px] bg-tidal-black border-r border-r-zinc-800/50 p-5 flex flex-col z-20 overflow-hidden">
+    <div className="h-full w-[240px] bg-mq-navy border-r border-r-zinc-800/50 p-5 flex flex-col z-20 overflow-hidden">
       {/* Close button for mobile */}
       {onClose && (
         <button 
@@ -61,6 +62,7 @@ const Sidebar = ({ onClose, theme = "dark" }: SidebarProps) => {
         <NavItem icon={<HomeIcon size={20} />} label="Home" to="/" isActive={isActive("/")} onClick={onClose} />
         <NavItem icon={<SearchIcon size={20} />} label="Explore" to="/explore" isActive={isActive("/explore")} onClick={onClose} />
         <NavItem icon={<BookOpenIcon size={20} />} label="For You" to="/for-you" isActive={isActive("/for-you")} onClick={onClose} />
+        <NavItem icon={<UserIcon size={20} />} label="Profile" to="/profile" isActive={isActive("/profile")} onClick={onClose} />
       </nav>
       
       <div className="mt-8">
@@ -94,7 +96,7 @@ const Sidebar = ({ onClose, theme = "dark" }: SidebarProps) => {
           <Tooltip>
             <TooltipTrigger asChild>
               <button 
-                className="flex items-center text-zinc-400 hover:text-white px-2 py-2 mt-3 w-full rounded-md hover:bg-tidal-hover transition-all duration-200"
+                className="flex items-center text-zinc-400 hover:text-white px-2 py-2 mt-3 w-full rounded-md hover:bg-mq-navy/30 transition-all duration-200"
                 onClick={handleCreatePlaylist}
               >
                 <PlusIcon size={18} className="mr-2" />

@@ -1,4 +1,3 @@
-
 import Layout from "@/components/layout";
 import TrackItem from "@/components/track-item";
 import PlaylistCard from "@/components/playlist-card";
@@ -80,10 +79,7 @@ const Index = () => {
   return (
     <Layout>
       <section className="mb-12">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold">The Hits</h1>
-        </div>
-
+        <SectionHeader title="The Hits" seeAllLink="/playlists" />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {playlists.map((playlist) => (
             <PlaylistCard
@@ -99,7 +95,7 @@ const Index = () => {
       </section>
 
       <section className="mb-12">
-        <SectionHeader title="New Tracks" seeAllLink="/new-tracks" showControls />
+        <SectionHeader title="New Tracks" seeAllLink="/playlists/new-tracks" showControls />
         <div className="bg-mq-navy/20 rounded-lg overflow-hidden">
           {newTracks.map((track, index) => (
             <TrackItem
@@ -120,7 +116,7 @@ const Index = () => {
       </section>
 
       <section className="mb-12">
-        <SectionHeader title="New Albums" seeAllLink="/new-albums" showControls />
+        <SectionHeader title="New Albums" seeAllLink="/albums" showControls />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {newAlbums.map((album) => (
             <PlaylistCard
@@ -136,7 +132,7 @@ const Index = () => {
       </section>
 
       <section className="mb-12">
-        <SectionHeader title="From our editors" seeAllLink="/editors-picks" showControls />
+        <SectionHeader title="From our editors" seeAllLink="/playlists/editors-picks" showControls />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {playlists.slice(0, 5).map((playlist) => (
             <PlaylistCard
@@ -151,51 +147,7 @@ const Index = () => {
         </div>
       </section>
 
-      <footer className="mt-24 border-t border-zinc-800 pt-10 pb-16 text-zinc-400">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <h4 className="text-sm font-medium text-white mb-4">Get Started</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">Download MQ</a></li>
-              <li><a href="#" className="hover:text-white">Pricing & Plans</a></li>
-              <li><a href="#" className="hover:text-white">Transfer Music</a></li>
-              <li><a href="#" className="hover:text-white">Supported Devices</a></li>
-              <li><a href="#" className="hover:text-white">Get Support</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-medium text-white mb-4">Discover MQ</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">About</a></li>
-              <li><a href="#" className="hover:text-white">For Music</a></li>
-              <li><a href="#" className="hover:text-white">For Artists</a></li>
-              <li><a href="#" className="hover:text-white">Culture</a></li>
-              <li><a href="#" className="hover:text-white">Magazine</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-medium text-white mb-4">Account</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">Sign up</a></li>
-              <li><a href="#" className="hover:text-white">Redeem Voucher</a></li>
-              <li><a href="#" className="hover:text-white">Redeem Giftcard</a></li>
-              <li><a href="#" className="hover:text-white">Manage Account</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-medium text-white mb-4">Company</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">What is MQ?</a></li>
-              <li><a href="#" className="hover:text-white">Partners</a></li>
-              <li><a href="#" className="hover:text-white">Careers</a></li>
-              <li><a href="#" className="hover:text-white">Press</a></li>
-            </ul>
-          </div>
-        </div>
-        <p className="mt-16 text-center text-xs">
-          MQ is an artist-first, fan-centered music streaming platform that delivers over 110 million songs in HiFi sound quality to the global music community.
-        </p>
-      </footer>
+      {/* Remove the old footer - We've created a new footer component */}
     </Layout>
   );
 };

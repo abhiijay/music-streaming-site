@@ -12,6 +12,8 @@ import Search from "./pages/search";
 import Notifications from "./pages/notifications";
 import Artist from "./pages/artist";
 import Profile from "./pages/profile";
+import ViewAllPlaylists from "./pages/view-all-playlists";
+import ViewAllAlbums from "./pages/view-all-albums";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import "./index.css";
 import "./App.css";
@@ -32,6 +34,8 @@ function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/artist/:id" element={<Artist />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/playlists" element={<ViewAllPlaylists />} />
+        <Route path="/albums" element={<ViewAllAlbums />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </PlayerProvider>
