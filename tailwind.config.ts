@@ -113,7 +113,7 @@ export default {
 					'0%': { transform: 'translateY(0)' },
 					'100%': { transform: 'translateY(100%)' }
 				},
-				pulse: {
+				'pulse': {
 					'0%, 100%': { opacity: '1' },
 					'50%': { opacity: '0.5' }
 				},
@@ -121,22 +121,32 @@ export default {
 					'0%, 100%': { boxShadow: '0 0 5px 0 rgba(247, 127, 0, 0.3)' },
 					'50%': { boxShadow: '0 0 20px 5px rgba(247, 127, 0, 0.6)' }
 				},
-				ripple: {
+				'ripple': {
 					'0%': { transform: 'scale(0)', opacity: '1' },
 					'100%': { transform: 'scale(4)', opacity: '0' }
 				},
-				rotation: {
+				'rotation': {
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' }
 				},
-				bounce: {
+				'bounce': {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-25%)' }
 				},
-				wave: {
+				'wave': {
 					'0%': { transform: 'scaleY(1)' },
 					'50%': { transform: 'scaleY(0.5)' },
 					'100%': { transform: 'scaleY(1)' }
+				},
+				'float': {
+					'0%': { transform: 'translateY(0)', opacity: '0.3' },
+					'50%': { transform: 'translateY(-10px)', opacity: '1' },
+					'100%': { transform: 'translateY(-20px)', opacity: '0' }
+				},
+				'ambient-wave': {
+					'0%': { transform: 'translateX(0) translateY(0)' },
+					'50%': { transform: 'translateX(5px) translateY(-5px)' },
+					'100%': { transform: 'translateX(0) translateY(0)' }
 				}
 			},
 			animation: {
@@ -150,12 +160,14 @@ export default {
 				'slide-right': 'slide-right 0.3s ease-out',
 				'slide-up': 'slide-up 0.3s ease-out',
 				'slide-down': 'slide-down 0.3s ease-out',
-				pulse: 'pulse 2s infinite ease-in-out',
+				'pulse': 'pulse 2s infinite ease-in-out',
 				'glow-pulse': 'glow-pulse 2s infinite ease-in-out',
-				ripple: 'ripple 0.7s ease-out',
-				spin: 'rotation 1s linear infinite',
-				bounce: 'bounce 1s ease infinite',
-				wave: 'wave 1.2s ease-in-out infinite'
+				'ripple': 'ripple 0.7s ease-out',
+				'spin': 'rotation 1s linear infinite',
+				'bounce': 'bounce 1s ease infinite',
+				'wave': 'wave 1.2s ease-in-out infinite',
+				'float': 'float 3s ease-in-out infinite',
+				'ambient': 'ambient-wave 8s ease-in-out infinite'
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

@@ -13,9 +13,10 @@ import Footer from "./footer";
 
 interface LayoutProps {
   children: ReactNode;
+  pageColor?: string; // For page-specific theming
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, pageColor }: LayoutProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showMiniPlayer, setShowMiniPlayer] = useState(false);
@@ -56,13 +57,23 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className={cn(
       "min-h-screen text-white flex flex-col transition-colors duration-500",
-      theme === "dark" ? "bg-gradient-to-b from-[#003049] to-black" : "bg-gradient-to-b from-zinc-100 to-white"
-    )}>
-      {/* Ambient background */}
-      <AmbientBackground theme={theme} />
+      theme === "dark" 
+        ? "bg-gradient-to-b from-mq-navy to-mq-navy/90" 
+        : "bg-gradient-to-b from-mq-sand to-white"
+    )}
+    style={pageColor ? { 
+      background: `linear-gradient(180deg, ${pageColor} 0%, ${theme === "dark" ? "#001828" : "#FFFFFF"} 100%)`,
+    } : {}}>
+      {/* Ambient background with enhanced visuals */}
+      <AmbientBackground theme={theme} accentColor={pageColor} />
+      
+      {/* Animated gradient background effect */}
+      <div className="ambient-background"></div>
       
       {/* Ripple effect for buttons */}
-      <RippleEffect color={theme === "dark" ? "rgba(252, 191, 73, 0.3)" : "rgba(215, 40, 40, 0.2)"} />
+      <RippleEffect 
+        color={theme === "dark" ? "rgba(252, 191, 73, 0.3)" : "rgba(215, 40, 40, 0.2)"} 
+      />
       
       {/* Toast notifications */}
       <Toaster 
@@ -77,7 +88,9 @@ const Layout = ({ children }: LayoutProps) => {
         <button
           className={cn(
             "p-2 rounded-full text-white transition-colors duration-200",
-            theme === "dark" ? "bg-[#003049]/50 hover:bg-[#003049]" : "bg-[#D62828]/20 hover:bg-[#D62828]/30"
+            theme === "dark" 
+              ? "bg-mq-navy/50 hover:bg-mq-navy" 
+              : "bg-mq-red/20 hover:bg-mq-red/30"
           )}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
@@ -89,7 +102,7 @@ const Layout = ({ children }: LayoutProps) => {
       <div className={cn(
         "fixed top-0 left-0 h-full z-40 transition-all duration-300 ease-in-out",
         isMobileMenuOpen ? "translate-x-0 w-[240px]" : "-translate-x-full md:translate-x-0 w-0 md:w-[240px]",
-        theme === "dark" ? "bg-[#003049]" : "bg-white shadow-lg"
+        theme === "dark" ? "bg-mq-navy" : "bg-white shadow-lg"
       )}>
         <Sidebar onClose={() => setIsMobileMenuOpen(false)} theme={theme} />
       </div>

@@ -1,16 +1,19 @@
 
+import { useState, useEffect } from "react";
 import Layout from "@/components/layout";
 import { CollectionGrid } from "@/components/collection-grid";
-import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import { extractDominantColor } from "@/utils/colorUtils";
 
 const ViewAllPlaylists = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [playlists, setPlaylists] = useState<any[]>([]);
+  const [dominantColor, setDominantColor] = useState<string | null>(null);
   
   useEffect(() => {
     // Simulate API call
     setTimeout(() => {
-      setPlaylists([
+      const playlistsData = [
         {
           id: "top-hits",
           title: "MQ's Top Hits",
@@ -82,13 +85,30 @@ const ViewAllPlaylists = () => {
           creator: "MQ",
           tracksCount: 33
         }
-      ]);
+      ];
+      
+      setPlaylists(playlistsData);
       setIsLoading(false);
+      
+      // Extract dominant color from the first playlist cover for page theming
+      if (playlistsData.length > 0) {
+        extractDominantColor(playlistsData[0].imageUrl)
+          .then(color => {
+            setDominantColor(color);
+          })
+          .catch(err => {
+            console.error("Error extracting color:", err);
+          });
+      }
+      
+      toast.success("Playlists loaded successfully", {
+        duration: 2000
+      });
     }, 1000);
   }, []);
 
   return (
-    <Layout>
+    <Layout pageColor={dominantColor || undefined}>
       <CollectionGrid 
         title="All Playlists" 
         items={playlists} 
