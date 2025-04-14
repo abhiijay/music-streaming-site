@@ -1,3 +1,4 @@
+
 import Layout from "@/components/layout";
 import TrackItem from "@/components/track-item";
 import PlaylistCard from "@/components/playlist-card";
@@ -8,37 +9,37 @@ const Index = () => {
   const playlists = [
     {
       id: "top-hits",
-      title: "TIDAL's Top Hits",
+      title: "MQ's Top Hits",
       imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
-      creator: "TIDAL",
+      creator: "MQ",
       tracksCount: 100
     },
     {
       id: "pop-hits",
       title: "Pop Hits",
       imageUrl: "/lovable-uploads/81d39118-ff63-460e-993d-275178cd6c40.png",
-      creator: "TIDAL",
+      creator: "MQ",
       tracksCount: 48
     },
     {
       id: "rock-classics",
       title: "Rock Classics",
       imageUrl: "/lovable-uploads/00e244a7-d659-4312-befb-52b043a87ce6.png",
-      creator: "TIDAL",
+      creator: "MQ",
       tracksCount: 50
     },
     {
       id: "rnb-favorites",
       title: "Country Hits",
       imageUrl: "/lovable-uploads/a910c028-5947-4358-b83a-240ed8a516ca.png",
-      creator: "TIDAL",
+      creator: "MQ",
       tracksCount: 35
     },
     {
       id: "hip-hop-mix",
       title: "Rap Hits",
       imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
-      creator: "TIDAL",
+      creator: "MQ",
       tracksCount: 30
     }
   ];
@@ -99,7 +100,7 @@ const Index = () => {
 
       <section className="mb-12">
         <SectionHeader title="New Tracks" seeAllLink="/new-tracks" showControls />
-        <div className="bg-tidal-darkgray rounded-md overflow-hidden">
+        <div className="bg-mq-navy/20 rounded-lg overflow-hidden">
           {newTracks.map((track, index) => (
             <TrackItem
               key={track.id}
@@ -155,7 +156,7 @@ const Index = () => {
           <div>
             <h4 className="text-sm font-medium text-white mb-4">Get Started</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">Download TIDAL</a></li>
+              <li><a href="#" className="hover:text-white">Download MQ</a></li>
               <li><a href="#" className="hover:text-white">Pricing & Plans</a></li>
               <li><a href="#" className="hover:text-white">Transfer Music</a></li>
               <li><a href="#" className="hover:text-white">Supported Devices</a></li>
@@ -163,7 +164,7 @@ const Index = () => {
             </ul>
           </div>
           <div>
-            <h4 className="text-sm font-medium text-white mb-4">Discover TIDAL</h4>
+            <h4 className="text-sm font-medium text-white mb-4">Discover MQ</h4>
             <ul className="space-y-2 text-sm">
               <li><a href="#" className="hover:text-white">About</a></li>
               <li><a href="#" className="hover:text-white">For Music</a></li>
@@ -184,7 +185,7 @@ const Index = () => {
           <div>
             <h4 className="text-sm font-medium text-white mb-4">Company</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">What is TIDAL?</a></li>
+              <li><a href="#" className="hover:text-white">What is MQ?</a></li>
               <li><a href="#" className="hover:text-white">Partners</a></li>
               <li><a href="#" className="hover:text-white">Careers</a></li>
               <li><a href="#" className="hover:text-white">Press</a></li>
@@ -192,7 +193,7 @@ const Index = () => {
           </div>
         </div>
         <p className="mt-16 text-center text-xs">
-          TIDAL is an artist-first, fan-centered music streaming platform that delivers over 110 million songs in HiFi sound quality to the global music community.
+          MQ is an artist-first, fan-centered music streaming platform that delivers over 110 million songs in HiFi sound quality to the global music community.
         </p>
       </footer>
     </Layout>
