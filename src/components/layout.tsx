@@ -37,10 +37,8 @@ const Layout = ({ children }: LayoutProps) => {
     document.documentElement.classList.toggle("light-mode", newTheme === "light");
   };
   
-  // Handle scroll events
   useEffect(() => {
     const handleScroll = () => {
-      // Show mini player when scrolled down significantly
       if (window.scrollY > 300) {
         setShowMiniPlayer(true);
         setIsScrolled(true);
@@ -68,7 +66,7 @@ const Layout = ({ children }: LayoutProps) => {
       {/* Toast notifications */}
       <Toaster 
         position="top-right" 
-        theme={theme === "dark" ? "dark" : "light"}
+        theme={theme}
         closeButton
         className="z-[100]"
       />
@@ -100,13 +98,13 @@ const Layout = ({ children }: LayoutProps) => {
         <div 
           className="fixed inset-0 bg-black/70 z-30 md:hidden animate-fade-in"
           onClick={() => setIsMobileMenuOpen(false)}
-        ></div>
+        />
       )}
       
       {/* Header with glassmorphism effect when scrolled */}
       <Header isScrolled={isScrolled} theme={theme} toggleTheme={toggleTheme} />
       
-      {/* Main content - removed md:pl-[240px] to fix layout issue */}
+      {/* Main content */}
       <main className="pt-16 pb-20 transition-all duration-300 md:ml-[240px]">
         <div className="container mx-auto py-6 px-4 md:px-6 animate-fade-in">
           {children}

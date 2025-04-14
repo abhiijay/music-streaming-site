@@ -1,4 +1,3 @@
-
 import { HomeIcon, SearchIcon, BookOpenIcon, ListMusicIcon, PlusIcon, HeartIcon, XIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -9,9 +8,10 @@ import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/comp
 
 interface SidebarProps {
   onClose?: () => void;
+  theme?: "dark" | "light";
 }
 
-const Sidebar = ({ onClose }: SidebarProps) => {
+const Sidebar = ({ onClose, theme = "dark" }: SidebarProps) => {
   const location = useLocation();
   const { toast } = useToast();
   const [playlists, setPlaylists] = useState([
