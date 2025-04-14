@@ -6,7 +6,9 @@ export const mockUserData = {
   plan: "Premium",
   joinDate: "2021-05-15T00:00:00Z",
   bio: "Music enthusiast and vinyl collector. Always looking for new sounds and artists to discover.",
-  playlists: 12,
+  // Removing this duplicate property
+  // playlists: 12,
+  playlistsCount: 12,
   favorites: 248,
   hoursListened: 456.8,
   stats: {

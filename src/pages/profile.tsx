@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import Layout from "@/components/layout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -113,7 +114,7 @@ const Profile = () => {
                 <div className="flex gap-6 text-zinc-400">
                   <div className="flex items-center gap-1">
                     <Music className="h-4 w-4" />
-                    <span>{userData.playlists} Playlists</span>
+                    <span>{userData.playlistsCount} Playlists</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Heart className="h-4 w-4" />
