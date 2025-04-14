@@ -3,7 +3,11 @@ import { PlayIcon, PauseIcon, SkipForwardIcon, SkipBackIcon } from "lucide-react
 import { usePlayer } from "@/contexts/PlayerContext";
 import { cn } from "@/lib/utils";
 
-const MiniPlayer = () => {
+interface MiniPlayerProps {
+  theme?: "dark" | "light";
+}
+
+const MiniPlayer = ({ theme = "dark" }: MiniPlayerProps) => {
   const { currentSong, isPlaying, togglePlayPause, nextSong, previousSong } = usePlayer();
   
   if (!currentSong) return null;
