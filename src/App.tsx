@@ -1,65 +1,41 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Routes, Route, useLocation } from "react-router-dom";
-import { PlayerProvider } from "./contexts/PlayerContext";
-import { AnimatePresence } from "framer-motion";
-import Layout from "./components/layout";
+import { Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import Playlist from "./pages/playlist";
-import Explore from "./pages/explore";
 import NotFound from "./pages/NotFound";
-import Album from "./pages/album";
-import Search from "./pages/search";
-import ForYou from "./pages/for-you";
-import Collection from "./pages/collection";
 import Login from "./pages/login";
+import Album from "./pages/album";
+import Playlist from "./pages/playlist";
+import Collection from "./pages/collection";
+import ForYou from "./pages/for-you";
+import Explore from "./pages/explore";
+import Search from "./pages/search";
 import Notifications from "./pages/notifications";
-import PageTransition from "./components/page-transition";
-import "./components/styles.css";
+import Artist from "./pages/artist";
+import Profile from "./pages/profile";
+import { PlayerProvider } from "./contexts/PlayerContext";
+import "./index.css";
+import "./App.css";
+import "@/components/styles.css";
 
-const queryClient = new QueryClient();
-
-// Animated routes wrapper
-const AnimatedRoutes = () => {
-  const location = useLocation();
-  
+function App() {
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageTransition><Index /></PageTransition>} />
-        <Route path="/playlist/:id" element={<PageTransition><Playlist /></PageTransition>} />
-        <Route path="/explore" element={<PageTransition><Explore /></PageTransition>} />
-        <Route path="/album/:id" element={<PageTransition><Album /></PageTransition>} />
-        <Route path="/search" element={<PageTransition><Search /></PageTransition>} />
-        <Route path="/for-you" element={<PageTransition><ForYou /></PageTransition>} />
-        <Route path="/collection" element={<PageTransition><Collection /></PageTransition>}>
-          <Route path="playlists" element={<PageTransition><Collection /></PageTransition>} />
-          <Route path="favorites" element={<PageTransition><Collection /></PageTransition>} />
-        </Route>
-        <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
-        <Route path="/notifications" element={<PageTransition><Notifications /></PageTransition>} />
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
-      </Routes>
-    </AnimatePresence>
-  );
-};
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
     <PlayerProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <Layout>
-          <AnimatedRoutes />
-        </Layout>
-      </TooltipProvider>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/album/:id" element={<Album />} />
+        <Route path="/playlist/:id" element={<Playlist />} />
+        <Route path="/collection" element={<Collection />} />
+        <Route path="/for-you" element={<ForYou />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/artist/:id" element={<Artist />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </PlayerProvider>
-  </QueryClientProvider>
-);
+  );
+}
 
 export default App;

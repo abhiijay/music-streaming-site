@@ -5,7 +5,7 @@ const AppLogo = () => {
   return (
     <Link to="/" className="flex items-center">
       <div className="text-2xl font-bold tracking-tighter text-white flex items-center">
-        <span className="text-white">TIDAL</span>
+        <span className="text-white">MQ</span>
       </div>
     </Link>
   );

@@ -1,5 +1,5 @@
 
-/* Add custom styles for TIDAL */
+/* Add custom styles for MQ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,69 +16,68 @@
 }
 
 :root {
-  --tidal-black: #121212;
-  --tidal-gray: #282828;
-  --tidal-darkgray: #181818;
-  --tidal-hover: #2a2a2a;
-  --tidal-blue: #0063e5;
-  --tidal-purple: #9b87f5;
-  --tidal-neon: #00ffdd;
+  --mq-dark: #003049;
+  --mq-red: #D62828;
+  --mq-orange: #F77F00;
+  --mq-yellow: #FCBF49;
+  --mq-sand: #EAE2B7;
   --transition-duration: 500ms;
 }
 
 /* Light mode variables */
 .light-mode {
-  --tidal-black: #ffffff;
-  --tidal-gray: #f5f5f5;
-  --tidal-darkgray: #fafafa;
-  --tidal-hover: #eeeeee;
-  --tidal-text: #111111;
-  --tidal-text-secondary: #555555;
+  --mq-dark: #ffffff;
+  --mq-gray: #f5f5f5;
+  --mq-darkgray: #fafafa;
+  --mq-hover: #eeeeee;
+  --mq-text: #003049;
+  --mq-text-secondary: #555555;
 }
 
 /* Define custom colors */
-.bg-tidal-black {
-  background-color: var(--tidal-black);
+.bg-mq-dark {
+  background-color: var(--mq-dark);
   transition: background-color var(--transition-duration) ease;
 }
 
-.bg-tidal-gray {
-  background-color: var(--tidal-gray);
+.bg-mq-red {
+  background-color: var(--mq-red);
   transition: background-color var(--transition-duration) ease;
 }
 
-.bg-tidal-darkgray {
-  background-color: var(--tidal-darkgray);
+.bg-mq-orange {
+  background-color: var(--mq-orange);
   transition: background-color var(--transition-duration) ease;
 }
 
-.bg-tidal-hover {
-  background-color: var(--tidal-hover);
+.bg-mq-yellow {
+  background-color: var(--mq-yellow);
   transition: background-color var(--transition-duration) ease;
 }
 
-.text-tidal-blue {
-  color: var(--tidal-blue);
+.bg-mq-sand {
+  background-color: var(--mq-sand);
+  transition: background-color var(--transition-duration) ease;
 }
 
-.bg-tidal-blue {
-  background-color: var(--tidal-blue);
+.text-mq-dark {
+  color: var(--mq-dark);
 }
 
-.text-tidal-purple {
-  color: var(--tidal-purple);
+.text-mq-red {
+  color: var(--mq-red);
 }
 
-.bg-tidal-purple {
-  background-color: var(--tidal-purple);
+.text-mq-orange {
+  color: var(--mq-orange);
 }
 
-.text-tidal-neon {
-  color: var(--tidal-neon);
+.text-mq-yellow {
+  color: var(--mq-yellow);
 }
 
-.bg-tidal-neon {
-  background-color: var(--tidal-neon);
+.text-mq-sand {
+  color: var(--mq-sand);
 }
 
 /* Custom scrollbar */
@@ -87,7 +86,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--tidal-black);
+  background: var(--mq-dark);
   transition: background var(--transition-duration) ease;
 }
 
@@ -106,13 +105,13 @@ body {
 
 /* Button and interactive elements */
 .btn-primary {
-  @apply bg-tidal-blue text-white rounded-full px-6 py-2 font-medium transition-all duration-300;
-  @apply hover:bg-opacity-85 hover:shadow-[0_0_15px_rgba(0,99,229,0.5)] hover:scale-[1.02];
+  @apply bg-[#F77F00] text-white rounded-full px-6 py-2 font-medium transition-all duration-300;
+  @apply hover:bg-opacity-85 hover:shadow-[0_0_15px_rgba(247,127,0,0.5)] hover:scale-[1.02];
 }
 
 .btn-secondary {
   @apply border border-zinc-600 text-white rounded-full px-6 py-2 font-medium transition-all duration-300;
-  @apply hover:border-white hover:bg-tidal-hover hover:scale-[1.02];
+  @apply hover:border-white hover:bg-[#003049] hover:scale-[1.02];
 }
 
 .btn-icon {
@@ -121,8 +120,8 @@ body {
 }
 
 .btn-icon-active {
-  @apply text-tidal-blue transition-all duration-200;
-  @apply hover:text-tidal-blue/90 hover:scale-110;
+  @apply text-[#FCBF49] transition-all duration-200;
+  @apply hover:text-[#F77F00] hover:scale-110;
 }
 
 /* Card hover effects */
@@ -227,7 +226,7 @@ body {
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--tidal-gray);
+  background-color: var(--mq-dark);
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -247,7 +246,7 @@ body {
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: var(--tidal-gray) transparent transparent transparent;
+  border-color: var(--mq-dark) transparent transparent transparent;
 }
 
 .tooltip-wrapper:hover .tooltip {
@@ -273,8 +272,8 @@ body {
 
 /* Animation enhancements */
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 5px rgba(0, 99, 229, 0.3); }
-  50% { box-shadow: 0 0 15px rgba(0, 99, 229, 0.6); }
+  0%, 100% { box-shadow: 0 0 5px rgba(247, 127, 0, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(247, 127, 0, 0.6); }
 }
 
 .animate-glow-pulse {

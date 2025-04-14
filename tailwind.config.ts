@@ -53,15 +53,16 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				tidal: {
-					blue: '#0063e5',
-					black: '#121212',
+				mq: {
+					navy: '#003049',
+					red: '#D62828',
+					orange: '#F77F00',
+					yellow: '#FCBF49',
+					sand: '#EAE2B7',
 					darkgray: '#191919',
 					gray: '#282828',
 					lightgray: '#b3b3b3',
-					hover: '#333333',
-					purple: '#9b87f5',
-					neon: '#00ffdd'
+					hover: '#333333'
 				}
 			},
 			borderRadius: {
@@ -116,8 +117,8 @@ export default {
 					'50%': { opacity: '0.5' }
 				},
 				'glow-pulse': {
-					'0%, 100%': { boxShadow: '0 0 5px 0 rgba(0, 99, 229, 0.3)' },
-					'50%': { boxShadow: '0 0 20px 5px rgba(0, 99, 229, 0.6)' }
+					'0%, 100%': { boxShadow: '0 0 5px 0 rgba(247, 127, 0, 0.3)' },
+					'50%': { boxShadow: '0 0 20px 5px rgba(247, 127, 0, 0.6)' }
 				},
 				ripple: {
 					'0%': { transform: 'scale(0)', opacity: '1' },
