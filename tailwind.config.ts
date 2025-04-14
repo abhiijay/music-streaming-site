@@ -62,7 +62,8 @@ export default {
 					darkgray: '#191919',
 					gray: '#282828',
 					lightgray: '#b3b3b3',
-					hover: '#333333'
+					hover: '#333333',
+					black: '#121212'
 				}
 			},
 			borderRadius: {
