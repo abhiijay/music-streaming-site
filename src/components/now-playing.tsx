@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { 
   PlayIcon, 
@@ -258,6 +259,7 @@ const NowPlaying = ({ theme = "dark" }: NowPlayingProps) => {
   }
 
   // Calculate dominant color if it exists as a CSS variable
+  const dominantColor = undefined; // This was missing, added with a default value
   const dominantColorStyle = dominantColor ? 
     { background: `linear-gradient(to bottom, ${dominantColor} 0%, rgba(0, 0, 0, 0.8) 100%)` } : {};
 
@@ -815,4 +817,178 @@ const NowPlaying = ({ theme = "dark" }: NowPlayingProps) => {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TooltipTrigger>
-                <
+                <TooltipContent>
+                  More options
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+          
+          {/* Add the rest of the fullscreen player UI here */}
+          <div className="flex flex-col items-center justify-center w-full">
+            {/* Album artwork */}
+            <div className="mb-8 relative">
+              <img 
+                src={currentSong.imageUrl} 
+                alt={currentSong.title}
+                className="w-64 h-64 md:w-80 md:h-80 rounded-md shadow-2xl object-cover animate-float-slow"
+              />
+            </div>
+            
+            {/* Song info */}
+            <div className="text-center mb-8 w-full max-w-md">
+              <h2 className={cn(
+                "text-2xl md:text-3xl font-bold mb-2 truncate",
+                theme === "dark" ? "text-white" : "text-mq-navy"
+              )}>
+                {currentSong.title}
+              </h2>
+              <p className={cn(
+                "text-lg md:text-xl truncate",
+                theme === "dark" ? "text-zinc-300" : "text-zinc-700"
+              )}>
+                {currentSong.artist}
+              </p>
+            </div>
+            
+            {/* Progress bar */}
+            <div className="w-full max-w-md mb-8 px-4">
+              <div className="flex items-center w-full mb-2">
+                <span className={cn(
+                  "text-xs",
+                  theme === "dark" ? "text-zinc-400" : "text-zinc-600"
+                )}>
+                  {formatTime(currentTime)}
+                </span>
+                <div className="flex-1 mx-4"></div>
+                <span className={cn(
+                  "text-xs",
+                  theme === "dark" ? "text-zinc-400" : "text-zinc-600"
+                )}>
+                  {formatTime(duration)}
+                </span>
+              </div>
+              
+              <div 
+                className={cn(
+                  "w-full h-1 rounded-full cursor-pointer group relative mb-1",
+                  theme === "dark" ? "bg-zinc-700" : "bg-zinc-300"
+                )}
+                onClick={handleProgressBarClick}
+              >
+                <div 
+                  className={cn(
+                    "h-full rounded-full relative",
+                    theme === "dark" ? "bg-tidal-blue" : "bg-tidal-purple"
+                  )}
+                  style={{ width: `${progressPercentage}%` }}
+                >
+                  <div className={cn(
+                    "absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md",
+                    theme === "dark" ? "bg-white" : "bg-tidal-blue"
+                  )}></div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Controls */}
+            <div className="flex items-center justify-center space-x-8 mb-12">
+              <button 
+                className={cn(
+                  "transition-all duration-200 hover:scale-125",
+                  shuffleMode 
+                    ? "text-tidal-blue" 
+                    : theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-tidal-black"
+                )}
+                onClick={toggleShuffle}
+              >
+                <ShuffleIcon size={24} />
+              </button>
+              
+              <button 
+                className={cn(
+                  "transition-all duration-200 hover:scale-125",
+                  theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-tidal-black"
+                )}
+                onClick={previousSong}
+              >
+                <SkipBackIcon size={30} />
+              </button>
+              
+              <button
+                onClick={togglePlayPause}
+                className={cn(
+                  "rounded-full p-4 transition-all duration-300",
+                  theme === "dark"
+                    ? "bg-white text-black hover:bg-zinc-200"
+                    : "bg-tidal-blue text-white hover:bg-tidal-blue/90",
+                  isPlaying ? "animate-glow-pulse" : "hover:scale-105"
+                )}
+              >
+                {isPlaying ? <PauseIcon size={30} /> : <PlayIcon size={30} />}
+              </button>
+              
+              <button 
+                className={cn(
+                  "transition-all duration-200 hover:scale-125",
+                  theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-tidal-black"
+                )}
+                onClick={nextSong}
+              >
+                <SkipForwardIcon size={30} />
+              </button>
+              
+              <button 
+                className={cn(
+                  "transition-all duration-200 hover:scale-125",
+                  repeatMode !== "off" ? "text-tidal-blue" : theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-tidal-black"
+                )}
+                onClick={toggleRepeat}
+              >
+                <RepeatIcon size={24} />
+                {repeatMode === "one" && <span className="absolute text-xs ml-[6px] mt-[2px]">1</span>}
+              </button>
+            </div>
+            
+            {/* Volume control */}
+            <div className="flex items-center space-x-3 w-full max-w-xs px-4">
+              <button 
+                className={cn(
+                  "transition-all duration-200 hover:scale-110",
+                  theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-tidal-black"
+                )}
+                onClick={toggleMute}
+              >
+                {getVolumeIcon()}
+              </button>
+              
+              <Slider
+                value={[volume * 100]}
+                min={0}
+                max={100}
+                step={1}
+                onValueChange={(value) => setVolume(value[0] / 100)}
+                className="h-1"
+              />
+            </div>
+            
+            {/* Minimize button */}
+            <button 
+              className={cn(
+                "absolute bottom-8 left-1/2 -translate-x-1/2 p-2 rounded-full transition-all duration-200 hover:scale-110",
+                theme === "dark" 
+                  ? "bg-zinc-800/80 text-zinc-400 hover:text-white hover:bg-zinc-700/80" 
+                  : "bg-zinc-200/80 text-zinc-600 hover:text-tidal-black hover:bg-zinc-300/80"
+              )}
+              onClick={toggleFullscreen}
+            >
+              <MinimizeIcon size={24} />
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default NowPlaying;
