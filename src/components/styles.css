@@ -16,231 +16,36 @@
 }
 
 :root {
-  /* MQ Core Colors */
-  --mq-navy: #003049;
-  --mq-red: #D62828;
-  --mq-orange: #F77F00;
-  --mq-yellow: #FCBF49;
-  --mq-sand: #EAE2B7;
-  --transition-duration: 500ms;
-}
+  /* Chord Brand Colors */
+  --mq-bg-primary: #0C120C; /* Same as --chord-bg */
+  --mq-bg-secondary: #121d12;
+  --mq-bg-tertiary: #1e2e1e;
 
-/* Light mode variables */
-.light-mode {
-  /* Background colors */
-  --mq-bg-primary: var(--mq-sand);
-  --mq-bg-secondary: #FFFFFF;
-  --mq-bg-tertiary: #F5F5F5;
-  
-  /* Text colors */
-  --mq-text-primary: var(--mq-navy);
-  --mq-text-secondary: #555555;
-  --mq-text-tertiary: #777777;
-  
-  /* UI Element colors */
-  --mq-ui-active: var(--mq-red);
-  --mq-ui-hover: var(--mq-orange);
-  --mq-ui-accent: var(--mq-yellow);
-  
-  /* Card & Panel colors */
-  --mq-card-bg: rgba(255, 255, 255, 0.9);
-  --mq-card-border: rgba(0, 48, 73, 0.1);
-  --mq-panel-bg: rgba(255, 255, 255, 0.8);
-  
-  /* Button colors */
-  --mq-btn-primary-bg: var(--mq-red);
-  --mq-btn-primary-text: #FFFFFF;
-  --mq-btn-secondary-bg: transparent;
-  --mq-btn-secondary-text: var(--mq-navy);
-  --mq-btn-secondary-border: rgba(0, 48, 73, 0.3);
-  
-  /* Player colors */
-  --mq-player-bg: rgba(255, 255, 255, 0.9);
-  --mq-player-border: rgba(0, 48, 73, 0.1);
-  --mq-player-text: var(--mq-navy);
-}
-
-/* Dark mode variables */
-:root:not(.light-mode) {
-  /* Background colors */
-  --mq-bg-primary: var(--mq-navy);
-  --mq-bg-secondary: #121212;
-  --mq-bg-tertiary: #181818;
-  
-  /* Text colors */
-  --mq-text-primary: #FFFFFF;
+  --mq-text-primary: #F8F4F9; /* Same as --chord-text */
   --mq-text-secondary: #B3B3B3;
-  --mq-text-tertiary: #777777;
-  
-  /* UI Element colors */
-  --mq-ui-active: var(--mq-red);
-  --mq-ui-hover: var(--mq-orange);
-  --mq-ui-accent: var(--mq-yellow);
-  
-  /* Card & Panel colors */
-  --mq-card-bg: rgba(24, 24, 24, 0.8);
+  --mq-text-tertiary: #707070;
+
+  --mq-ui-active: #C20114; /* Same as --chord-red */
+  --mq-ui-hover: #9a0110;
+  --mq-ui-accent: #FFD369;
+
+  --mq-card-bg: rgba(18, 18, 18, 0.85);
   --mq-card-border: rgba(255, 255, 255, 0.1);
-  --mq-panel-bg: rgba(18, 18, 18, 0.8);
-  
-  /* Button colors */
-  --mq-btn-primary-bg: var(--mq-red);
-  --mq-btn-primary-text: #FFFFFF;
+  --mq-panel-bg: rgba(12, 18, 12, 0.7);
+
+  --mq-btn-primary-bg: #C20114;
+  --mq-btn-primary-text: #F8F4F9;
   --mq-btn-secondary-bg: transparent;
-  --mq-btn-secondary-text: #FFFFFF;
+  --mq-btn-secondary-text: #F8F4F9;
   --mq-btn-secondary-border: rgba(255, 255, 255, 0.2);
-  
-  /* Player colors */
-  --mq-player-bg: rgba(18, 18, 18, 0.8);
+
+  --mq-player-bg: rgba(12, 18, 12, 0.8);
   --mq-player-border: rgba(255, 255, 255, 0.1);
-  --mq-player-text: #FFFFFF;
+  --mq-player-text: #F8F4F9;
+
+  --transition-duration: 400ms;
 }
 
-/* Define custom colors with theme transitions */
-.bg-mq-dark {
-  background-color: var(--mq-bg-primary);
-  transition: background-color var(--transition-duration) ease;
-}
-
-.bg-mq-red {
-  background-color: var(--mq-red);
-  transition: background-color var(--transition-duration) ease;
-}
-
-.bg-mq-orange {
-  background-color: var(--mq-orange);
-  transition: background-color var(--transition-duration) ease;
-}
-
-.bg-mq-yellow {
-  background-color: var(--mq-yellow);
-  transition: background-color var(--transition-duration) ease;
-}
-
-.bg-mq-sand {
-  background-color: var(--mq-sand);
-  transition: background-color var(--transition-duration) ease;
-}
-
-.text-mq-dark {
-  color: var(--mq-text-primary);
-  transition: color var(--transition-duration) ease;
-}
-
-.text-mq-red {
-  color: var(--mq-red);
-  transition: color var(--transition-duration) ease;
-}
-
-.text-mq-orange {
-  color: var(--mq-orange);
-  transition: color var(--transition-duration) ease;
-}
-
-.text-mq-yellow {
-  color: var(--mq-yellow);
-  transition: color var(--transition-duration) ease;
-}
-
-.text-mq-sand {
-  color: var(--mq-sand);
-  transition: color var(--transition-duration) ease;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--mq-bg-tertiary);
-  transition: background var(--transition-duration) ease;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--mq-text-tertiary);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--mq-text-secondary);
-}
-
-body {
-  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
-}
-
-/* Button and interactive elements */
-.btn-primary {
-  background-color: var(--mq-btn-primary-bg);
-  color: var(--mq-btn-primary-text);
-  @apply rounded-full px-6 py-2 font-medium transition-all duration-300;
-  @apply hover:opacity-90 hover:scale-[1.02];
-}
-
-.light-mode .btn-primary {
-  @apply hover:shadow-[0_0_15px_rgba(214,40,40,0.5)];
-}
-
-:root:not(.light-mode) .btn-primary {
-  @apply hover:shadow-[0_0_15px_rgba(214,40,40,0.4)];
-}
-
-.btn-secondary {
-  background-color: var(--mq-btn-secondary-bg);
-  color: var(--mq-btn-secondary-text);
-  border: 1px solid var(--mq-btn-secondary-border);
-  @apply rounded-full px-6 py-2 font-medium transition-all duration-300;
-  @apply hover:border-opacity-100 hover:scale-[1.02];
-}
-
-.btn-icon {
-  color: var(--mq-text-secondary);
-  @apply transition-all duration-200;
-  @apply hover:text-mq-orange hover:scale-110;
-}
-
-.btn-icon-active {
-  color: var(--mq-ui-active);
-  @apply transition-all duration-200;
-  @apply hover:text-mq-orange hover:scale-110;
-}
-
-/* Card hover effects */
-.card-hover {
-  @apply transition-all duration-300;
-  @apply hover:-translate-y-1;
-}
-
-.light-mode .card-hover {
-  @apply hover:shadow-md hover:shadow-mq-navy/10;
-}
-
-:root:not(.light-mode) .card-hover {
-  @apply hover:shadow-lg hover:shadow-black/30;
-}
-
-/* Advanced glassmorphism with theme awareness */
-.glass-panel {
-  backdrop-filter: blur(16px);
-  background-color: var(--mq-panel-bg);
-  border: 1px solid var(--mq-card-border);
-  transition: background var(--transition-duration) ease, border var(--transition-duration) ease;
-}
-
-.glass-card {
-  backdrop-filter: blur(20px);
-  background-color: var(--mq-card-bg);
-  border: 1px solid var(--mq-card-border);
-  @apply rounded-2xl;
-  transition: background var(--transition-duration) ease, border var(--transition-duration) ease;
-}
-
-.glass-bar {
-  backdrop-filter: blur(16px);
-  background-color: var(--mq-player-bg);
-  border: 1px solid var(--mq-player-border);
-  transition: background var(--transition-duration) ease, border var(--transition-duration) ease;
-}
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
