@@ -39,6 +39,7 @@ import { toast } from "sonner";
 
 interface NowPlayingProps {
   theme?: "dark" | "light";
+  dominantColor?: string; // Added this property
 }
 
 const NowPlaying = ({ theme = "dark" }: NowPlayingProps) => {
