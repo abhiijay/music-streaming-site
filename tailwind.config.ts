@@ -53,25 +53,12 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Add the Chord-specific color palette directly
+				// Core Chord color palette
 				'chord-bg': '#0C120C',
 				'chord-red': '#C20114',
 				'chord-text': '#F8F4F9',
 				'chord-hover': '#1a231a',
 				'chord-active': '#C20114',
-				mq: {
-					// Core MQ color palette - these colors remain consistent
-					navy: '#003049',
-					red: '#D62828',
-					orange: '#F77F00',
-					yellow: '#FCBF49',
-					sand: '#EAE2B7',
-					darkgray: '#191919',
-					gray: '#282828',
-					lightgray: '#b3b3b3',
-					hover: '#333333',
-					black: '#121212'
-				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -125,8 +112,8 @@ export default {
 					'50%': { opacity: '0.5' }
 				},
 				'glow-pulse': {
-					'0%, 100%': { boxShadow: '0 0 5px 0 rgba(247, 127, 0, 0.3)' },
-					'50%': { boxShadow: '0 0 20px 5px rgba(247, 127, 0, 0.6)' }
+					'0%, 100%': { boxShadow: '0 0 5px 0 rgba(194, 1, 20, 0.3)' },
+					'50%': { boxShadow: '0 0 20px 5px rgba(194, 1, 20, 0.6)' }
 				},
 				'ripple': {
 					'0%': { transform: 'scale(0)', opacity: '1' },

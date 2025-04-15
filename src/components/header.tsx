@@ -16,7 +16,6 @@ const Header = ({ isScrolled = false }: HeaderProps) => {
   const [hasNotifications, setHasNotifications] = useState(true);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
-  const [showMobileSearch, setShowMobileSearch] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const searchRef = useRef<HTMLDivElement>(null);
@@ -26,7 +25,6 @@ const Header = ({ isScrolled = false }: HeaderProps) => {
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
       setShowSearchResults(false);
-      setShowMobileSearch(false);
     }
   };
   
@@ -65,16 +63,16 @@ const Header = ({ isScrolled = false }: HeaderProps) => {
 
   return (
     <header className={cn(
-      "fixed top-0 left-0 right-0 h-16 z-20 flex items-center justify-between px-4 md:px-6 transition-all duration-500",
-      isScrolled ? "glass shadow-md" : "bg-chord-bg"
+      "fixed top-0 left-0 right-0 h-16 z-20 flex items-center justify-between px-6 transition-all duration-500",
+      isScrolled ? "bg-chord-bg/90 backdrop-blur-md shadow-md" : "bg-chord-bg"
     )}>
       <div className="flex items-center">
-        <Link to="/" className="flex items-center mr-6">
+        <Link to="/" className="flex items-center mr-8">
           <AppLogo />
         </Link>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="flex items-center space-x-8">
           <NavLink to="/" label="Home" isActive={isActive("/")} />
           <NavLink to="/search" label="Search" isActive={isActive("/search")} />
           <NavLink to="/collection" label="Library" isActive={isActive("/collection")} />
@@ -82,17 +80,9 @@ const Header = ({ isScrolled = false }: HeaderProps) => {
         </nav>
       </div>
 
-      <div className="flex items-center space-x-2">
-        {/* Mobile Search Button */}
-        <button 
-          className="md:hidden p-2 text-chord-text/70 hover:text-chord-text"
-          onClick={() => setShowMobileSearch(!showMobileSearch)}
-        >
-          <SearchIcon size={20} />
-        </button>
-        
+      <div className="flex items-center space-x-4">
         {/* Desktop Search */}
-        <div ref={searchRef} className="hidden md:block relative max-w-md">
+        <div ref={searchRef} className="relative max-w-md">
           <form onSubmit={handleSearch} className="relative group">
             <SearchIcon 
               size={18} 
@@ -101,7 +91,7 @@ const Header = ({ isScrolled = false }: HeaderProps) => {
             <input
               type="search"
               placeholder="Search"
-              className="w-full h-10 pl-10 pr-4 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-chord-red bg-secondary text-chord-text transition-all duration-200"
+              className="w-full h-10 pl-10 pr-4 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-chord-red bg-chord-hover text-chord-text transition-all duration-200"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -109,7 +99,7 @@ const Header = ({ isScrolled = false }: HeaderProps) => {
 
           {/* Search results dropdown */}
           {showSearchResults && searchResults.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-2 rounded-md shadow-lg overflow-hidden z-50 max-h-64 animate-fade-in bg-secondary">
+            <div className="absolute top-full left-0 right-0 mt-2 rounded-md shadow-lg overflow-hidden z-50 max-h-64 animate-fade-in bg-chord-bg border border-white/10">
               <div className="p-2">
                 {searchResults.map((result) => (
                   <div 
@@ -122,7 +112,7 @@ const Header = ({ isScrolled = false }: HeaderProps) => {
                     }}
                   >
                     <div className="ml-2">
-                      <p className="text-chord-text">{result.name}</p>
+                      <p className="text-chord-text font-bold">{result.name}</p>
                       <p className="text-xs text-chord-text/50 capitalize">{result.type}</p>
                     </div>
                   </div>
@@ -156,50 +146,19 @@ const Header = ({ isScrolled = false }: HeaderProps) => {
               <User size={20} className="text-chord-text" />
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56 bg-secondary border-white/10">
-            <DropdownMenuItem onClick={() => navigate('/profile')} className="cursor-pointer">
+          <DropdownMenuContent align="end" className="w-56 bg-chord-bg border-white/10">
+            <DropdownMenuItem onClick={() => navigate('/profile')} className="cursor-pointer text-chord-text hover:bg-chord-hover">
               View Profile
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/settings')} className="cursor-pointer">
+            <DropdownMenuItem onClick={() => navigate('/settings')} className="cursor-pointer text-chord-text hover:bg-chord-hover">
               Settings
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-zinc-500 cursor-not-allowed">
-              Switch Theme (Dark Only)
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/login')} className="cursor-pointer text-chord-red">
+            <DropdownMenuItem onClick={() => navigate('/login')} className="cursor-pointer text-chord-red hover:bg-chord-hover">
               Log Out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      
-      {/* Full-width mobile search overlay */}
-      {showMobileSearch && (
-        <div className="absolute top-0 left-0 w-full h-full bg-chord-bg z-30 animate-fade-in">
-          <div className="container h-full flex items-center justify-between px-4">
-            <form onSubmit={handleSearch} className="flex-1 relative">
-              <SearchIcon 
-                size={18} 
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-chord-text/50" 
-              />
-              <input
-                type="search"
-                placeholder="Search"
-                autoFocus
-                className="w-full h-12 pl-10 pr-4 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-chord-red bg-secondary text-chord-text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </form>
-            <button 
-              className="ml-2 px-4 py-2 text-chord-text"
-              onClick={() => setShowMobileSearch(false)}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
     </header>
   );
 };
@@ -214,7 +173,7 @@ const NavLink = ({ to, label, isActive }: NavLinkProps) => (
   <Link
     to={to}
     className={cn(
-      "px-2 py-1 text-sm font-medium transition-colors duration-200 hover:text-chord-text",
+      "px-2 py-1 text-sm font-bold transition-colors duration-200 hover:text-chord-text",
       isActive ? "nav-active" : "text-chord-text/70"
     )}
   >

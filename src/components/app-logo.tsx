@@ -16,7 +16,7 @@ const AppLogo = ({ size = "medium", className }: AppLogoProps) => {
     )}>
       <div className="flex items-center">
         <div className="w-8 h-8 bg-chord-red rounded-full flex items-center justify-center mr-2">
-          <span className="text-white font-bold text-sm">♪</span>
+          <span className="text-chord-text font-bold text-sm">♪</span>
         </div>
         <span className="text-chord-text font-bold text-xl tracking-tight">Chord</span>
       </div>

@@ -16,8 +16,6 @@ import ViewAllPlaylists from "./pages/view-all-playlists";
 import ViewAllAlbums from "./pages/view-all-albums";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import "./index.css";
-import "./App.css";
-import "@/components/styles.css";
 
 function App() {
   return (

@@ -89,14 +89,14 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* Categories section - only visible on desktop */}
-      <section className="hidden md:block mb-12">
-        <div className="flex flex-wrap items-center justify-center gap-4 mt-2">
+      {/* Categories section */}
+      <section className="mb-12">
+        <div className="flex items-center justify-center gap-4 mt-2">
           {categories.map((category) => (
             <Button
               key={category.name}
               variant="ghost"
-              className="bg-secondary/50 border border-white/5 hover:bg-secondary hover:border-chord-red/30 px-6 py-5"
+              className="bg-chord-bg border border-white/5 hover:bg-chord-hover hover:border-chord-red/30 px-6 py-5"
               onClick={() => window.location.href = category.path}
             >
               <div className="flex items-center">
@@ -110,7 +110,7 @@ const Index = () => {
 
       <section className="mb-12">
         <SectionHeader title="The Hits" seeAllLink="/playlists" />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {playlists.map((playlist) => (
             <PlaylistCard
               key={playlist.id}
@@ -126,7 +126,7 @@ const Index = () => {
 
       <section className="mb-12">
         <SectionHeader title="New Tracks" seeAllLink="/playlists/new-tracks" showControls />
-        <div className="bg-secondary/30 rounded-lg overflow-hidden border border-white/5">
+        <div className="bg-chord-hover/30 rounded-lg overflow-hidden border border-white/5">
           {newTracks.map((track, index) => (
             <TrackItem
               key={track.id}
@@ -147,7 +147,7 @@ const Index = () => {
 
       <section className="mb-12">
         <SectionHeader title="New Albums" seeAllLink="/albums" showControls />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {newAlbums.map((album) => (
             <PlaylistCard
               key={album.id}
@@ -163,7 +163,7 @@ const Index = () => {
 
       <section className="mb-12">
         <SectionHeader title="From our editors" seeAllLink="/playlists/editors-picks" showControls />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {playlists.slice(0, 5).map((playlist) => (
             <PlaylistCard
               key={playlist.id}

@@ -83,13 +83,13 @@ const Login = () => {
       </header>
       
       <main className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md bg-secondary/30 backdrop-blur-md p-8 rounded-xl border border-white/5 shadow-lg animate-fade-in">
+        <div className="w-full max-w-md bg-chord-hover/20 backdrop-blur-md p-8 rounded-xl border border-white/5 shadow-lg animate-fade-in">
           <h1 className="text-2xl font-bold text-center mb-8">Welcome to Chord</h1>
           
           {error && (
             <div className="mb-6 p-3 bg-chord-red/10 border border-chord-red/20 rounded-lg flex items-center text-sm animate-fade-in">
               <AlertCircle size={16} className="mr-2 text-chord-red" />
-              <span>{error}</span>
+              <span className="font-bold">{error}</span>
             </div>
           )}
           
@@ -122,7 +122,7 @@ const Login = () => {
           
           <div className="flex items-center my-6">
             <Separator className="flex-1 bg-white/10" />
-            <span className="px-3 text-chord-text/70 text-sm">OR</span>
+            <span className="px-3 text-chord-text/70 text-sm font-bold">OR</span>
             <Separator className="flex-1 bg-white/10" />
           </div>
           
@@ -136,7 +136,7 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
-                  className="w-full bg-secondary/50 border border-white/10 rounded-md pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-chord-red focus:border-transparent text-chord-text"
+                  className="w-full bg-chord-hover/30 border border-white/10 rounded-md pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-chord-red focus:border-transparent text-chord-text font-bold"
                 />
               </div>
             </div>
@@ -150,11 +150,11 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full bg-secondary/50 border border-white/10 rounded-md pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-chord-red focus:border-transparent text-chord-text"
+                  className="w-full bg-chord-hover/30 border border-white/10 rounded-md pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-chord-red focus:border-transparent text-chord-text font-bold"
                 />
               </div>
               <div className="flex items-center justify-end">
-                <Link to="/forgot-password" className="text-xs text-chord-red hover:underline font-medium">
+                <Link to="/forgot-password" className="text-xs text-chord-red hover:underline font-bold">
                   Forgot password?
                 </Link>
               </div>
@@ -162,12 +162,12 @@ const Login = () => {
             
             <Button 
               type="submit" 
-              className="w-full bg-chord-red hover:bg-chord-red/90 text-chord-text py-3 hover:shadow-[0_0_15px_rgba(194,1,20,0.5)] transition-all duration-300"
+              className="w-full bg-chord-red hover:bg-chord-red/90 text-chord-text py-3 hover:shadow-[0_0_15px_rgba(194,1,20,0.5)] transition-all duration-300 font-bold"
               disabled={loading}
             >
               {loading ? (
                 <div className="flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-t-transparent border-white border-opacity-50 rounded-full animate-spin mr-2"></div>
+                  <div className="w-5 h-5 border-2 border-t-transparent border-chord-text border-opacity-50 rounded-full animate-spin mr-2"></div>
                   <span>Logging in...</span>
                 </div>
               ) : (
@@ -177,7 +177,7 @@ const Login = () => {
           </form>
           
           <div className="mt-8 text-center text-sm text-chord-text/70">
-            <p>
+            <p className="font-bold">
               Don't have an account?{" "}
               <Link to="/signup" className="text-chord-red hover:underline font-bold">
                 Sign up for Chord
@@ -186,10 +186,6 @@ const Login = () => {
           </div>
         </div>
       </main>
-      
-      <footer className="py-4 border-t border-white/5 text-center text-sm text-chord-text/50">
-        <p>&copy; {new Date().getFullYear()} Chord</p>
-      </footer>
     </div>
   );
 };
