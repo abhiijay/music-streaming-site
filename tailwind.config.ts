@@ -19,32 +19,41 @@ export default {
 			}
 		},
 		extend: {
-			colors: {
-				border: 'hsl(var(--border))',
-				input: 'hsl(var(--input))',
-				ring: 'hsl(var(--ring))',
-				background: 'hsl(var(--background))',
-				foreground: 'hsl(var(--foreground))',
-				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
-				},
-				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
-				},
-				destructive: {
-					DEFAULT: 'hsl(var(--destructive))',
-					foreground: 'hsl(var(--destructive-foreground))'
-				},
-				muted: {
-					DEFAULT: 'hsl(var(--muted))',
-					foreground: 'hsl(var(--muted-foreground))'
-				},
-				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
-				},
+	colors: {
+		border: 'hsl(var(--border))',
+		input: 'hsl(var(--input))',
+		ring: 'hsl(var(--ring))',
+		background: '#121212', // Darker black background
+		foreground: 'hsl(var(--foreground))',
+		primary: {
+			DEFAULT: '#FFD369',  // Yellow (Chord's primary accent color)
+			foreground: '#F8F4F9', // Light text color
+		},
+		secondary: {
+			DEFAULT: '#FFD369', // Same yellow for consistency
+			foreground: '#1E1E1E', // Darker text/foreground for contrast
+		},
+		destructive: {
+			DEFAULT: 'hsl(var(--destructive))',
+			foreground: 'hsl(var(--destructive-foreground))',
+		},
+		muted: {
+			DEFAULT: 'hsl(var(--muted))',
+			foreground: 'hsl(var(--muted-foreground))',
+		},
+		accent: {
+			DEFAULT: '#FFD369',  // Yellow (Accent)
+			foreground: '#1E1E1E', // Darker text/foreground for contrast
+		},
+		// Core Chord color palette
+		'chord-bg': '#121212',  // Dark black background
+		'chord-yellow': '#FFD369', // Yellow instead of red
+		'chord-text': '#F8F4F9', // Light text
+		'chord-hover': '#1a231a', // Slightly darker hover
+		'chord-active': '#FFD369', // Yellow active button (instead of red)
+	},
+},
+
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
 					foreground: 'hsl(var(--popover-foreground))'
@@ -54,11 +63,11 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				// Core Chord color palette
-				'chord-bg': '#0C120C',
-				'chord-red': '#C20114',
-				'chord-text': '#F8F4F9',
-				'chord-hover': '#1a231a',
-				'chord-active': '#C20114',
+				'chord-bg': '#121212',  // Dark black background
+		'chord-yellow': '#FFD369', // Yellow instead of red
+		'chord-text': '#F8F4F9', // Light text
+		'chord-hover': '#1a231a', // Slightly darker hover
+		'chord-active': '#FFD369', // Yellow active button (instead of red)
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
