@@ -5,45 +5,45 @@
 
 @layer base {
   :root {
-    /* Dark theme variables based on Chord color palette */
-    --background: #0C120C; /* rich blackish green */
-    --foreground: #F8F4F9; /* off-white */
-    --accent: #C20114; /* deep red */
-    
+    /* Dark theme variables based on updated Chord color palette */
+    --background: #0D090A; /* rich dark background */
+    --foreground: #F8F4F9; /* soft white text */
+    --accent: #FF9F1C; /* vibrant orange-yellow */
+
     /* UI component variables */
-    --card: #0C120C;
+    --card: #0D090A;
     --card-foreground: #F8F4F9;
-    
-    --popover: #0C120C;
+
+    --popover: #0D090A;
     --popover-foreground: #F8F4F9;
-    
-    --primary: #C20114;
-    --primary-foreground: #F8F4F9;
-    
-    --secondary: #121d12;
+
+    --primary: #FF9F1C;
+    --primary-foreground: #0D090A;
+
+    --secondary: #1a1416;
     --secondary-foreground: #F8F4F9;
-    
-    --muted: #121d12;
-    --muted-foreground: #b3b3b3;
-    
-    --accent-hover: #9a0110;
-    --accent-foreground: #F8F4F9;
-    
-    --destructive: #C20114;
+
+    --muted: #1a1416;
+    --muted-foreground: #B3B3B3;
+
+    --accent-hover: #e68a0d;
+    --accent-foreground: #0D090A;
+
+    --destructive: #FF3B3B;
     --destructive-foreground: #F8F4F9;
-    
-    --border: #1e2e1e;
-    --input: #1e2e1e;
-    --ring: #C20114;
-    
+
+    --border: #1e1e1e;
+    --input: #1e1e1e;
+    --ring: #FF9F1C;
+
     --radius: 0.75rem;
-    
-    /* Chord brand colors */
-    --chord-bg: #0C120C;
-    --chord-red: #C20114;
+
+    /* Chord brand-specific overrides */
+    --chord-bg: #0D090A;
+    --chord-accent: #FF9F1C;
     --chord-text: #F8F4F9;
-    --chord-hover: #1a231a;
-    --chord-active: #C20114;
+    --chord-hover: #1a1416;
+    --chord-active: #FF9F1C;
   }
 }
 
