@@ -44,6 +44,7 @@ const TrackItem = ({
       duration,
       audioUrl: audioUrl || "",
       imageUrl: imageUrl || "",
+      explicit
     }, songs);
   };
   

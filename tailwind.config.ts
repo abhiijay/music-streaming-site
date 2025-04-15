@@ -53,6 +53,12 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Add the Chord-specific color palette directly
+				'chord-bg': '#0C120C',
+				'chord-red': '#C20114',
+				'chord-text': '#F8F4F9',
+				'chord-hover': '#1a231a',
+				'chord-active': '#C20114',
 				mq: {
 					// Core MQ color palette - these colors remain consistent
 					navy: '#003049',

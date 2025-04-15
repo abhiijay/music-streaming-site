@@ -34,11 +34,11 @@ const NowPlaying = ({ dominantColor }: NowPlayingProps) => {
     togglePlayPause, 
     nextSong, 
     previousSong,
-    loopMode,
-    toggleLoopMode,
-    shuffleMode,
-    toggleShuffleMode
   } = usePlayer();
+  
+  // Add these state variables since they're not available in the PlayerContext
+  const [loopMode, setLoopMode] = useState<"none" | "all" | "one">("none");
+  const [shuffleMode, setShuffleMode] = useState(false);
   
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -50,6 +50,19 @@ const NowPlaying = ({ dominantColor }: NowPlayingProps) => {
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
+  
+  // Add toggle functions
+  const toggleLoopMode = () => {
+    setLoopMode(current => {
+      if (current === "none") return "all";
+      if (current === "all") return "one";
+      return "none";
+    });
+  };
+  
+  const toggleShuffleMode = () => {
+    setShuffleMode(current => !current);
+  };
   
   // Update audio source when song changes
   useEffect(() => {
@@ -196,7 +209,7 @@ const NowPlaying = ({ dominantColor }: NowPlayingProps) => {
                 {currentSong.title}
               </h4>
               <Link 
-                to={`/artist/${currentSong.artistId || "unknown"}`} 
+                to={`/artist/${currentSong.artist || "unknown"}`} 
                 className="text-xs text-chord-text/70 hover:text-chord-red transition-colors duration-200 truncate block"
               >
                 {currentSong.artist}
