@@ -37,15 +37,18 @@ const PlaylistCard = ({
   const handlePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (songs && songs.length > 0) {
-      // Convert the duration from number to string to match the Song type
+      // Convert the duration from number to string and ensure explicit is always defined
       const firstSong = {
         ...songs[0],
-        duration: String(songs[0].duration) // Convert to string
+        duration: String(songs[0].duration), // Convert to string
+        explicit: songs[0].explicit === true // Ensure explicit is a boolean value, defaulting to false if undefined
       };
-      // Also convert the duration for all songs in the playlist
+      
+      // Also convert the duration and ensure explicit for all songs in the playlist
       const songsWithStringDuration = songs.map(song => ({
         ...song,
-        duration: String(song.duration)
+        duration: String(song.duration),
+        explicit: song.explicit === true // Ensure explicit is a boolean value, defaulting to false if undefined
       }));
       
       playSong(firstSong, songsWithStringDuration);
@@ -93,3 +96,4 @@ const PlaylistCard = ({
 };
 
 export default PlaylistCard;
+
