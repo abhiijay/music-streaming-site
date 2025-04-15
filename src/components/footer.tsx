@@ -1,137 +1,62 @@
 
 import { Link } from "react-router-dom";
-import { Instagram, Twitter, Youtube, Globe } from "lucide-react";
+import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface FooterProps {
-  theme?: "dark" | "light";
-}
-
-const Footer = ({ theme = "dark" }: FooterProps) => {
-  const currentYear = new Date().getFullYear();
-  
+const Footer = () => {
   return (
-    <footer className={cn(
-      "mt-auto py-8 border-t transition-colors duration-500",
-      theme === "dark" 
-        ? "border-zinc-800/30 bg-gradient-to-t from-mq-navy/80 to-transparent" 
-        : "border-zinc-200/50 bg-gradient-to-t from-mq-sand/40 to-transparent"
-    )}>
+    <footer className="border-t border-white/5 py-8 mt-12">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center">
-          {/* Logo */}
-          <Link to="/" className="mb-6">
-            <div className="text-2xl font-bold tracking-tighter flex items-center gap-1">
-              <span className={cn(
-                theme === "dark" ? "text-mq-yellow" : "text-mq-red"
-              )}>MQ</span>
-              <span className={cn(
-                "text-xs font-normal mt-1.5",
-                theme === "dark" ? "text-mq-yellow/70" : "text-mq-red/70"
-              )}>MUSIC</span>
-            </div>
-          </Link>
-          
-          {/* Nav Links with better spacing and hover effects */}
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 mb-7">
-            <FooterLink to="/about" label="About" theme={theme} />
-            <FooterLink to="/contact" label="Contact" theme={theme} />
-            <FooterLink to="/terms" label="Terms of Service" theme={theme} />
-            <FooterLink to="/privacy" label="Privacy Policy" theme={theme} />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div>
+            <h4 className="font-bold text-chord-text mb-4">Company</h4>
+            <ul className="space-y-2">
+              <li><Link to="/about" className="text-chord-text/70 hover:text-chord-text text-sm">About</Link></li>
+              <li><Link to="/careers" className="text-chord-text/70 hover:text-chord-text text-sm">Careers</Link></li>
+              <li><Link to="/press" className="text-chord-text/70 hover:text-chord-text text-sm">Press</Link></li>
+            </ul>
           </div>
           
-          {/* Social Icons with enhanced hover effects */}
-          <div className="flex space-x-6 mb-7">
-            <SocialIcon href="https://instagram.com" theme={theme}>
-              <Instagram size={20} />
-            </SocialIcon>
-            <SocialIcon href="https://twitter.com" theme={theme}>
-              <Twitter size={20} />
-            </SocialIcon>
-            <SocialIcon href="https://youtube.com" theme={theme}>
-              <Youtube size={20} />
-            </SocialIcon>
-            <SocialIcon href="#" theme={theme} onClick={() => {}}>
-              <Globe size={20} />
-            </SocialIcon>
+          <div>
+            <h4 className="font-bold text-chord-text mb-4">Community</h4>
+            <ul className="space-y-2">
+              <li><Link to="/artists" className="text-chord-text/70 hover:text-chord-text text-sm">For Artists</Link></li>
+              <li><Link to="/developers" className="text-chord-text/70 hover:text-chord-text text-sm">Developers</Link></li>
+              <li><Link to="/partners" className="text-chord-text/70 hover:text-chord-text text-sm">Partners</Link></li>
+            </ul>
           </div>
           
-          {/* Language selector (optional) */}
-          <div className="mb-6">
-            <select 
-              className={cn(
-                "py-1.5 px-3 rounded-full text-sm focus:outline-none cursor-pointer transition-all duration-200",
-                theme === "dark" 
-                  ? "bg-zinc-800/50 text-zinc-300 border border-zinc-700/50 hover:border-zinc-600" 
-                  : "bg-white/80 text-zinc-700 border border-zinc-300/50 hover:border-zinc-400"
-              )}
-              defaultValue="en"
-            >
-              <option value="en">English</option>
-              <option value="es">Español</option>
-              <option value="fr">Français</option>
-              <option value="de">Deutsch</option>
-              <option value="ja">日本語</option>
-            </select>
+          <div>
+            <h4 className="font-bold text-chord-text mb-4">Legal</h4>
+            <ul className="space-y-2">
+              <li><Link to="/privacy" className="text-chord-text/70 hover:text-chord-text text-sm">Privacy</Link></li>
+              <li><Link to="/terms" className="text-chord-text/70 hover:text-chord-text text-sm">Terms</Link></li>
+              <li><Link to="/copyright" className="text-chord-text/70 hover:text-chord-text text-sm">Copyright</Link></li>
+            </ul>
           </div>
           
-          {/* Copyright */}
-          <p className={cn(
-            "text-xs flex items-center justify-center",
-            theme === "dark" ? "text-zinc-500" : "text-zinc-500"
-          )}>
-            © {currentYear} MQ Music. All rights reserved.
-          </p>
+          <div>
+            <h4 className="font-bold text-chord-text mb-4">Social</h4>
+            <ul className="space-y-2">
+              <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-chord-text/70 hover:text-chord-text text-sm">Twitter</a></li>
+              <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-chord-text/70 hover:text-chord-text text-sm">Instagram</a></li>
+              <li><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-chord-text/70 hover:text-chord-text text-sm">Facebook</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="mt-8 border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between">
+          <p className="text-chord-text/50 text-sm">&copy; {new Date().getFullYear()} Chord. All rights reserved.</p>
+          
+          <div className="flex items-center mt-4 md:mt-0">
+            <p className="text-chord-text/50 text-sm mr-2">Made with</p>
+            <Heart size={14} className="text-chord-red" />
+            <p className="text-chord-text/50 text-sm ml-2">for music lovers</p>
+          </div>
         </div>
       </div>
     </footer>
   );
 };
-
-// Helper component for footer links with consistent styling
-const FooterLink = ({ to, label, theme }: { to: string; label: string; theme: "dark" | "light" }) => (
-  <Link to={to} className={cn(
-    "text-sm transition-all duration-200 relative group",
-    theme === "dark" ? "text-zinc-400" : "text-zinc-600"
-  )}>
-    {label}
-    <span className={cn(
-      "absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full",
-      theme === "dark" ? "bg-mq-yellow" : "bg-mq-red"
-    )}></span>
-  </Link>
-);
-
-// Helper component for social icons with consistent styling and animations
-const SocialIcon = ({ 
-  href, 
-  theme, 
-  children, 
-  onClick 
-}: { 
-  href: string; 
-  theme: "dark" | "light"; 
-  children: React.ReactNode;
-  onClick?: () => void;
-}) => (
-  <a 
-    href={href} 
-    target="_blank" 
-    rel="noopener noreferrer" 
-    onClick={onClick}
-    className={cn(
-      "p-2.5 rounded-full transition-all duration-300 hover:scale-110 relative overflow-hidden",
-      theme === "dark" 
-        ? "text-zinc-400 hover:text-white hover:bg-white/10" 
-        : "text-zinc-600 hover:text-mq-red hover:bg-mq-red/10",
-      "before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:transition-all before:duration-300",
-      theme === "dark"
-        ? "before:hover:border-white/20"
-        : "before:hover:border-mq-red/30"
-    )}
-  >
-    {children}
-  </a>
-);
 
 export default Footer;

@@ -3,11 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface AmbientBackgroundProps {
-  theme: "dark" | "light";
   accentColor?: string; // Optional accent color for the background
 }
 
-const AmbientBackground = ({ theme, accentColor }: AmbientBackgroundProps) => {
+const AmbientBackground = ({ accentColor }: AmbientBackgroundProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   
@@ -40,12 +39,12 @@ const AmbientBackground = ({ theme, accentColor }: AmbientBackgroundProps) => {
     canvas.width = dimensions.width;
     canvas.height = dimensions.height;
     
-    // Particles config - adjusted for MQ theme
+    // Particles config - adjusted for Chord theme
     const particleCount = 40;
     const particleRadius = 120;
     const particles: any[] = [];
     
-    // Colors based on theme and accentColor
+    // Colors based on accentColor
     let colors: string[];
     
     if (accentColor) {
@@ -56,18 +55,12 @@ const AmbientBackground = ({ theme, accentColor }: AmbientBackgroundProps) => {
         `${accentColor}1a`, // ~10% opacity
       ];
     } else {
-      // Default colors based on theme using MQ palette
-      colors = theme === 'dark' 
-        ? [
-            'rgba(0, 48, 73, 0.08)',      // Navy
-            'rgba(252, 191, 73, 0.05)',   // Yellow
-            'rgba(247, 127, 0, 0.06)'     // Orange
-          ]
-        : [
-            'rgba(234, 226, 183, 0.08)',  // Sand
-            'rgba(214, 40, 40, 0.03)',    // Red
-            'rgba(247, 127, 0, 0.04)'     // Orange
-          ];
+      // Default colors based on Chord palette
+      colors = [
+        'rgba(194, 1, 20, 0.06)',  // Red accent
+        'rgba(12, 18, 12, 0.08)',  // Blackish green background
+        'rgba(194, 1, 20, 0.04)'   // Red accent with less opacity
+      ];
     }
       
     // Create particles
@@ -128,15 +121,12 @@ const AmbientBackground = ({ theme, accentColor }: AmbientBackgroundProps) => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [dimensions, theme, accentColor]);
+  }, [dimensions, accentColor]);
 
   return (
     <canvas
       ref={canvasRef}
-      className={cn(
-        "fixed top-0 left-0 -z-10 pointer-events-none transition-opacity duration-1000",
-        theme === "light" ? "opacity-30" : "opacity-60"
-      )}
+      className="fixed top-0 left-0 -z-10 pointer-events-none transition-opacity duration-1000 opacity-60"
       width={dimensions.width}
       height={dimensions.height}
     />

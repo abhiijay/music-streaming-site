@@ -5,11 +5,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { extractDominantColor, withOpacity } from "@/utils/colorUtils";
 
-interface MiniPlayerProps {
-  theme?: "dark" | "light";
-}
-
-const MiniPlayer = ({ theme = "dark" }: MiniPlayerProps) => {
+const MiniPlayer = () => {
   const { currentSong, isPlaying, togglePlayPause, nextSong, previousSong } = usePlayer();
   const [dominantColor, setDominantColor] = useState<string | null>(null);
   
@@ -30,16 +26,13 @@ const MiniPlayer = ({ theme = "dark" }: MiniPlayerProps) => {
   
   // Dynamic background style based on dominant color
   const dynamicBgStyle = dominantColor ? {
-    background: `${withOpacity(dominantColor, theme === "dark" ? 0.85 : 0.65)}`,
+    background: `${withOpacity(dominantColor, 0.85)}`,
     backdropFilter: "blur(10px)"
   } : {};
   
   return (
     <div 
-      className={cn(
-        "fixed top-16 right-4 max-w-xs w-full shadow-lg rounded-full z-30 animate-fade-in player-dynamic-bg",
-        theme === "dark" ? "glass text-white" : "bg-white/80 text-mq-navy shadow-md"
-      )}
+      className="fixed top-16 right-4 max-w-xs w-full shadow-lg rounded-full z-30 animate-fade-in player-dynamic-bg glass"
       style={dominantColor ? dynamicBgStyle : {}}
     >
       <div className="flex items-center p-2">
@@ -52,26 +45,17 @@ const MiniPlayer = ({ theme = "dark" }: MiniPlayerProps) => {
         </div>
         
         <div className="flex-1 min-w-0 mr-3">
-          <p className={cn(
-            "text-xs font-medium truncate",
-            theme === "dark" ? "text-white" : "text-mq-navy"
-          )}>
+          <p className="text-xs font-bold truncate text-chord-text">
             {currentSong.title}
           </p>
-          <p className={cn(
-            "text-[10px] truncate",
-            theme === "dark" ? "text-zinc-300" : "text-mq-navy/70"
-          )}>
+          <p className="text-[10px] truncate text-chord-text/80">
             {currentSong.artist}
           </p>
         </div>
         
         <div className="flex items-center space-x-1">
           <button 
-            className={cn(
-              "p-1 transition-all duration-200 hover:scale-110",
-              theme === "dark" ? "text-zinc-300 hover:text-mq-yellow" : "text-zinc-500 hover:text-mq-red"
-            )}
+            className="p-1 transition-all duration-200 hover:scale-110 text-chord-text/70 hover:text-chord-text"
             onClick={previousSong}
           >
             <SkipBackIcon size={15} />
@@ -79,21 +63,13 @@ const MiniPlayer = ({ theme = "dark" }: MiniPlayerProps) => {
           
           <button
             onClick={togglePlayPause}
-            className={cn(
-              "rounded-full p-1 transition-all duration-300",
-              theme === "dark" 
-                ? "bg-mq-red text-white hover:bg-mq-red/90 hover:shadow-[0_0_10px_rgba(214,40,40,0.5)]" 
-                : "bg-mq-red text-white hover:bg-mq-red/90 hover:scale-105"
-            )}
+            className="rounded-full p-1 transition-all duration-300 bg-chord-red text-chord-text hover:bg-chord-red/90 hover:shadow-[0_0_10px_rgba(194,1,20,0.5)]"
           >
             {isPlaying ? <PauseIcon size={15} /> : <PlayIcon size={15} />}
           </button>
           
           <button 
-            className={cn(
-              "p-1 transition-all duration-200 hover:scale-110",
-              theme === "dark" ? "text-zinc-300 hover:text-mq-yellow" : "text-zinc-500 hover:text-mq-red"
-            )}
+            className="p-1 transition-all duration-200 hover:scale-110 text-chord-text/70 hover:text-chord-text"
             onClick={nextSong}
           >
             <SkipForwardIcon size={15} />

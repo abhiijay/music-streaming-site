@@ -1,11 +1,12 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import AppLogo from "@/components/app-logo";
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Lock, AlertCircle } from "lucide-react";
+import RippleEffect from "@/components/ripple-effect";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,15 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Check for existing session
+  useEffect(() => {
+    // Simulate checking for existing session
+    const hasSession = localStorage.getItem("chord_session");
+    if (hasSession) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,13 +40,16 @@ const Login = () => {
     setTimeout(() => {
       setLoading(false);
       
+      // Store session
+      localStorage.setItem("chord_session", JSON.stringify({ email }));
+      
       // Show success message
       toast({
         title: "Login successful",
-        description: "Welcome back to MQ!",
+        description: "Welcome back to Chord!",
       });
       
-      // Redirect to home page
+      // Redirect to home page with animation
       navigate("/");
     }, 1500);
   };
@@ -48,9 +61,12 @@ const Login = () => {
     setTimeout(() => {
       setLoading(false);
       
+      // Store session
+      localStorage.setItem("chord_session", JSON.stringify({ email: "user@example.com" }));
+      
       toast({
         title: "Google login successful",
-        description: "Welcome to MQ!",
+        description: "Welcome to Chord!",
       });
       
       navigate("/");
@@ -58,27 +74,31 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-mq-navy text-white flex flex-col">
-      <header className="flex justify-center py-8">
-        <AppLogo />
+    <div className="min-h-screen bg-chord-bg text-chord-text flex flex-col">
+      {/* Ambient particles */}
+      <RippleEffect color="rgba(194, 1, 20, 0.3)" />
+      
+      <header className="flex justify-center py-8 animate-fade-in">
+        <AppLogo size="large" />
       </header>
       
       <main className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md bg-black/30 backdrop-blur-md p-8 rounded-xl border border-white/10 shadow-xl">
-          <h1 className="text-2xl font-bold text-center mb-8">Welcome to MQ</h1>
+        <div className="w-full max-w-md bg-secondary/30 backdrop-blur-md p-8 rounded-xl border border-white/5 shadow-lg animate-fade-in">
+          <h1 className="text-2xl font-bold text-center mb-8">Welcome to Chord</h1>
           
           {error && (
-            <div className="mb-4 p-3 bg-mq-red/10 border border-mq-red/20 rounded-lg flex items-center text-sm">
-              <AlertCircle size={16} className="mr-2 text-mq-red" />
+            <div className="mb-6 p-3 bg-chord-red/10 border border-chord-red/20 rounded-lg flex items-center text-sm animate-fade-in">
+              <AlertCircle size={16} className="mr-2 text-chord-red" />
               <span>{error}</span>
             </div>
           )}
           
           <Button 
             onClick={handleGoogleLogin}
-            className="w-full bg-white hover:bg-gray-100 text-gray-800 font-medium py-2 mb-6"
+            className="w-full bg-white hover:bg-gray-100 text-gray-800 font-bold py-3 mb-6 group relative overflow-hidden"
             disabled={loading}
           >
+            <div className="absolute inset-0 w-3 bg-gradient-to-r from-chord-red to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-300 opacity-30" />
             <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
@@ -101,40 +121,40 @@ const Login = () => {
           </Button>
           
           <div className="flex items-center my-6">
-            <Separator className="flex-1 bg-zinc-700" />
-            <span className="px-3 text-zinc-400 text-sm">OR</span>
-            <Separator className="flex-1 bg-zinc-700" />
+            <Separator className="flex-1 bg-white/10" />
+            <span className="px-3 text-chord-text/70 text-sm">OR</span>
+            <Separator className="flex-1 bg-white/10" />
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <div className="relative">
-                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-chord-text/50" />
                 <input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
-                  className="w-full bg-zinc-800/70 border border-zinc-700 rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-mq-orange focus:border-transparent"
+                  className="w-full bg-secondary/50 border border-white/10 rounded-md pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-chord-red focus:border-transparent text-chord-text"
                 />
               </div>
             </div>
             
             <div className="space-y-2">
               <div className="relative">
-                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-chord-text/50" />
                 <input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full bg-zinc-800/70 border border-zinc-700 rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-mq-orange focus:border-transparent"
+                  className="w-full bg-secondary/50 border border-white/10 rounded-md pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-chord-red focus:border-transparent text-chord-text"
                 />
               </div>
               <div className="flex items-center justify-end">
-                <Link to="/forgot-password" className="text-xs text-mq-yellow hover:underline">
+                <Link to="/forgot-password" className="text-xs text-chord-red hover:underline font-medium">
                   Forgot password?
                 </Link>
               </div>
@@ -142,26 +162,33 @@ const Login = () => {
             
             <Button 
               type="submit" 
-              className="w-full bg-mq-orange hover:bg-mq-orange/90 text-white"
+              className="w-full bg-chord-red hover:bg-chord-red/90 text-chord-text py-3 hover:shadow-[0_0_15px_rgba(194,1,20,0.5)] transition-all duration-300"
               disabled={loading}
             >
-              {loading ? "Logging in..." : "Log In"}
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-t-transparent border-white border-opacity-50 rounded-full animate-spin mr-2"></div>
+                  <span>Logging in...</span>
+                </div>
+              ) : (
+                "Log In"
+              )}
             </Button>
           </form>
           
-          <div className="mt-8 text-center text-sm text-zinc-400">
+          <div className="mt-8 text-center text-sm text-chord-text/70">
             <p>
               Don't have an account?{" "}
-              <Link to="/signup" className="text-mq-yellow hover:underline">
-                Sign up for MQ
+              <Link to="/signup" className="text-chord-red hover:underline font-bold">
+                Sign up for Chord
               </Link>
             </p>
           </div>
         </div>
       </main>
       
-      <footer className="py-4 border-t border-zinc-800 text-center text-sm text-zinc-500">
-        <p>&copy; {new Date().getFullYear()} MQ</p>
+      <footer className="py-4 border-t border-white/5 text-center text-sm text-chord-text/50">
+        <p>&copy; {new Date().getFullYear()} Chord</p>
       </footer>
     </div>
   );
