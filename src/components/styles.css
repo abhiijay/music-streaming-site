@@ -1,0 +1,71 @@
+
+/* Add custom styles for TIDAL */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --tidal-black: #121212;
+  --tidal-gray: #282828;
+  --tidal-darkgray: #181818;
+  --tidal-hover: #2a2a2a;
+  --tidal-blue: #0063e5;
+}
+
+/* Define custom colors */
+.bg-tidal-black {
+  background-color: var(--tidal-black);
+}
+
+.bg-tidal-gray {
+  background-color: var(--tidal-gray);
+}
+
+.bg-tidal-darkgray {
+  background-color: var(--tidal-darkgray);
+}
+
+.bg-tidal-hover {
+  background-color: var(--tidal-hover);
+}
+
+.text-tidal-blue {
+  color: var(--tidal-blue);
+}
+
+.bg-tidal-blue {
+  background-color: var(--tidal-blue);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--tidal-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .pl-[240px] {
+    padding-left: 0;
+  }
+  
+  .fixed.left-[240px] {
+    left: 0;
+  }
+  
+  .w-[240px] {
+    width: 100%;
+  }
+}

@@ -6,74 +6,39 @@ import { Button } from "@/components/ui/button";
 import TrackItem from "@/components/track-item";
 import { mockSongs, Song, usePlayer } from "@/contexts/PlayerContext";
 
-const Playlist = () => {
+const Album = () => {
   const { id } = useParams<{ id: string }>();
   const { playSong } = usePlayer();
 
-  // Placeholder data with more realistic track counts based on id
-  const playlistData: Record<string, any> = {
-    "top-hits": {
-      title: "TIDAL's Top Hits",
-      description: "The biggest hits, curated by TIDAL's music team.",
-      creator: "TIDAL",
-      imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
-      tracksCount: 100
-    },
-    "pop-hits": {
-      title: "Pop Hits",
-      description: "The latest and greatest in pop music.",
-      creator: "TIDAL",
-      imageUrl: "/lovable-uploads/81d39118-ff63-460e-993d-275178cd6c40.png",
-      tracksCount: 48
-    },
-    "rock-classics": {
-      title: "Rock Classics",
-      description: "Timeless rock anthems that never get old.",
-      creator: "TIDAL",
-      imageUrl: "/lovable-uploads/00e244a7-d659-4312-befb-52b043a87ce6.png",
-      tracksCount: 50
-    },
-    "rnb-favorites": {
-      title: "R&B Favorites",
-      description: "Smooth R&B hits for any occasion.",
-      creator: "TIDAL",
-      imageUrl: "/lovable-uploads/a910c028-5947-4358-b83a-240ed8a516ca.png",
-      tracksCount: 35
-    },
-    "hip-hop-mix": {
-      title: "Hip Hop Mix",
-      description: "The best hip hop tracks all in one place.",
-      creator: "TIDAL",
-      imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
-      tracksCount: 30
-    }
+  // Get album data based on the song id
+  const song = mockSongs.find(song => song.id === id);
+  
+  // Placeholder data
+  const album = {
+    id: id || "album-1",
+    title: song?.title || "Unknown Album",
+    artist: song?.artist || "Unknown Artist",
+    releaseYear: "2024",
+    imageUrl: song?.imageUrl || "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
+    description: "Album by " + (song?.artist || "Unknown Artist"),
+    tracksCount: 12
   };
 
-  const playlist = playlistData[id || ""] || {
-    id: id || "unknown",
-    title: "Playlist",
-    description: "A collection of tracks.",
-    creator: "User",
-    imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
-    createdAt: "Updated Apr 2, 2024",
-    tracksCount: 20
-  };
-
-  // Generate playlist tracks (would normally come from backend)
-  const tracks: Song[] = mockSongs.map((song) => ({
-    ...song,
-    id: `playlist-${id}-song-${song.id}`,
+  // Create album tracks based on the mock song
+  const tracks: Song[] = mockSongs.map((mockSong, i) => ({
+    ...mockSong,
+    id: `album-${id}-track-${i + 1}`,
   }));
 
-  const handlePlayPlaylist = () => {
+  const handlePlayAlbum = () => {
     if (tracks.length > 0) {
       playSong(tracks[0], tracks);
     }
   };
 
-  const handleShufflePlaylist = () => {
+  const handleShuffleAlbum = () => {
     if (tracks.length > 0) {
-      // Get a random song from the playlist
+      // Get a random song from the album
       const randomIndex = Math.floor(Math.random() * tracks.length);
       playSong(tracks[randomIndex], tracks);
     }
@@ -85,26 +50,27 @@ const Playlist = () => {
         <div className="lg:w-[300px] flex-shrink-0 mb-6 lg:mb-0 lg:mr-8">
           <div className="aspect-square bg-tidal-gray rounded-md overflow-hidden">
             <img
-              src={playlist.imageUrl}
-              alt={playlist.title}
+              src={album.imageUrl}
+              alt={album.title}
               className="w-full h-full object-cover"
             />
           </div>
         </div>
         <div className="flex flex-col">
-          <h1 className="text-3xl font-bold text-white mb-2">{playlist.title}</h1>
-          <p className="text-zinc-400 mb-4">{playlist.description}</p>
+          <span className="text-sm text-zinc-400 mb-1">Album</span>
+          <h1 className="text-3xl font-bold text-white mb-2">{album.title}</h1>
+          <p className="text-zinc-400 mb-4">{album.description}</p>
           <div className="flex items-center text-sm text-zinc-400 mb-6">
-            <span>Created by {playlist.creator}</span>
+            <span>By {album.artist}</span>
             <span className="mx-2">•</span>
-            <span>{playlist.tracksCount} tracks</span>
+            <span>{album.releaseYear}</span>
             <span className="mx-2">•</span>
-            <span>{playlist.createdAt || "Updated recently"}</span>
+            <span>{album.tracksCount} tracks</span>
           </div>
           <div className="flex items-center space-x-4">
             <Button 
               className="bg-white hover:bg-white/90 text-black font-medium px-8 rounded-full"
-              onClick={handlePlayPlaylist}
+              onClick={handlePlayAlbum}
             >
               <PlayIcon size={18} className="mr-2" />
               Play
@@ -112,7 +78,7 @@ const Playlist = () => {
             <Button 
               variant="outline" 
               className="border-zinc-600 hover:border-white bg-transparent text-white hover:bg-tidal-hover rounded-full"
-              onClick={handleShufflePlaylist}
+              onClick={handleShuffleAlbum}
             >
               <ShuffleIcon size={18} className="mr-2" />
               Shuffle
@@ -148,7 +114,7 @@ const Playlist = () => {
             title={track.title}
             artist={track.artist}
             duration={track.duration}
-            explicit={track.explicit}
+            explicit={Math.random() > 0.5}
             index={index + 1}
             audioUrl={track.audioUrl}
             imageUrl={track.imageUrl}
@@ -160,4 +126,4 @@ const Playlist = () => {
   );
 };
 
-export default Playlist;
+export default Album;

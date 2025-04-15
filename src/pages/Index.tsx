@@ -1,8 +1,8 @@
-
 import Layout from "@/components/layout";
 import TrackItem from "@/components/track-item";
 import PlaylistCard from "@/components/playlist-card";
 import SectionHeader from "@/components/section-header";
+import { mockSongs, Song } from "@/contexts/PlayerContext";
 
 const Index = () => {
   const playlists = [
@@ -21,21 +21,21 @@ const Index = () => {
       tracksCount: 48
     },
     {
-      id: "rock-hits",
-      title: "Rock Hits",
+      id: "rock-classics",
+      title: "Rock Classics",
       imageUrl: "/lovable-uploads/00e244a7-d659-4312-befb-52b043a87ce6.png",
       creator: "TIDAL",
       tracksCount: 50
     },
     {
-      id: "country-hits",
+      id: "rnb-favorites",
       title: "Country Hits",
       imageUrl: "/lovable-uploads/a910c028-5947-4358-b83a-240ed8a516ca.png",
       creator: "TIDAL",
       tracksCount: 35
     },
     {
-      id: "rap-hits",
+      id: "hip-hop-mix",
       title: "Rap Hits",
       imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
       creator: "TIDAL",
@@ -43,39 +43,7 @@ const Index = () => {
     }
   ];
 
-  const newTracks = [
-    {
-      title: "NOKIA",
-      artist: "Drake",
-      duration: "3:02",
-      explicit: true,
-      imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png"
-    },
-    {
-      title: "Legends",
-      artist: "Quavo, Lil Baby",
-      duration: "3:01",
-      explicit: true
-    },
-    {
-      title: "Worst Of Me",
-      artist: "Cynthia Erivo",
-      duration: "3:28",
-      explicit: false
-    },
-    {
-      title: "Blink Twice",
-      artist: "Shaboozey, Myles Smith",
-      duration: "2:37",
-      explicit: true
-    },
-    {
-      title: "Dreams Don't Die",
-      artist: "Jelly Roll",
-      duration: "3:02",
-      explicit: false
-    }
-  ];
+  const newTracks: Song[] = mockSongs;
 
   const newAlbums = [
     {
@@ -134,13 +102,17 @@ const Index = () => {
         <div className="bg-tidal-darkgray rounded-md overflow-hidden">
           {newTracks.map((track, index) => (
             <TrackItem
-              key={index}
+              key={track.id}
+              id={track.id}
               title={track.title}
               artist={track.artist}
               duration={track.duration}
               explicit={track.explicit}
               index={index + 1}
               showImage={false}
+              audioUrl={track.audioUrl}
+              imageUrl={track.imageUrl}
+              songs={newTracks}
             />
           ))}
         </div>
