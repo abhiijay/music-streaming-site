@@ -8,6 +8,7 @@ import Playlist from "./pages/playlist";
 import Collection from "./pages/collection";
 import ForYou from "./pages/for-you";
 import Explore from "./pages/explore";
+import Search from "./pages/search";
 import Notifications from "./pages/notifications";
 import Artist from "./pages/artist";
 import Profile from "./pages/profile";
