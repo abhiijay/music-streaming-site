@@ -1,57 +1,48 @@
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ChevronRight, ChevronLeft, ChevronRightIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
   title: string;
   seeAllLink?: string;
   showControls?: boolean;
-  className?: string;
+  onPrevious?: () => void;
+  onNext?: () => void;
 }
 
 const SectionHeader = ({
   title,
   seeAllLink,
   showControls = false,
-  className,
+  onPrevious,
+  onNext,
 }: SectionHeaderProps) => {
   return (
-    <div
-      className={cn(
-        "flex items-center justify-between mb-6",
-        className
-      )}
-    >
-      <h2 className="text-lg md:text-xl font-bold text-chord-text">
-        {title}
-      </h2>
-
+    <div className="flex items-center justify-between mb-4">
+      <h2 className="text-xl font-bold text-white">{title}</h2>
       <div className="flex items-center">
         {showControls && (
-          <div className="hidden md:flex items-center mr-4">
+          <div className="mr-4 flex space-x-2">
             <button
-              className="w-8 h-8 rounded-full flex items-center justify-center text-chord-text/70 hover:text-chord-text hover:bg-white/5 transition-all duration-200"
-              aria-label="Previous"
+              onClick={onPrevious}
+              className="p-1 rounded-full bg-zinc-800 hover:bg-zinc-700"
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={16} />
             </button>
             <button
-              className="w-8 h-8 rounded-full flex items-center justify-center text-chord-text/70 hover:text-chord-text hover:bg-white/5 transition-all duration-200"
-              aria-label="Next"
+              onClick={onNext}
+              className="p-1 rounded-full bg-zinc-800 hover:bg-zinc-700"
             >
-              <ChevronRight size={18} />
+              <ChevronRight size={16} />
             </button>
           </div>
         )}
-
         {seeAllLink && (
           <Link
             to={seeAllLink}
-            className="text-sm font-bold text-chord-text/70 hover:text-chord-red flex items-center transition-colors duration-200"
+            className="text-xs font-medium uppercase text-zinc-400 hover:text-white"
           >
-            See all
-            <ChevronRightIcon size={16} className="ml-1" />
+            View all
           </Link>
         )}
       </div>

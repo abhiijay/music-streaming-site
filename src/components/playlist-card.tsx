@@ -1,8 +1,8 @@
 
-import { useNavigate } from "react-router-dom";
-import { Play } from "lucide-react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { PlayIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface PlaylistCardProps {
   id: string;
@@ -11,89 +11,71 @@ interface PlaylistCardProps {
   description?: string;
   tracksCount?: number;
   creator?: string;
-  songs?: Array<{
-    id: string;
-    title: string;
-    artist: string;
-    duration: number;
-    audioUrl: string;
-    imageUrl: string;
-    explicit?: boolean;
-  }>;
+  variant?: "default" | "small" | "large";
 }
 
-const PlaylistCard = ({ 
-  id, 
-  title, 
-  imageUrl, 
-  description, 
+const PlaylistCard = ({
+  id,
+  title,
+  imageUrl,
+  description,
   tracksCount,
-  creator,
-  songs
+  creator = "TIDAL",
+  variant = "default"
 }: PlaylistCardProps) => {
-  const navigate = useNavigate();
-  const { playSong } = usePlayer();
-  
-  const handlePlay = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (songs && songs.length > 0) {
-      // Convert the duration from number to string and ensure explicit is always defined
-      const firstSong = {
-        ...songs[0],
-        duration: String(songs[0].duration), // Convert to string
-        explicit: songs[0].explicit === true // Ensure explicit is a boolean value, defaulting to false if undefined
-      };
-      
-      // Also convert the duration and ensure explicit for all songs in the playlist
-      const songsWithStringDuration = songs.map(song => ({
-        ...song,
-        duration: String(song.duration),
-        explicit: song.explicit === true // Ensure explicit is a boolean value, defaulting to false if undefined
-      }));
-      
-      playSong(firstSong, songsWithStringDuration);
-    }
-  };
-  
-  const handleClick = () => {
-    navigate(`/playlist/${id}`);
-  };
-  
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <div 
-      className="group relative bg-chord-hover/30 rounded-lg overflow-hidden transition-all duration-300 hover:bg-chord-hover cursor-pointer"
-      onClick={handleClick}
+    <Link
+      to={`/playlist/${id}`}
+      className={cn(
+        "block group",
+        variant === "small" ? "w-full" : "w-full"
+      )}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="aspect-square overflow-hidden">
-        <img 
-          src={imageUrl} 
-          alt={title}
-          className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
-        />
-      </div>
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-chord-bg to-transparent p-3">
-        <h3 className="text-chord-text font-bold line-clamp-1">{title}</h3>
-        {description && (
-          <p className="text-chord-text/70 text-sm line-clamp-1">{description}</p>
-        )}
-        {(creator || tracksCount) && (
-          <div className="text-chord-text/70 text-xs mt-1">
-            {creator && <span>{creator}</span>}
-            {creator && tracksCount && <span className="mx-1">•</span>}
-            {tracksCount && <span>{tracksCount} tracks</span>}
+      <div className="relative track-card mb-3">
+        <div className={cn(
+          "relative bg-tidal-gray rounded-md overflow-hidden",
+          variant === "small" ? "w-full aspect-square" : "w-full aspect-square"
+        )}>
+          <img
+            src={imageUrl}
+            alt={title}
+            className="w-full h-full object-cover transition-transform group-hover:scale-105"
+          />
+          <div className={cn(
+            "absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100"
+          )}>
+            <button 
+              className={cn(
+                "play-button bg-white rounded-full p-3 opacity-0 transform translate-y-4 transition-all duration-200",
+                isHovered ? "opacity-100 translate-y-0" : ""
+              )}
+            >
+              <PlayIcon className="h-5 w-5 text-black" />
+            </button>
           </div>
-        )}
+        </div>
+        <div className="mt-2">
+          <h3 className="text-sm font-medium text-white truncate">{title}</h3>
+          {description && (
+            <p className="text-xs text-zinc-400 truncate mt-1">{description}</p>
+          )}
+          <div className="flex items-center mt-1 text-xs text-zinc-400">
+            <span>Created by {creator}</span>
+            {tracksCount && (
+              <>
+                <span className="mx-1">•</span>
+                <span>{tracksCount} tracks</span>
+              </>
+            )}
+          </div>
+        </div>
       </div>
-      <button 
-        className="opacity-0 group-hover:opacity-100 absolute top-2 right-2 bg-chord-red text-chord-text rounded-full p-2 shadow-lg transition-all duration-300 transform translate-y-1 group-hover:translate-y-0 hover:scale-105 z-10"
-        onClick={handlePlay}
-        aria-label="Play"
-      >
-        <Play size={16} fill="currentColor" />
-      </button>
-    </div>
+    </Link>
   );
 };
 
 export default PlaylistCard;
-

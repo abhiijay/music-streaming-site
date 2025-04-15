@@ -3,50 +3,79 @@ import Layout from "@/components/layout";
 import TrackItem from "@/components/track-item";
 import PlaylistCard from "@/components/playlist-card";
 import SectionHeader from "@/components/section-header";
-import { mockSongs, Song } from "@/contexts/PlayerContext";
-import { Button } from "@/components/ui/button";
-import { ChevronRight, Disc, Headphones, Radio, TrendingUp } from "lucide-react";
 
 const Index = () => {
   const playlists = [
     {
       id: "top-hits",
-      title: "Chord's Top Hits",
+      title: "TIDAL's Top Hits",
       imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
-      creator: "Chord",
+      creator: "TIDAL",
       tracksCount: 100
     },
     {
       id: "pop-hits",
       title: "Pop Hits",
       imageUrl: "/lovable-uploads/81d39118-ff63-460e-993d-275178cd6c40.png",
-      creator: "Chord",
+      creator: "TIDAL",
       tracksCount: 48
     },
     {
-      id: "rock-classics",
-      title: "Rock Classics",
+      id: "rock-hits",
+      title: "Rock Hits",
       imageUrl: "/lovable-uploads/00e244a7-d659-4312-befb-52b043a87ce6.png",
-      creator: "Chord",
+      creator: "TIDAL",
       tracksCount: 50
     },
     {
-      id: "rnb-favorites",
+      id: "country-hits",
       title: "Country Hits",
       imageUrl: "/lovable-uploads/a910c028-5947-4358-b83a-240ed8a516ca.png",
-      creator: "Chord",
+      creator: "TIDAL",
       tracksCount: 35
     },
     {
-      id: "hip-hop-mix",
+      id: "rap-hits",
       title: "Rap Hits",
       imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
-      creator: "Chord",
+      creator: "TIDAL",
       tracksCount: 30
     }
   ];
 
-  const newTracks: Song[] = mockSongs;
+  const newTracks = [
+    {
+      title: "NOKIA",
+      artist: "Drake",
+      duration: "3:02",
+      explicit: true,
+      imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png"
+    },
+    {
+      title: "Legends",
+      artist: "Quavo, Lil Baby",
+      duration: "3:01",
+      explicit: true
+    },
+    {
+      title: "Worst Of Me",
+      artist: "Cynthia Erivo",
+      duration: "3:28",
+      explicit: false
+    },
+    {
+      title: "Blink Twice",
+      artist: "Shaboozey, Myles Smith",
+      duration: "2:37",
+      explicit: true
+    },
+    {
+      title: "Dreams Don't Die",
+      artist: "Jelly Roll",
+      duration: "3:02",
+      explicit: false
+    }
+  ];
 
   const newAlbums = [
     {
@@ -79,38 +108,14 @@ const Index = () => {
     }
   ];
 
-  // Categories for quick navigation
-  const categories = [
-    { name: "Trending", icon: <TrendingUp size={18} className="mr-2 text-chord-red" />, path: "/trending" },
-    { name: "New Releases", icon: <Disc size={18} className="mr-2 text-chord-red" />, path: "/new-releases" },
-    { name: "Stations", icon: <Radio size={18} className="mr-2 text-chord-red" />, path: "/stations" },
-    { name: "Podcasts", icon: <Headphones size={18} className="mr-2 text-chord-red" />, path: "/podcasts" },
-  ];
-
   return (
     <Layout>
-      {/* Categories section */}
       <section className="mb-12">
-        <div className="flex items-center justify-center gap-4 mt-2">
-          {categories.map((category) => (
-            <Button
-              key={category.name}
-              variant="ghost"
-              className="bg-chord-bg border border-white/5 hover:bg-chord-hover hover:border-chord-red/30 px-6 py-5"
-              onClick={() => window.location.href = category.path}
-            >
-              <div className="flex items-center">
-                {category.icon}
-                <span className="font-bold">{category.name}</span>
-              </div>
-            </Button>
-          ))}
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold">The Hits</h1>
         </div>
-      </section>
 
-      <section className="mb-12">
-        <SectionHeader title="The Hits" seeAllLink="/playlists" />
-        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {playlists.map((playlist) => (
             <PlaylistCard
               key={playlist.id}
@@ -125,29 +130,25 @@ const Index = () => {
       </section>
 
       <section className="mb-12">
-        <SectionHeader title="New Tracks" seeAllLink="/playlists/new-tracks" showControls />
-        <div className="bg-chord-hover/30 rounded-lg overflow-hidden border border-white/5">
+        <SectionHeader title="New Tracks" seeAllLink="/new-tracks" showControls />
+        <div className="bg-tidal-darkgray rounded-md overflow-hidden">
           {newTracks.map((track, index) => (
             <TrackItem
-              key={track.id}
-              id={track.id}
+              key={index}
               title={track.title}
               artist={track.artist}
               duration={track.duration}
               explicit={track.explicit}
               index={index + 1}
               showImage={false}
-              audioUrl={track.audioUrl}
-              imageUrl={track.imageUrl}
-              songs={newTracks}
             />
           ))}
         </div>
       </section>
 
       <section className="mb-12">
-        <SectionHeader title="New Albums" seeAllLink="/albums" showControls />
-        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <SectionHeader title="New Albums" seeAllLink="/new-albums" showControls />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {newAlbums.map((album) => (
             <PlaylistCard
               key={album.id}
@@ -162,8 +163,8 @@ const Index = () => {
       </section>
 
       <section className="mb-12">
-        <SectionHeader title="From our editors" seeAllLink="/playlists/editors-picks" showControls />
-        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <SectionHeader title="From our editors" seeAllLink="/editors-picks" showControls />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {playlists.slice(0, 5).map((playlist) => (
             <PlaylistCard
               key={playlist.id}
@@ -176,6 +177,52 @@ const Index = () => {
           ))}
         </div>
       </section>
+
+      <footer className="mt-24 border-t border-zinc-800 pt-10 pb-16 text-zinc-400">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h4 className="text-sm font-medium text-white mb-4">Get Started</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#" className="hover:text-white">Download TIDAL</a></li>
+              <li><a href="#" className="hover:text-white">Pricing & Plans</a></li>
+              <li><a href="#" className="hover:text-white">Transfer Music</a></li>
+              <li><a href="#" className="hover:text-white">Supported Devices</a></li>
+              <li><a href="#" className="hover:text-white">Get Support</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-white mb-4">Discover TIDAL</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#" className="hover:text-white">About</a></li>
+              <li><a href="#" className="hover:text-white">For Music</a></li>
+              <li><a href="#" className="hover:text-white">For Artists</a></li>
+              <li><a href="#" className="hover:text-white">Culture</a></li>
+              <li><a href="#" className="hover:text-white">Magazine</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-white mb-4">Account</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#" className="hover:text-white">Sign up</a></li>
+              <li><a href="#" className="hover:text-white">Redeem Voucher</a></li>
+              <li><a href="#" className="hover:text-white">Redeem Giftcard</a></li>
+              <li><a href="#" className="hover:text-white">Manage Account</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-white mb-4">Company</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#" className="hover:text-white">What is TIDAL?</a></li>
+              <li><a href="#" className="hover:text-white">Partners</a></li>
+              <li><a href="#" className="hover:text-white">Careers</a></li>
+              <li><a href="#" className="hover:text-white">Press</a></li>
+            </ul>
+          </div>
+        </div>
+        <p className="mt-16 text-center text-xs">
+          TIDAL is an artist-first, fan-centered music streaming platform that delivers over 110 million songs in HiFi sound quality to the global music community.
+        </p>
+      </footer>
     </Layout>
   );
 };

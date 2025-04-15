@@ -1,131 +1,77 @@
 
-import { PlayIcon, PauseIcon, MoreHorizontal, Heart } from "lucide-react";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { Play, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 interface TrackItemProps {
-  id: string;
   title: string;
   artist: string;
   duration: string;
-  index?: number;
   explicit?: boolean;
-  showImage?: boolean;
   imageUrl?: string;
-  audioUrl?: string;
-  songs?: any[];
+  index?: number;
+  showIndex?: boolean;
+  showImage?: boolean;
+  showHeart?: boolean;
 }
 
 const TrackItem = ({
-  id,
   title,
   artist,
   duration,
-  index,
   explicit = false,
-  showImage = true,
   imageUrl,
-  audioUrl,
-  songs = []
+  index,
+  showIndex = true,
+  showImage = false,
+  showHeart = true,
 }: TrackItemProps) => {
-  const { currentSong, isPlaying, playSong } = usePlayer();
   const [isHovered, setIsHovered] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  
-  const isCurrentSong = currentSong?.id === id;
-  const isCurrentlyPlaying = isCurrentSong && isPlaying;
-  
-  const handlePlayClick = () => {
-    playSong({
-      id,
-      title,
-      artist,
-      duration,
-      audioUrl: audioUrl || "",
-      imageUrl: imageUrl || "",
-      explicit
-    }, songs);
-  };
-  
+
   return (
-    <div 
-      className={cn(
-        "group px-4 py-3 flex items-center hover:bg-white/5 transition-colors duration-200 border-b border-white/5 last:border-none",
-        isCurrentSong && "bg-white/10"
-      )}
+    <div
+      className="group grid grid-cols-[auto,1fr,auto] md:grid-cols-[auto,1fr,auto,auto] gap-4 px-4 py-2 rounded-md hover:bg-tidal-hover"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Track number or play button */}
-      <div className="w-10 flex items-center justify-center">
-        {(isHovered || isCurrentlyPlaying) ? (
-          <button 
-            className={cn(
-              "w-8 h-8 flex items-center justify-center rounded-full",
-              isCurrentlyPlaying ? "text-chord-red" : "text-chord-text hover:text-chord-red"
-            )}
-            onClick={handlePlayClick}
-          >
-            {isCurrentlyPlaying ? <PauseIcon size={16} /> : <PlayIcon size={16} />}
-          </button>
-        ) : (
-          <span className="text-sm text-chord-text/50 w-8 text-center">{index}</span>
-        )}
-      </div>
-      
-      {/* Track image (optional) */}
-      {showImage && imageUrl && (
-        <div className="mr-3">
-          <img 
-            src={imageUrl} 
-            alt={title} 
-            className="w-10 h-10 rounded object-cover"
-          />
+      {showIndex && index && (
+        <div className="flex items-center justify-center w-6 text-sm text-zinc-400">
+          {isHovered ? (
+            <button className="text-white hover:text-tidal-blue">
+              <Play size={15} fill="currentColor" />
+            </button>
+          ) : (
+            <span>{index}</span>
+          )}
         </div>
       )}
       
-      {/* Track info */}
-      <div className="flex-1 min-w-0 mr-4">
-        <h3 className={cn(
-          "text-sm font-bold truncate",
-          isCurrentSong ? "text-chord-red" : "text-chord-text"
-        )}>
-          {title}
+      {showImage && imageUrl && (
+        <div className="w-10 h-10 mr-3 flex-shrink-0">
+          <img src={imageUrl} className="w-full h-full object-cover rounded-sm" alt={title} />
+        </div>
+      )}
+      
+      <div className="flex flex-col min-w-0">
+        <div className="flex items-center">
+          <span className="text-sm font-medium text-white truncate">{title}</span>
           {explicit && (
-            <span className="ml-2 px-1 py-0.5 text-[0.6rem] bg-chord-text/20 text-chord-text/70 rounded">
-              E
-            </span>
+            <span className="ml-2 px-1 text-[10px] bg-zinc-600 text-white rounded">E</span>
           )}
-        </h3>
-        <p className="text-xs text-chord-text/70 truncate">
-          {artist}
-        </p>
+        </div>
+        <span className="text-xs text-zinc-400 truncate">{artist}</span>
       </div>
       
-      {/* Actions (only visible on hover) */}
-      <div className={cn(
-        "flex items-center space-x-3 mr-4",
-        isHovered ? "opacity-100" : "opacity-0"
-      )}>
-        <button 
-          className={cn(
-            "text-chord-text/70 hover:text-chord-text transition-colors duration-200",
-            isLiked && "text-chord-red"
-          )}
-          onClick={() => setIsLiked(!isLiked)}
-        >
-          <Heart size={16} fill={isLiked ? "#C20114" : "none"} />
+      {showHeart && (
+        <button className={cn(
+          "text-zinc-400 hover:text-white hidden md:flex",
+          isHovered ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        )}>
+          <Heart size={16} />
         </button>
-        <button className="text-chord-text/70 hover:text-chord-text transition-colors duration-200">
-          <MoreHorizontal size={16} />
-        </button>
-      </div>
+      )}
       
-      {/* Duration */}
-      <div className="text-sm text-chord-text/50 font-mono">
-        {duration}
-      </div>
+      <span className="text-xs text-zinc-400">{duration}</span>
     </div>
   );
 };
