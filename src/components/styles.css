@@ -1,40 +1,83 @@
 
-/* Add custom styles for TIDAL */
+/* Add custom styles for MQ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@keyframes float {
+  0% { transform: translateY(0px); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(-40px); opacity: 0; }
+}
+
+.animate-float {
+  animation: float 2s ease-out forwards;
+}
+
 :root {
-  --tidal-black: #121212;
-  --tidal-gray: #282828;
-  --tidal-darkgray: #181818;
-  --tidal-hover: #2a2a2a;
-  --tidal-blue: #0063e5;
+  --mq-dark: #003049;
+  --mq-red: #D62828;
+  --mq-orange: #F77F00;
+  --mq-yellow: #FCBF49;
+  --mq-sand: #EAE2B7;
+  --transition-duration: 500ms;
+}
+
+/* Light mode variables */
+.light-mode {
+  --mq-dark: #ffffff;
+  --mq-gray: #f5f5f5;
+  --mq-darkgray: #fafafa;
+  --mq-hover: #eeeeee;
+  --mq-text: #003049;
+  --mq-text-secondary: #555555;
 }
 
 /* Define custom colors */
-.bg-tidal-black {
-  background-color: var(--tidal-black);
+.bg-mq-dark {
+  background-color: var(--mq-dark);
+  transition: background-color var(--transition-duration) ease;
 }
 
-.bg-tidal-gray {
-  background-color: var(--tidal-gray);
+.bg-mq-red {
+  background-color: var(--mq-red);
+  transition: background-color var(--transition-duration) ease;
 }
 
-.bg-tidal-darkgray {
-  background-color: var(--tidal-darkgray);
+.bg-mq-orange {
+  background-color: var(--mq-orange);
+  transition: background-color var(--transition-duration) ease;
 }
 
-.bg-tidal-hover {
-  background-color: var(--tidal-hover);
+.bg-mq-yellow {
+  background-color: var(--mq-yellow);
+  transition: background-color var(--transition-duration) ease;
 }
 
-.text-tidal-blue {
-  color: var(--tidal-blue);
+.bg-mq-sand {
+  background-color: var(--mq-sand);
+  transition: background-color var(--transition-duration) ease;
 }
 
-.bg-tidal-blue {
-  background-color: var(--tidal-blue);
+.text-mq-dark {
+  color: var(--mq-dark);
+}
+
+.text-mq-red {
+  color: var(--mq-red);
+}
+
+.text-mq-orange {
+  color: var(--mq-orange);
+}
+
+.text-mq-yellow {
+  color: var(--mq-yellow);
+}
+
+.text-mq-sand {
+  color: var(--mq-sand);
 }
 
 /* Custom scrollbar */
@@ -43,7 +86,8 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--tidal-black);
+  background: var(--mq-dark);
+  transition: background var(--transition-duration) ease;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -53,6 +97,70 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #777;
+}
+
+body {
+  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+}
+
+/* Button and interactive elements */
+.btn-primary {
+  @apply bg-[#F77F00] text-white rounded-full px-6 py-2 font-medium transition-all duration-300;
+  @apply hover:bg-opacity-85 hover:shadow-[0_0_15px_rgba(247,127,0,0.5)] hover:scale-[1.02];
+}
+
+.btn-secondary {
+  @apply border border-zinc-600 text-white rounded-full px-6 py-2 font-medium transition-all duration-300;
+  @apply hover:border-white hover:bg-[#003049] hover:scale-[1.02];
+}
+
+.btn-icon {
+  @apply text-zinc-400 transition-all duration-200;
+  @apply hover:text-white hover:scale-110;
+}
+
+.btn-icon-active {
+  @apply text-[#FCBF49] transition-all duration-200;
+  @apply hover:text-[#F77F00] hover:scale-110;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-300;
+  @apply hover:-translate-y-1 hover:shadow-lg hover:shadow-black/30;
+}
+
+/* Advanced glassmorphism */
+.glass-panel {
+  backdrop-filter: blur(16px);
+  @apply bg-black/30 border border-white/10;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: background var(--transition-duration) ease, border var(--transition-duration) ease;
+}
+
+.glass-card {
+  backdrop-filter: blur(20px);
+  @apply bg-white/5 border border-white/10 rounded-2xl;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: background var(--transition-duration) ease, border var(--transition-duration) ease;
+}
+
+.glass-bar {
+  backdrop-filter: blur(16px);
+  @apply bg-black/20 border border-white/5;
+  transition: background var(--transition-duration) ease, border var(--transition-duration) ease;
+}
+
+.light-mode .glass-panel {
+  @apply bg-white/70 border border-zinc-200;
+}
+
+.light-mode .glass-card {
+  @apply bg-white/80 border border-zinc-200;
+}
+
+.light-mode .glass-bar {
+  @apply bg-white/80 border border-zinc-200;
 }
 
 /* Mobile responsiveness */
@@ -68,4 +176,168 @@
   .w-[240px] {
     width: 100%;
   }
+}
+
+/* Loading animation */
+@keyframes record-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-record {
+  animation: record-spin 2s linear infinite;
+  transform-origin: center;
+}
+
+/* Audio waveform animation */
+.waveform-container {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  gap: 2px;
+}
+
+.waveform-bar {
+  width: 3px;
+  border-radius: 3px;
+  animation: waveform-animation 1.2s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+@keyframes waveform-animation {
+  0% { height: 5px; }
+  50% { height: 20px; }
+  100% { height: 5px; }
+}
+
+.waveform-bar:nth-child(1) { animation-delay: 0s; }
+.waveform-bar:nth-child(2) { animation-delay: 0.2s; }
+.waveform-bar:nth-child(3) { animation-delay: 0.4s; }
+.waveform-bar:nth-child(4) { animation-delay: 0.6s; }
+.waveform-bar:nth-child(5) { animation-delay: 0.8s; }
+
+/* Tooltip styles */
+.tooltip-wrapper {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--mq-dark);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  white-space: nowrap;
+  z-index: 50;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--mq-dark) transparent transparent transparent;
+}
+
+.tooltip-wrapper:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ripple effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(0);
+  animation: ripple-anim 0.6s linear;
+}
+
+@keyframes ripple-anim {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Animation enhancements */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(247, 127, 0, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(247, 127, 0, 0.6); }
+}
+
+.animate-glow-pulse {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Additional animations for microinteractions */
+.hover-scale {
+  transition: transform 0.2s ease-out;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-rotate {
+  transition: transform 0.3s ease-out;
+}
+
+.hover-rotate:hover {
+  transform: rotate(15deg);
+}
+
+.hover-lift {
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Button click animation */
+.btn-click {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-click:active {
+  transform: scale(0.96);
+}
+
+/* Theme transition */
+.theme-transition {
+  transition: background-color var(--transition-duration) ease, 
+              color var(--transition-duration) ease,
+              border-color var(--transition-duration) ease;
+}
+
+/* Queue animation */
+@keyframes slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+@keyframes slide-out-right {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+.animate-slide-out-right {
+  animation: slide-out-right 0.3s ease-out forwards;
 }

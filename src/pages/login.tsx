@@ -24,7 +24,7 @@ const Login = () => {
       // Show success message
       toast({
         title: "Login successful",
-        description: "Welcome back to TIDAL!",
+        description: "Welcome back to MQ!",
       });
       
       // Redirect to home page
@@ -33,14 +33,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-tidal-black text-white flex flex-col">
+    <div className="min-h-screen bg-mq-navy text-white flex flex-col">
       <header className="flex justify-center py-8 border-b border-zinc-800">
         <AppLogo />
       </header>
       
       <main className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md bg-zinc-900 p-8 rounded-md border border-zinc-800">
-          <h1 className="text-2xl font-bold text-center mb-8">Log in to TIDAL</h1>
+          <h1 className="text-2xl font-bold text-center mb-8">Log in to MQ</h1>
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -52,7 +52,7 @@ const Login = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-tidal-blue"
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mq-orange"
                 required
               />
             </div>
@@ -66,14 +66,14 @@ const Login = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-tidal-blue"
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mq-orange"
                 required
               />
             </div>
             
             <Button 
               type="submit" 
-              className="w-full bg-white hover:bg-white/90 text-black"
+              className="w-full bg-mq-orange hover:bg-mq-orange/90 text-white"
               disabled={loading}
             >
               {loading ? "Logging in..." : "Log In"}
@@ -84,21 +84,21 @@ const Login = () => {
             <p>
               Don't have an account?{" "}
               <Link to="/login" className="text-white hover:underline">
-                Sign up for TIDAL
+                Sign up for MQ
               </Link>
             </p>
           </div>
           
           <div className="mt-8 text-xs text-center text-zinc-500">
             <p>
-              By logging in, you agree to TIDAL's Terms of Service and Privacy Policy.
+              By logging in, you agree to MQ's Terms of Service and Privacy Policy.
             </p>
           </div>
         </div>
       </main>
       
       <footer className="py-4 border-t border-zinc-800 text-center text-sm text-zinc-500">
-        <p>&copy; 2025 TIDAL</p>
+        <p>&copy; 2025 MQ</p>
       </footer>
     </div>
   );

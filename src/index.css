@@ -33,13 +33,17 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
     
-    --tidal-black: #121212;
-    --tidal-gray: #282828;
-    --tidal-darkgray: #181818;
-    --tidal-hover: #2a2a2a;
-    --tidal-blue: #0063e5;
+    --mq-black: #121212;
+    --mq-gray: #282828;
+    --mq-darkgray: #181818;
+    --mq-hover: #2a2a2a;
+    --mq-navy: #003049;
+    --mq-red: #D62828;
+    --mq-orange: #F77F00;
+    --mq-yellow: #FCBF49;
+    --mq-sand: #EAE2B7;
   }
 
   .dark {
@@ -78,19 +82,46 @@
     @apply border-border;
   }
   body {
-    @apply bg-tidal-black text-white;
+    @apply bg-mq-navy text-white;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Button transitions */
+  button {
+    @apply transition-all duration-200;
+  }
+  
+  /* Page transitions */
+  .page-transition-enter {
+    @apply opacity-0;
+  }
+  .page-transition-enter-active {
+    @apply opacity-100 transition-opacity duration-300;
+  }
+  .page-transition-exit {
+    @apply opacity-100;
+  }
+  .page-transition-exit-active {
+    @apply opacity-0 transition-opacity duration-300;
   }
 }
 
 @layer utilities {
+  /* Track card hover effects */
   .track-card:hover .play-button {
     opacity: 1;
     transform: translateY(0);
   }
 
   .playlist-item:hover {
-    @apply bg-tidal-hover;
+    @apply bg-mq-hover;
   }
   
   /* Custom scrollbar */
@@ -114,6 +145,82 @@
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: #777;
   }
+  
+  /* Glassmorphism */
+  .glass {
+    @apply bg-glass-gradient backdrop-blur-md border border-white/10 bg-opacity-30;
+  }
+  
+  .glass-card {
+    @apply bg-glass-gradient backdrop-blur-lg bg-opacity-10 border border-white/10 rounded-2xl shadow-lg;
+  }
+  
+  .glass-dark {
+    @apply bg-mq-darkgray/70 backdrop-blur-md border border-white/5 bg-opacity-80;
+  }
+  
+  /* Hover lift effect */
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+  
+  /* Button hover effects */
+  .btn-hover-glow {
+    @apply transition-all duration-300 hover:shadow-[0_0_15px_rgba(247,127,0,0.6)];
+  }
+  
+  /* Ripple effect */
+  .ripple {
+    @apply absolute bg-white/30 rounded-full pointer-events-none;
+    transform-origin: center;
+  }
+  
+  /* Waveform animation container */
+  .waveform-container {
+    @apply flex items-end h-10 gap-[2px];
+  }
+  
+  .waveform-bar {
+    @apply bg-mq-orange w-1 rounded-sm;
+    animation: wave 1.2s ease-in-out infinite;
+  }
+  
+  .waveform-bar:nth-child(2n) {
+    animation-delay: 0.2s;
+  }
+  
+  .waveform-bar:nth-child(3n) {
+    animation-delay: 0.4s;
+  }
+  
+  .waveform-bar:nth-child(4n) {
+    animation-delay: 0.6s;
+  }
+  
+  .waveform-bar:nth-child(5n) {
+    animation-delay: 0.8s;
+  }
+  
+  /* Tooltip */
+  .tooltip {
+    @apply invisible absolute bg-mq-gray text-white text-xs py-1 px-2 rounded opacity-0 transition-opacity duration-200 z-50 whitespace-nowrap;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 5px;
+  }
+  
+  .tooltip::after {
+    content: "";
+    @apply absolute border-[5px] border-transparent border-t-mq-gray;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .tooltip-container:hover .tooltip {
+    @apply visible opacity-100;
+  }
 }
 
 /* Mobile responsiveness */
@@ -125,4 +232,31 @@
   .fixed.left-\[240px\] {
     left: 0 !important;
   }
+  
+  /* Touch ripple for mobile */
+  .touch-ripple {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .touch-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+  }
+  
+  .touch-ripple:active::after {
+    animation: ripple 0.7s ease-out;
+  }
 }
+
+/* Add Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');

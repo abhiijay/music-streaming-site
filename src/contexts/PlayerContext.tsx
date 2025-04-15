@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 
 // Define types for our songs and player state
@@ -31,6 +32,10 @@ export interface PlayerContextType {
   previousSong: () => void;
   toggleRepeat: () => void;
   toggleShuffle: () => void;
+  setQueue: (songs: Song[]) => void;
+  addToQueue: (song: Song) => void;
+  removeFromQueue: (songId: string) => void;
+  clearQueue: () => void;
 }
 
 // Create our initial context
@@ -93,7 +98,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [duration, setDuration] = useState(0);
   const [repeatMode, setRepeatMode] = useState<"off" | "all" | "one">("off");
   const [shuffleMode, setShuffleMode] = useState(false);
-  const [queue, setQueue] = useState<Song[]>(mockSongs);
+  const [queue, setQueueState] = useState<Song[]>(mockSongs);
   const [playingSongs, setPlayingSongs] = useState<Song[]>(mockSongs);
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -202,7 +207,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     // If a songList is provided, update both queue and playingSongs
     if (songsList) {
       setPlayingSongs(songsList);
-      setQueue(shuffleMode ? generateShuffledQueue(songsList) : songsList);
+      setQueueState(shuffleMode ? generateShuffledQueue(songsList) : songsList);
     }
   };
 
@@ -271,11 +276,31 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     // Update queue based on new shuffle state
     if (!shuffleMode) {
       // Turning shuffle on
-      setQueue(generateShuffledQueue(playingSongs));
+      setQueueState(generateShuffledQueue(playingSongs));
     } else {
       // Turning shuffle off
-      setQueue([...playingSongs]);
+      setQueueState([...playingSongs]);
     }
+  };
+
+  // Set the entire queue
+  const setQueue = (songs: Song[]) => {
+    setQueueState(songs);
+  };
+
+  // Add a song to the queue
+  const addToQueue = (song: Song) => {
+    setQueueState(prev => [...prev, song]);
+  };
+
+  // Remove a song from the queue by id
+  const removeFromQueue = (songId: string) => {
+    setQueueState(prev => prev.filter(song => song.id !== songId));
+  };
+
+  // Clear the entire queue
+  const clearQueue = () => {
+    setQueueState([]);
   };
 
   const value = {
@@ -295,7 +320,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     nextSong,
     previousSong,
     toggleRepeat,
-    toggleShuffle
+    toggleShuffle,
+    setQueue,
+    addToQueue,
+    removeFromQueue,
+    clearQueue
   };
 
   return (
