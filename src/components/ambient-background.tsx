@@ -4,9 +4,10 @@ import { cn } from "@/lib/utils";
 
 interface AmbientBackgroundProps {
   theme: "dark" | "light";
+  accentColor?: string; // Added accentColor prop as optional
 }
 
-const AmbientBackground = ({ theme }: AmbientBackgroundProps) => {
+const AmbientBackground = ({ theme, accentColor }: AmbientBackgroundProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   
@@ -44,10 +45,22 @@ const AmbientBackground = ({ theme }: AmbientBackgroundProps) => {
     const particleRadius = 80;
     const particles: any[] = [];
     
-    // Colors based on theme
-    const colors = theme === 'dark' 
-      ? ['rgba(0, 99, 229, 0.05)', 'rgba(155, 135, 245, 0.05)', 'rgba(0, 255, 221, 0.05)']
-      : ['rgba(0, 99, 229, 0.03)', 'rgba(155, 135, 245, 0.03)', 'rgba(0, 255, 221, 0.03)'];
+    // Colors based on theme and accentColor
+    let colors: string[];
+    
+    if (accentColor) {
+      // Use accentColor with different opacity levels if provided
+      colors = [
+        `${accentColor}0d`, // ~5% opacity
+        `${accentColor}14`, // ~8% opacity
+        `${accentColor}1a`, // ~10% opacity
+      ];
+    } else {
+      // Default colors based on theme
+      colors = theme === 'dark' 
+        ? ['rgba(0, 99, 229, 0.05)', 'rgba(155, 135, 245, 0.05)', 'rgba(0, 255, 221, 0.05)']
+        : ['rgba(0, 99, 229, 0.03)', 'rgba(155, 135, 245, 0.03)', 'rgba(0, 255, 221, 0.03)'];
+    }
       
     // Create particles
     for (let i = 0; i < particleCount; i++) {
@@ -107,7 +120,7 @@ const AmbientBackground = ({ theme }: AmbientBackgroundProps) => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [dimensions, theme]);
+  }, [dimensions, theme, accentColor]); // Added accentColor to dependencies
 
   return (
     <canvas
