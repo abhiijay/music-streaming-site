@@ -1,24 +1,23 @@
-
-import { SearchIcon, BellIcon, SunIcon, MoonIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { SearchIcon, BellIcon, User } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import AppLogo from "./app-logo";
 
 interface HeaderProps {
   isScrolled?: boolean;
-  theme: "dark" | "light";
-  toggleTheme: () => void;
 }
 
-const Header = ({ isScrolled = false, theme, toggleTheme }: HeaderProps) => {
+const Header = ({ isScrolled = false }: HeaderProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [hasNotifications, setHasNotifications] = useState(true);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchRef = useRef<HTMLDivElement>(null);
   
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +26,24 @@ const Header = ({ isScrolled = false, theme, toggleTheme }: HeaderProps) => {
       setShowSearchResults(false);
     }
   };
+  
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
+  // Handle click outside search results
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSearchResults(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // Simulated search suggestions
   useEffect(() => {
@@ -45,134 +62,32 @@ const Header = ({ isScrolled = false, theme, toggleTheme }: HeaderProps) => {
 
   return (
     <header className={cn(
-      "fixed top-0 right-0 left-0 md:left-[240px] h-16 z-20 flex items-center justify-between px-4 md:px-6 transition-all duration-500",
-      isScrolled ? "glass-bar shadow-md" : theme === "dark" ? "bg-tidal-black" : "bg-white",
-      theme === "dark" ? "text-white" : "text-tidal-black"
+      "fixed top-0 left-0 right-0 h-16 z-20 flex items-center justify-between px-6 transition-all duration-500",
+      isScrolled ? "bg-chord-bg/90 backdrop-blur-md shadow-md" : "bg-chord-bg"
     )}>
-      <div className="flex-1 max-w-md ml-10 md:ml-0 relative">
-        <form onSubmit={handleSearch} className="relative group">
-          <SearchIcon 
-            size={18} 
-            className={cn(
-              "absolute left-3 top-1/2 transform -translate-y-1/2 transition-colors duration-200", 
-              theme === "dark" 
-                ? "text-zinc-400 group-focus-within:text-tidal-blue" 
-                : "text-zinc-500 group-focus-within:text-tidal-blue"
-            )} 
-          />
-          <input
-            type="search"
-            placeholder="Search"
-            className={cn(
-              "w-full h-10 pl-10 pr-4 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-tidal-blue transition-all duration-200",
-              theme === "dark" 
-                ? "bg-tidal-gray text-white group-hover:bg-tidal-hover" 
-                : "bg-zinc-100 text-black group-hover:bg-zinc-200"
-            )}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </form>
-
-        {/* Animated search results dropdown */}
-        {showSearchResults && searchResults.length > 0 && (
-          <div className={cn(
-            "absolute top-full left-0 right-0 mt-2 rounded-md shadow-lg overflow-hidden z-50 max-h-64 animate-fade-in",
-            theme === "dark" ? "bg-tidal-darkgray" : "bg-white border border-zinc-200"
-          )}>
-            <div className="p-2">
-              {searchResults.map((result) => (
-                <div 
-                  key={result.id} 
-                  className={cn(
-                    "flex items-center p-2 rounded-md cursor-pointer transition-colors",
-                    theme === "dark" 
-                      ? "hover:bg-tidal-gray" 
-                      : "hover:bg-zinc-100"
-                  )}
-                  onClick={() => {
-                    setSearchQuery("");
-                    setShowSearchResults(false);
-                    navigate(`/search?q=${encodeURIComponent(result.name)}&type=${result.type}`);
-                  }}
-                >
-                  <div className="ml-2">
-                    <p className={theme === "dark" ? "text-white" : "text-black"}>{result.name}</p>
-                    <p className="text-xs text-zinc-400 capitalize">{result.type}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+      <div className="flex items-center">
+        <Link to="/" className="flex items-center mr-8">
+          <AppLogo />
+        </Link>
+        
+        {/* Desktop Navigation */}
+        <nav className="flex items-center space-x-8">
+          <NavLink to="/" label="Home" isActive={isActive("/")} />
+          <NavLink to="/collection" label="Library" isActive={isActive("/collection")} />
+          <NavLink to="/explore" label="Discover" isActive={isActive("/explore")} />
+        </nav>
       </div>
 
-      <div className="flex items-center space-x-2 md:space-x-4">
+      <div className="flex items-center space-x-4">
+        {/* Notifications */}
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button 
-                variant="ghost" 
-                className={cn(
-                  "p-2 rounded-full transition-all duration-200 hover:scale-105",
-                  theme === "dark" 
-                    ? "text-zinc-400 hover:text-white hover:bg-tidal-gray/50" 
-                    : "text-zinc-600 hover:text-tidal-blue hover:bg-zinc-100"
+              <Link to="/notifications" className="relative p-2 rounded-full transition-all duration-200 hover:bg-chord-hover">
+                <BellIcon size={20} className="transition-colors duration-200 text-chord-text/70 hover:text-chord-text" />
+                {hasNotifications && (
+                  <span className="absolute top-1 right-1 h-2 w-2 bg-chord-red rounded-full animate-pulse"></span>
                 )}
-                onClick={toggleTheme}
-              >
-                {theme === "dark" ? <SunIcon size={20} /> : <MoonIcon size={20} />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              {theme === "dark" ? "Light mode" : "Dark mode"}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        
-        <Link to="/login" className={cn(
-          "text-sm transition-colors duration-200 mr-2 hidden md:block",
-          theme === "dark" 
-            ? "text-white hover:text-tidal-blue" 
-            : "text-tidal-black hover:text-tidal-blue"
-        )}>
-          Start free trial
-        </Link>
-        
-        <Link to="/login">
-          <Button 
-            variant="outline" 
-            className={cn(
-              "transition-all duration-200",
-              theme === "dark" 
-                ? "border-zinc-600 hover:border-white bg-transparent text-white hover:bg-tidal-hover" 
-                : "border-zinc-300 hover:border-tidal-blue bg-transparent text-tidal-black hover:bg-zinc-100"
-            )}
-          >
-            Log in
-          </Button>
-        </Link>
-        
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link to="/notifications" className="relative">
-                <div className={cn(
-                  "p-2 rounded-full transition-all duration-200 hover:scale-105",
-                  theme === "dark" 
-                    ? "hover:bg-tidal-gray/50" 
-                    : "hover:bg-zinc-100"
-                )}>
-                  <BellIcon size={20} className={cn(
-                    "transition-colors duration-200",
-                    theme === "dark" 
-                      ? "text-zinc-400 hover:text-white" 
-                      : "text-zinc-600 hover:text-tidal-black"
-                  )} />
-                  {hasNotifications && (
-                    <span className="absolute top-1 right-1 h-2 w-2 bg-tidal-blue rounded-full animate-pulse"></span>
-                  )}
-                </div>
               </Link>
             </TooltipTrigger>
             <TooltipContent>
@@ -180,9 +95,47 @@ const Header = ({ isScrolled = false, theme, toggleTheme }: HeaderProps) => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+        
+        {/* Profile Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="profile-icon w-10 h-10 bg-chord-accent/20 flex items-center justify-center rounded-full">
+              <User size={20} className="text-chord-text" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56 bg-chord-bg border-white/10">
+            <DropdownMenuItem onClick={() => navigate('/profile')} className="cursor-pointer text-chord-text hover:bg-chord-hover">
+              View Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate('/settings')} className="cursor-pointer text-chord-text hover:bg-chord-hover">
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate('/login')} className="cursor-pointer text-chord-accent hover:bg-chord-hover">
+              Log Out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );
 };
+
+interface NavLinkProps {
+  to: string;
+  label: string;
+  isActive: boolean;
+}
+
+const NavLink = ({ to, label, isActive }: NavLinkProps) => (
+  <Link
+    to={to}
+    className={cn(
+      "px-2 py-1 text-sm font-bold transition-colors duration-200 hover:text-chord-text",
+      isActive ? "nav-active" : "text-chord-text/70"
+    )}
+  >
+    {label}
+  </Link>
+);
 
 export default Header;

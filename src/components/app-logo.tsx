@@ -1,14 +1,26 @@
 
-import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
-const AppLogo = () => {
+interface AppLogoProps {
+  size?: "small" | "medium" | "large";
+  className?: string;
+}
+
+const AppLogo = ({ size = "medium", className }: AppLogoProps) => {
   return (
-    <Link to="/" className="flex items-center">
-      <div className="text-2xl font-bold tracking-tighter flex items-center gap-1">
-        <span className="text-mq-yellow">MQ</span>
-        <span className="text-xs font-normal text-mq-yellow/70 mt-1.5">MUSIC</span>
+    <div className={cn(
+      "flex items-center",
+      size === "small" && "scale-75",
+      size === "large" && "scale-125",
+      className
+    )}>
+      <div className="flex items-center">
+        <div className="w-8 h-8 bg-chord-red rounded-full flex items-center justify-center mr-2">
+          <span className="text-chord-text font-bold text-sm">♪</span>
+        </div>
+        <span className="text-chord-text font-bold text-xl tracking-tight">Chord</span>
       </div>
-    </Link>
+    </div>
   );
 };
 

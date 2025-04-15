@@ -5,75 +5,45 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    /* Dark theme variables based on Chord color palette */
+    --background: #0C120C; /* rich blackish green */
+    --foreground: #F8F4F9; /* off-white */
+    --accent: #C20114; /* deep red */
+    
+    /* UI component variables */
+    --card: #0C120C;
+    --card-foreground: #F8F4F9;
+    
+    --popover: #0C120C;
+    --popover-foreground: #F8F4F9;
+    
+    --primary: #C20114;
+    --primary-foreground: #F8F4F9;
+    
+    --secondary: #121d12;
+    --secondary-foreground: #F8F4F9;
+    
+    --muted: #121d12;
+    --muted-foreground: #b3b3b3;
+    
+    --accent-hover: #9a0110;
+    --accent-foreground: #F8F4F9;
+    
+    --destructive: #C20114;
+    --destructive-foreground: #F8F4F9;
+    
+    --border: #1e2e1e;
+    --input: #1e2e1e;
+    --ring: #C20114;
+    
     --radius: 0.75rem;
     
-    --mq-black: #121212;
-    --mq-gray: #282828;
-    --mq-darkgray: #181818;
-    --mq-hover: #2a2a2a;
-    --mq-navy: #003049;
-    --mq-red: #D62828;
-    --mq-orange: #F77F00;
-    --mq-yellow: #FCBF49;
-    --mq-sand: #EAE2B7;
-  }
-
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    /* Chord brand colors */
+    --chord-bg: #0C120C;
+    --chord-red: #C20114;
+    --chord-text: #F8F4F9;
+    --chord-hover: #1a231a;
+    --chord-active: #C20114;
   }
 }
 
@@ -81,11 +51,13 @@
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-mq-navy text-white;
+    @apply bg-background text-foreground transition-colors duration-500;
     font-feature-settings: "rlig" 1, "calt" 1;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow-x: hidden;
+    font-weight: 500;
   }
   
   /* Smooth scrolling */
@@ -111,9 +83,40 @@
   .page-transition-exit-active {
     @apply opacity-0 transition-opacity duration-300;
   }
+
+  /* Bold typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-[#F8F4F9];
+  }
+  
+  p, span, a, button, input, textarea {
+    @apply font-bold;
+  }
 }
 
 @layer utilities {
+  /* Text colors for Chord */
+  .text-chord-text {
+    color: #F8F4F9;
+  }
+
+  .text-chord-red {
+    color: #C20114;
+  }
+  
+  /* Background colors for Chord */
+  .bg-chord-bg {
+    background-color: #0C120C;
+  }
+
+  .bg-chord-red {
+    background-color: #C20114;
+  }
+
+  .bg-chord-hover {
+    background-color: #1a231a;
+  }
+  
   /* Track card hover effects */
   .track-card:hover .play-button {
     opacity: 1;
@@ -121,7 +124,7 @@
   }
 
   .playlist-item:hover {
-    @apply bg-mq-hover;
+    @apply bg-[#1a231a];
   }
   
   /* Custom scrollbar */
@@ -134,7 +137,7 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
+    background: #1a231a;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
@@ -148,25 +151,39 @@
   
   /* Glassmorphism */
   .glass {
-    @apply bg-glass-gradient backdrop-blur-md border border-white/10 bg-opacity-30;
+    @apply bg-black/30 backdrop-blur-md border border-white/10;
   }
   
   .glass-card {
-    @apply bg-glass-gradient backdrop-blur-lg bg-opacity-10 border border-white/10 rounded-2xl shadow-lg;
+    @apply bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl shadow-lg;
   }
   
-  .glass-dark {
-    @apply bg-mq-darkgray/70 backdrop-blur-md border border-white/5 bg-opacity-80;
-  }
-  
-  /* Hover lift effect */
+  /* Hover lift effect with parallax */
   .hover-lift {
     @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .parallax-effect {
+    @apply transition-transform duration-300 transform-gpu;
+    transform-style: preserve-3d;
+  }
+  
+  .parallax-element {
+    @apply transition-transform duration-300;
+    will-change: transform;
+  }
+
+  .parallax-container:hover .parallax-element {
+    transform: translateY(-5px) scale(1.02);
   }
   
   /* Button hover effects */
   .btn-hover-glow {
-    @apply transition-all duration-300 hover:shadow-[0_0_15px_rgba(247,127,0,0.6)];
+    @apply transition-all duration-300;
+  }
+  
+  .btn-hover-glow:hover {
+    @apply shadow-[0_0_15px_rgba(194,1,20,0.5)];
   }
   
   /* Ripple effect */
@@ -181,7 +198,7 @@
   }
   
   .waveform-bar {
-    @apply bg-mq-orange w-1 rounded-sm;
+    @apply w-1 rounded-sm bg-[#C20114];
     animation: wave 1.2s ease-in-out infinite;
   }
   
@@ -201,9 +218,28 @@
     animation-delay: 0.8s;
   }
   
+  /* Ambient background effects */
+  .ambient-gradient {
+    @apply absolute inset-0 opacity-50 pointer-events-none;
+    background: radial-gradient(circle at 30% 50%, rgba(194,1,20,0.15) 0%, transparent 70%),
+                radial-gradient(circle at 70% 70%, rgba(194,1,20,0.1) 0%, transparent 70%);
+    filter: blur(50px);
+    z-index: -1;
+  }
+  
+  /* Dynamic color classes */
+  .dynamic-background {
+    transition: background-color 0.7s ease-in-out, color 0.7s ease-in-out;
+  }
+  
+  /* Album cover context-aware text */
+  .album-text-shadow {
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  }
+  
   /* Tooltip */
   .tooltip {
-    @apply invisible absolute bg-mq-gray text-white text-xs py-1 px-2 rounded opacity-0 transition-opacity duration-200 z-50 whitespace-nowrap;
+    @apply invisible absolute bg-[#121d12] text-[#F8F4F9] text-xs py-1 px-2 rounded opacity-0 transition-opacity duration-200 z-50 whitespace-nowrap;
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -212,7 +248,7 @@
   
   .tooltip::after {
     content: "";
-    @apply absolute border-[5px] border-transparent border-t-mq-gray;
+    @apply absolute border-[5px] border-transparent border-t-[#121d12];
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -221,42 +257,61 @@
   .tooltip-container:hover .tooltip {
     @apply visible opacity-100;
   }
-}
+  
+  /* Chord-themed action buttons */
+  .chord-action-btn {
+    @apply transition-all duration-300 rounded-full flex items-center justify-center bg-[#C20114] text-[#F8F4F9] hover:bg-[#9a0110] hover:shadow-[0_0_15px_rgba(194,1,20,0.3)];
+  }
+  
+  /* Chord secondary buttons */
+  .chord-secondary-btn {
+    @apply transition-all duration-300 border rounded-full flex items-center justify-center border-white/20 text-[#F8F4F9] hover:border-white hover:bg-white/5;
+  }
+  
+  /* Theme-specific album card styles */
+  .album-card {
+    @apply rounded-md overflow-hidden transition-all duration-300 bg-[#121d12]/40 hover:bg-[#121d12]/60 border border-white/5;
+  }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .pl-\[240px\] {
-    padding-left: 0 !important;
+  /* Dynamic player background with album colors */
+  .player-dynamic-bg {
+    @apply bg-opacity-85 backdrop-blur-md transition-colors duration-700 text-[#F8F4F9];
+  }
+
+  /* Album art hover effects */
+  .album-art-container {
+    @apply overflow-hidden rounded-md relative;
+  }
+
+  .album-art {
+    @apply transition-all duration-300 w-full h-full object-cover;
+  }
+
+  .album-art-container:hover .album-art {
+    @apply scale-105;
   }
   
-  .fixed.left-\[240px\] {
-    left: 0 !important;
+  /* Active navigation indicator */
+  .nav-active {
+    @apply relative font-semibold text-[#F8F4F9];
   }
   
-  /* Touch ripple for mobile */
-  .touch-ripple {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .touch-ripple::after {
+  .nav-active::after {
     content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.7);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%, -50%);
-    transform-origin: 50% 50%;
+    @apply absolute bottom-0 left-0 w-full h-0.5 bg-[#C20114] rounded-full;
   }
   
-  .touch-ripple:active::after {
-    animation: ripple 0.7s ease-out;
+  /* Profile icon */
+  .profile-icon {
+    @apply rounded-full border-2 border-[#C20114]/80 shadow-sm hover:shadow-[#C20114]/30 transition-all duration-300;
+  }
+
+  @keyframes pulse {
+    0% { opacity: 0.6; transform: translate(-50%, 0) scale(0.8); }
+    50% { opacity: 1; transform: translate(-50%, 0) scale(1.2); }
+    100% { opacity: 0.6; transform: translate(-50%, 0) scale(0.8); }
   }
 }
 
 /* Add Inter font */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');

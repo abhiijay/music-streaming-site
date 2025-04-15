@@ -1,104 +1,75 @@
 
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Twitter, Globe, Heart } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { cn } from "@/lib/utils";
+import AppLogo from "./app-logo";
 
-interface FooterProps {
-  theme?: "dark" | "light";
-}
-
-const Footer = ({ theme = "dark" }: FooterProps) => {
-  const currentYear = new Date().getFullYear();
-  
+const Footer = () => {
   return (
-    <footer className={cn(
-      "mt-auto py-6 border-t transition-colors duration-500",
-      theme === "dark" 
-        ? "border-zinc-800 bg-gradient-to-t from-black to-transparent" 
-        : "border-zinc-200 bg-gradient-to-t from-white to-transparent"
-    )}>
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
-            <Link to="/" className="flex items-center">
-              <span className={cn(
-                "text-xl font-bold",
-                theme === "dark" ? "text-white" : "text-[#003049]"
-              )}>
-                MQ
-              </span>
-            </Link>
+    <footer className="border-t border-white/5 py-6">
+      <div className="container mx-auto px-6">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center">
+            <AppLogo size="small" />
           </div>
           
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4 md:mb-0">
-            <Link to="/about" className={cn(
-              "text-sm transition-colors hover:scale-105 duration-300",
-              theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-[#D62828]"
-            )}>
+          {/* Links */}
+          <div className="flex items-center space-x-6">
+            <Link to="/about" className="text-chord-text/70 hover:text-chord-text text-sm font-bold">
               About
             </Link>
-            <Link to="/contact" className={cn(
-              "text-sm transition-colors hover:scale-105 duration-300",
-              theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-[#D62828]"
-            )}>
-              Contact
+            <Link to="/terms" className="text-chord-text/70 hover:text-chord-text text-sm font-bold">
+              Terms
             </Link>
-            <Link to="/terms" className={cn(
-              "text-sm transition-colors hover:scale-105 duration-300",
-              theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-[#D62828]"
-            )}>
-              Terms of Service
-            </Link>
-            <Link to="/privacy" className={cn(
-              "text-sm transition-colors hover:scale-105 duration-300",
-              theme === "dark" ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-[#D62828]"
-            )}>
+            <Link to="/privacy" className="text-chord-text/70 hover:text-chord-text text-sm font-bold">
               Privacy
+            </Link>
+            <Link to="/contact" className="text-chord-text/70 hover:text-chord-text text-sm font-bold">
+              Contact
             </Link>
           </div>
           
-          <div className="flex space-x-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className={cn(
-              "p-2 rounded-full transition-all duration-200 hover:scale-110",
-              theme === "dark" 
-                ? "text-zinc-400 hover:text-white hover:bg-[#003049]/50" 
-                : "text-zinc-600 hover:text-[#D62828] hover:bg-zinc-100"
-            )}>
+          {/* Social Icons */}
+          <div className="flex items-center space-x-4">
+            <a 
+              href="https://facebook.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-chord-text/70 hover:text-chord-text hover:scale-110 transition-all duration-200"
+            >
               <Facebook size={18} />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={cn(
-              "p-2 rounded-full transition-all duration-200 hover:scale-110",
-              theme === "dark" 
-                ? "text-zinc-400 hover:text-white hover:bg-[#003049]/50" 
-                : "text-zinc-600 hover:text-[#D62828] hover:bg-zinc-100"
-            )}>
-              <Instagram size={18} />
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className={cn(
-              "p-2 rounded-full transition-all duration-200 hover:scale-110",
-              theme === "dark" 
-                ? "text-zinc-400 hover:text-white hover:bg-[#003049]/50" 
-                : "text-zinc-600 hover:text-[#D62828] hover:bg-zinc-100"
-            )}>
+            <a 
+              href="https://twitter.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-chord-text/70 hover:text-chord-text hover:scale-110 transition-all duration-200"
+            >
               <Twitter size={18} />
             </a>
-            <button className={cn(
-              "p-2 rounded-full transition-all duration-200 hover:scale-110",
-              theme === "dark" 
-                ? "text-zinc-400 hover:text-white hover:bg-[#003049]/50" 
-                : "text-zinc-600 hover:text-[#D62828] hover:bg-zinc-100"
-            )}>
-              <Globe size={18} />
-            </button>
+            <a 
+              href="https://instagram.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-chord-text/70 hover:text-chord-text hover:scale-110 transition-all duration-200"
+            >
+              <Instagram size={18} />
+            </a>
+            <a 
+              href="https://youtube.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-chord-text/70 hover:text-chord-text hover:scale-110 transition-all duration-200"
+            >
+              <Youtube size={18} />
+            </a>
           </div>
         </div>
         
-        <div className="mt-6 text-center">
-          <p className={cn(
-            "text-xs flex items-center justify-center",
-            theme === "dark" ? "text-zinc-500" : "text-zinc-500"
-          )}>
-            © {currentYear} MQ Music. Made with <Heart size={12} className="mx-1 text-[#D62828]" /> All rights reserved.
+        <div className="mt-4 border-t border-white/5 pt-4 flex justify-center">
+          <p className="text-chord-text/50 text-xs font-bold">
+            &copy; {new Date().getFullYear()} Chord. All rights reserved.
           </p>
         </div>
       </div>

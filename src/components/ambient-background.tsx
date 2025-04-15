@@ -3,10 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface AmbientBackgroundProps {
-  theme: "dark" | "light";
+  accentColor?: string; // Optional accent color for the background
 }
 
-const AmbientBackground = ({ theme }: AmbientBackgroundProps) => {
+const AmbientBackground = ({ accentColor }: AmbientBackgroundProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   
@@ -39,15 +39,29 @@ const AmbientBackground = ({ theme }: AmbientBackgroundProps) => {
     canvas.width = dimensions.width;
     canvas.height = dimensions.height;
     
-    // Particles config
-    const particleCount = 50;
-    const particleRadius = 80;
+    // Particles config - adjusted for Chord theme
+    const particleCount = 40;
+    const particleRadius = 120;
     const particles: any[] = [];
     
-    // Colors based on theme
-    const colors = theme === 'dark' 
-      ? ['rgba(0, 99, 229, 0.05)', 'rgba(155, 135, 245, 0.05)', 'rgba(0, 255, 221, 0.05)']
-      : ['rgba(0, 99, 229, 0.03)', 'rgba(155, 135, 245, 0.03)', 'rgba(0, 255, 221, 0.03)'];
+    // Colors based on accentColor
+    let colors: string[];
+    
+    if (accentColor) {
+      // Use accentColor with different opacity levels if provided
+      colors = [
+        `${accentColor}0d`, // ~5% opacity
+        `${accentColor}14`, // ~8% opacity
+        `${accentColor}1a`, // ~10% opacity
+      ];
+    } else {
+      // Default colors based on Chord palette
+      colors = [
+        'rgba(194, 1, 20, 0.06)',  // Red accent
+        'rgba(12, 18, 12, 0.08)',  // Blackish green background
+        'rgba(194, 1, 20, 0.04)'   // Red accent with less opacity
+      ];
+    }
       
     // Create particles
     for (let i = 0; i < particleCount; i++) {
@@ -57,8 +71,8 @@ const AmbientBackground = ({ theme }: AmbientBackgroundProps) => {
         radius: Math.random() * particleRadius + 20,
         color: colors[Math.floor(Math.random() * colors.length)],
         velocity: {
-          x: Math.random() * 0.4 - 0.2,
-          y: Math.random() * 0.4 - 0.2
+          x: Math.random() * 0.3 - 0.15,
+          y: Math.random() * 0.3 - 0.15
         }
       });
     }
@@ -107,15 +121,12 @@ const AmbientBackground = ({ theme }: AmbientBackgroundProps) => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [dimensions, theme]);
+  }, [dimensions, accentColor]);
 
   return (
     <canvas
       ref={canvasRef}
-      className={cn(
-        "fixed top-0 left-0 -z-10 pointer-events-none opacity-50 transition-opacity duration-1000",
-        theme === "light" ? "opacity-30" : "opacity-40"
-      )}
+      className="fixed top-0 left-0 -z-10 pointer-events-none transition-opacity duration-1000 opacity-60"
       width={dimensions.width}
       height={dimensions.height}
     />

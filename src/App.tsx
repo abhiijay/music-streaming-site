@@ -8,14 +8,13 @@ import Playlist from "./pages/playlist";
 import Collection from "./pages/collection";
 import ForYou from "./pages/for-you";
 import Explore from "./pages/explore";
-import Search from "./pages/search";
 import Notifications from "./pages/notifications";
 import Artist from "./pages/artist";
 import Profile from "./pages/profile";
+import ViewAllPlaylists from "./pages/view-all-playlists";
+import ViewAllAlbums from "./pages/view-all-albums";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import "./index.css";
-import "./App.css";
-import "@/components/styles.css";
 
 function App() {
   return (
@@ -26,12 +25,15 @@ function App() {
         <Route path="/album/:id" element={<Album />} />
         <Route path="/playlist/:id" element={<Playlist />} />
         <Route path="/collection" element={<Collection />} />
+        <Route path="/collection/playlists" element={<Collection />} />
+        <Route path="/collection/favorites" element={<Collection />} />
         <Route path="/for-you" element={<ForYou />} />
         <Route path="/explore" element={<Explore />} />
-        <Route path="/search" element={<Search />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/artist/:id" element={<Artist />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/playlists" element={<ViewAllPlaylists />} />
+        <Route path="/albums" element={<ViewAllAlbums />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </PlayerProvider>

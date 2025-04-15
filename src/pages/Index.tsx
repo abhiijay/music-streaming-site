@@ -3,199 +3,153 @@ import Layout from "@/components/layout";
 import TrackItem from "@/components/track-item";
 import PlaylistCard from "@/components/playlist-card";
 import SectionHeader from "@/components/section-header";
-import { mockSongs, Song } from "@/contexts/PlayerContext";
+import { mockSongs } from "@/contexts/PlayerContext";
+import { Radio, Disc, TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
-  const playlists = [
+  const trendingPlaylists = [
     {
-      id: "top-hits",
-      title: "MQ's Top Hits",
+      id: "trending-1",
+      title: "Hot Right Now",
       imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
-      creator: "MQ",
-      tracksCount: 100
-    },
-    {
-      id: "pop-hits",
-      title: "Pop Hits",
-      imageUrl: "/lovable-uploads/81d39118-ff63-460e-993d-275178cd6c40.png",
-      creator: "MQ",
-      tracksCount: 48
-    },
-    {
-      id: "rock-classics",
-      title: "Rock Classics",
-      imageUrl: "/lovable-uploads/00e244a7-d659-4312-befb-52b043a87ce6.png",
-      creator: "MQ",
+      creator: "Chord",
       tracksCount: 50
     },
     {
-      id: "rnb-favorites",
-      title: "Country Hits",
-      imageUrl: "/lovable-uploads/a910c028-5947-4358-b83a-240ed8a516ca.png",
-      creator: "MQ",
-      tracksCount: 35
+      id: "trending-2",
+      title: "Viral Hits",
+      imageUrl: "/lovable-uploads/81d39118-ff63-460e-993d-275178cd6c40.png",
+      creator: "Chord",
+      tracksCount: 40
     },
     {
-      id: "hip-hop-mix",
-      title: "Rap Hits",
-      imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
-      creator: "MQ",
-      tracksCount: 30
+      id: "trending-3",
+      title: "Charts: Top 50",
+      imageUrl: "/lovable-uploads/00e244a7-d659-4312-befb-52b043a87ce6.png",
+      creator: "Chord",
+      tracksCount: 50
     }
   ];
 
-  const newTracks: Song[] = mockSongs;
-
-  const newAlbums = [
+  const newReleases = [
     {
-      id: "1",
-      title: "People's Instinctive...",
+      id: "new-1",
+      title: "Latest Hits",
       imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
-      description: "A Tribe Called Quest",
-      tracksCount: 14
+      creator: "Chord",
+      tracksCount: 30
     },
     {
-      id: "2",
-      title: "SABLE TABLE",
-      imageUrl: "/lovable-uploads/00e244a7-d659-4312-befb-52b043a87ce6.png",
-      description: "Bon Iver",
-      tracksCount: 10
-    },
-    {
-      id: "3",
-      title: "Album of the Year...",
-      imageUrl: "/lovable-uploads/81d39118-ff63-460e-993d-275178cd6c40.png",
-      description: "Boesey Collins",
-      tracksCount: 8
-    },
-    {
-      id: "4",
-      title: "...And What Was Left?",
+      id: "new-2",
+      title: "Fresh Finds",
       imageUrl: "/lovable-uploads/a910c028-5947-4358-b83a-240ed8a516ca.png",
-      description: "Muscadine Bloodline",
-      tracksCount: 12
+      creator: "Chord",
+      tracksCount: 25
+    },
+    {
+      id: "new-3",
+      title: "New This Week",
+      imageUrl: "/lovable-uploads/81d39118-ff63-460e-993d-275178cd6c40.png",
+      creator: "Chord",
+      tracksCount: 20
+    }
+  ];
+
+  const stations = [
+    {
+      id: "station-1",
+      title: "Hip-Hop Radio",
+      imageUrl: "/lovable-uploads/86fe2794-e609-4196-8564-e55c1436ec48.png",
+      creator: "Chord",
+      tracksCount: 100
+    },
+    {
+      id: "station-2",
+      title: "Rock Radio",
+      imageUrl: "/lovable-uploads/00e244a7-d659-4312-befb-52b043a87ce6.png",
+      creator: "Chord",
+      tracksCount: 100
+    },
+    {
+      id: "station-3",
+      title: "Pop Radio",
+      imageUrl: "/lovable-uploads/81d39118-ff63-460e-993d-275178cd6c40.png",
+      creator: "Chord",
+      tracksCount: 100
     }
   ];
 
   return (
     <Layout>
-      <section className="mb-12">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold">The Hits</h1>
+      {/* Category buttons */}
+      <section className="mb-12 mt-4">
+        <div className="flex justify-center gap-6">
+          <Button
+            variant="ghost"
+            className="bg-chord-bg border border-white/5 hover:bg-chord-hover hover:border-chord-accent/30 px-6 py-5"
+            onClick={() => window.location.href = '/trending'}
+          >
+            <TrendingUp size={18} className="mr-2 text-chord-accent" />
+            <span className="font-bold">Trending</span>
+          </Button>
+          <Button
+            variant="ghost"
+            className="bg-chord-bg border border-white/5 hover:bg-chord-hover hover:border-chord-accent/30 px-6 py-5"
+            onClick={() => window.location.href = '/new-releases'}
+          >
+            <Disc size={18} className="mr-2 text-chord-accent" />
+            <span className="font-bold">New Releases</span>
+          </Button>
+          <Button
+            variant="ghost"
+            className="bg-chord-bg border border-white/5 hover:bg-chord-hover hover:border-chord-accent/30 px-6 py-5"
+            onClick={() => window.location.href = '/stations'}
+          >
+            <Radio size={18} className="mr-2 text-chord-accent" />
+            <span className="font-bold">Stations</span>
+          </Button>
         </div>
+      </section>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {playlists.map((playlist) => (
+      {/* Trending Section */}
+      <section className="mb-12">
+        <SectionHeader title="Trending" seeAllLink="/trending" />
+        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {trendingPlaylists.map((playlist) => (
             <PlaylistCard
               key={playlist.id}
-              id={playlist.id}
-              title={playlist.title}
-              imageUrl={playlist.imageUrl}
-              tracksCount={playlist.tracksCount}
-              creator={playlist.creator}
+              {...playlist}
             />
           ))}
         </div>
       </section>
 
+      {/* New Releases Section */}
       <section className="mb-12">
-        <SectionHeader title="New Tracks" seeAllLink="/new-tracks" showControls />
-        <div className="bg-mq-navy/20 rounded-lg overflow-hidden">
-          {newTracks.map((track, index) => (
-            <TrackItem
-              key={track.id}
-              id={track.id}
-              title={track.title}
-              artist={track.artist}
-              duration={track.duration}
-              explicit={track.explicit}
-              index={index + 1}
-              showImage={false}
-              audioUrl={track.audioUrl}
-              imageUrl={track.imageUrl}
-              songs={newTracks}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="mb-12">
-        <SectionHeader title="New Albums" seeAllLink="/new-albums" showControls />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {newAlbums.map((album) => (
+        <SectionHeader title="New Releases" seeAllLink="/new-releases" showControls />
+        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {newReleases.map((release) => (
             <PlaylistCard
-              key={album.id}
-              id={album.id}
-              title={album.title}
-              imageUrl={album.imageUrl}
-              description={album.description}
-              tracksCount={album.tracksCount}
+              key={release.id}
+              {...release}
             />
           ))}
         </div>
       </section>
 
+      {/* Stations Section */}
       <section className="mb-12">
-        <SectionHeader title="From our editors" seeAllLink="/editors-picks" showControls />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {playlists.slice(0, 5).map((playlist) => (
+        <SectionHeader title="Stations" seeAllLink="/stations" showControls />
+        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {stations.map((station) => (
             <PlaylistCard
-              key={playlist.id}
-              id={playlist.id}
-              title={playlist.title}
-              imageUrl={playlist.imageUrl}
-              tracksCount={playlist.tracksCount}
-              creator={playlist.creator}
+              key={station.id}
+              {...station}
             />
           ))}
         </div>
       </section>
-
-      <footer className="mt-24 border-t border-zinc-800 pt-10 pb-16 text-zinc-400">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <h4 className="text-sm font-medium text-white mb-4">Get Started</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">Download MQ</a></li>
-              <li><a href="#" className="hover:text-white">Pricing & Plans</a></li>
-              <li><a href="#" className="hover:text-white">Transfer Music</a></li>
-              <li><a href="#" className="hover:text-white">Supported Devices</a></li>
-              <li><a href="#" className="hover:text-white">Get Support</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-medium text-white mb-4">Discover MQ</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">About</a></li>
-              <li><a href="#" className="hover:text-white">For Music</a></li>
-              <li><a href="#" className="hover:text-white">For Artists</a></li>
-              <li><a href="#" className="hover:text-white">Culture</a></li>
-              <li><a href="#" className="hover:text-white">Magazine</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-medium text-white mb-4">Account</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">Sign up</a></li>
-              <li><a href="#" className="hover:text-white">Redeem Voucher</a></li>
-              <li><a href="#" className="hover:text-white">Redeem Giftcard</a></li>
-              <li><a href="#" className="hover:text-white">Manage Account</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-medium text-white mb-4">Company</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">What is MQ?</a></li>
-              <li><a href="#" className="hover:text-white">Partners</a></li>
-              <li><a href="#" className="hover:text-white">Careers</a></li>
-              <li><a href="#" className="hover:text-white">Press</a></li>
-            </ul>
-          </div>
-        </div>
-        <p className="mt-16 text-center text-xs">
-          MQ is an artist-first, fan-centered music streaming platform that delivers over 110 million songs in HiFi sound quality to the global music community.
-        </p>
-      </footer>
     </Layout>
   );
 };

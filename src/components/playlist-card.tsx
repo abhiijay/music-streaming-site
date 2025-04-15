@@ -1,8 +1,7 @@
 
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Play } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { PlayIcon, PauseIcon } from "lucide-react";
-import { Link } from "react-router-dom";
 import { usePlayer } from "@/contexts/PlayerContext";
 
 interface PlaylistCardProps {
@@ -12,107 +11,89 @@ interface PlaylistCardProps {
   description?: string;
   tracksCount?: number;
   creator?: string;
-  variant?: "default" | "small" | "large";
+  songs?: Array<{
+    id: string;
+    title: string;
+    artist: string;
+    duration: number;
+    audioUrl: string;
+    imageUrl: string;
+    explicit?: boolean;
+  }>;
 }
 
-const PlaylistCard = ({
-  id,
-  title,
-  imageUrl,
-  description,
+const PlaylistCard = ({ 
+  id, 
+  title, 
+  imageUrl, 
+  description, 
   tracksCount,
-  creator = "TIDAL",
-  variant = "default"
+  creator,
+  songs
 }: PlaylistCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const { currentSong, isPlaying, playSong, togglePlayPause } = usePlayer();
-  
-  // Check if this playlist's first track is currently playing
-  const isCurrentPlaylist = currentSong?.id.includes(id);
+  const navigate = useNavigate();
+  const { playSong } = usePlayer();
   
   const handlePlay = (e: React.MouseEvent) => {
-    e.preventDefault();
     e.stopPropagation();
-    
-    if (isCurrentPlaylist && isPlaying) {
-      togglePlayPause();
-    } else {
-      // In a real app, we would fetch the playlist tracks here
-      // For now, we'll use our mockSongs with modified ids
-      const playlistSongs = Array(tracksCount || 5).fill(null).map((_, index) => ({
-        id: `${id}-track-${index + 1}`,
-        title: `Track ${index + 1}`,
-        artist: creator,
-        duration: `${Math.floor(Math.random() * 4) + 1}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')}`,
-        explicit: Math.random() > 0.7,
-        imageUrl,
-        audioUrl: "https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3"
+    if (songs && songs.length > 0) {
+      // Convert the duration from number to string and ensure explicit is always defined
+      const firstSong = {
+        ...songs[0],
+        duration: String(songs[0].duration), // Convert to string
+        explicit: songs[0].explicit === true // Ensure explicit is a boolean value, defaulting to false if undefined
+      };
+      
+      // Also convert the duration and ensure explicit for all songs in the playlist
+      const songsWithStringDuration = songs.map(song => ({
+        ...song,
+        duration: String(song.duration),
+        explicit: song.explicit === true // Ensure explicit is a boolean value, defaulting to false if undefined
       }));
       
-      if (playlistSongs.length > 0) {
-        playSong(playlistSongs[0], playlistSongs);
-      }
+      playSong(firstSong, songsWithStringDuration);
     }
   };
-
+  
+  const handleClick = () => {
+    navigate(`/playlist/${id}`);
+  };
+  
   return (
-    <Link
-      to={`/playlist/${id}`}
-      className={cn(
-        "block group",
-        variant === "small" ? "w-full" : "w-full"
-      )}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <div 
+      className="group relative bg-chord-hover/30 rounded-lg overflow-hidden transition-all duration-300 hover:bg-chord-hover cursor-pointer"
+      onClick={handleClick}
     >
-      <div className="relative track-card mb-3 card-hover">
-        <div className={cn(
-          "relative bg-tidal-gray rounded-md overflow-hidden shadow-lg",
-          variant === "small" ? "w-full aspect-square" : "w-full aspect-square"
-        )}>
-          <img
-            src={imageUrl}
-            alt={title}
-            className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
-          />
-          <div className={cn(
-            "absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-all duration-300",
-            isHovered ? "opacity-100" : "opacity-0"
-          )}>
-            <button 
-              className={cn(
-                "bg-white rounded-full p-3 transition-all duration-300 transform",
-                isHovered ? "opacity-100 scale-100" : "opacity-0 scale-75",
-                "hover:bg-tidal-blue hover:text-white btn-hover-glow"
-              )}
-              onClick={handlePlay}
-            >
-              {isCurrentPlaylist && isPlaying ? (
-                <PauseIcon className="h-5 w-5 text-black" />
-              ) : (
-                <PlayIcon className="h-5 w-5 text-black" />
-              )}
-            </button>
-          </div>
-        </div>
-        <div className="mt-3 transition-transform duration-300 group-hover:translate-x-1">
-          <h3 className="text-sm font-medium text-white truncate group-hover:text-tidal-blue transition-colors duration-200">{title}</h3>
-          {description && (
-            <p className="text-xs text-zinc-400 truncate mt-1 group-hover:text-zinc-300 transition-colors duration-200">{description}</p>
-          )}
-          <div className="flex items-center mt-1 text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors duration-200">
-            <span>Created by {creator}</span>
-            {tracksCount && (
-              <>
-                <span className="mx-1">•</span>
-                <span>{tracksCount} tracks</span>
-              </>
-            )}
-          </div>
-        </div>
+      <div className="aspect-square overflow-hidden">
+        <img 
+          src={imageUrl} 
+          alt={title}
+          className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+        />
       </div>
-    </Link>
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-chord-bg to-transparent p-3">
+        <h3 className="text-chord-text font-bold line-clamp-1">{title}</h3>
+        {description && (
+          <p className="text-chord-text/70 text-sm line-clamp-1">{description}</p>
+        )}
+        {(creator || tracksCount) && (
+          <div className="text-chord-text/70 text-xs mt-1">
+            {creator && <span>{creator}</span>}
+            {creator && tracksCount && <span className="mx-1">•</span>}
+            {tracksCount && <span>{tracksCount} tracks</span>}
+          </div>
+        )}
+      </div>
+      <button 
+        className="opacity-0 group-hover:opacity-100 absolute top-2 right-2 bg-chord-red text-chord-text rounded-full p-2 shadow-lg transition-all duration-300 transform translate-y-1 group-hover:translate-y-0 hover:scale-105 z-10"
+        onClick={handlePlay}
+        aria-label="Play"
+      >
+        <Play size={16} fill="currentColor" />
+      </button>
+    </div>
   );
 };
 
 export default PlaylistCard;
+
