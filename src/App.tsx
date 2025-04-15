@@ -8,7 +8,6 @@ import Playlist from "./pages/playlist";
 import Collection from "./pages/collection";
 import ForYou from "./pages/for-you";
 import Explore from "./pages/explore";
-import Search from "./pages/search";
 import Notifications from "./pages/notifications";
 import Artist from "./pages/artist";
 import Profile from "./pages/profile";
@@ -30,7 +29,6 @@ function App() {
         <Route path="/collection/favorites" element={<Collection />} />
         <Route path="/for-you" element={<ForYou />} />
         <Route path="/explore" element={<Explore />} />
-        <Route path="/search" element={<Search />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/artist/:id" element={<Artist />} />
         <Route path="/profile" element={<Profile />} />
