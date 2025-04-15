@@ -37,7 +37,18 @@ const PlaylistCard = ({
   const handlePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (songs && songs.length > 0) {
-      playSong(songs[0], songs);
+      // Convert the duration from number to string to match the Song type
+      const firstSong = {
+        ...songs[0],
+        duration: String(songs[0].duration) // Convert to string
+      };
+      // Also convert the duration for all songs in the playlist
+      const songsWithStringDuration = songs.map(song => ({
+        ...song,
+        duration: String(song.duration)
+      }));
+      
+      playSong(firstSong, songsWithStringDuration);
     }
   };
   
