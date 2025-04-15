@@ -6,7 +6,7 @@
 @layer base {
   :root {
     /* Dark theme variables based on updated Chord palette */
-    --background: #0f0d0e; /* dark black */
+    --background: #02020B; /* dark black */
     --foreground: #FFFFFF; /* bright white for contrast */
   
     --accent: #FF9F1C; /* golden-yellow */
@@ -40,13 +40,13 @@
     --radius: 0.75rem;
   
     /* Chord brand colors */
-    --chord-bg: #131111;
+    --chord-bg: #02020B;
     --chord-yellow: #FF9F1C;
     --chord-text: #FFFFFF;
     --chord-hover: #1A1A1A;
     --chord-active: #FF9F1C;
   }
-}  
+  
 
 @layer base {
   * {
@@ -102,16 +102,16 @@
   }
 
   .text-chord-red {
-    color: #FF9F1C;
+    color: #C20114;
   }
   
   /* Background colors for Chord */
   .bg-chord-bg {
-    background-color: #02020B;
+    background-color: #0C120C;
   }
 
   .bg-chord-red {
-    background-color: #FF9F1C;
+    background-color: #C20114;
   }
 
   .bg-chord-hover {
@@ -199,7 +199,7 @@
   }
   
   .waveform-bar {
-    @apply w-1 rounded-sm bg-[#FF9F1C];
+    @apply w-1 rounded-sm bg-[#C20114];
     animation: wave 1.2s ease-in-out infinite;
   }
   
@@ -299,12 +299,12 @@
   
   .nav-active::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-full h-0.5 bg-[#FF9F1C] rounded-full;
+    @apply absolute bottom-0 left-0 w-full h-0.5 bg-[#C20114] rounded-full;
   }
   
   /* Profile icon */
   .profile-icon {
-    @apply rounded-full border-2 border-[#FF9F1C]/80 shadow-sm hover:shadow-[#C20114]/30 transition-all duration-300;
+    @apply rounded-full border-2 border-[#C20114]/80 shadow-sm hover:shadow-[#C20114]/30 transition-all duration-300;
   }
 
   @keyframes pulse {

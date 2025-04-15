@@ -13,7 +13,7 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '4rem',
+			padding: '2rem',
 			screens: {
 				'2xl': '1400px'
 			}
@@ -54,11 +54,11 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				// Core Chord color palette
-				'chord-bg': '#02020B',
-				'chord-red': '#FF9F1C',
+				'chord-bg': '#0C120C',
+				'chord-red': '#C20114',
 				'chord-text': '#F8F4F9',
 				'chord-hover': '#1a231a',
-				'chord-active': '#FF9F1C',
+				'chord-active': '#C20114',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

@@ -17,13 +17,13 @@
 
 :root {
   /* Chord Core Colors */
-  --chord-black: #131111;       /* deep black background */
+  --chord-black: #02020B;       /* deep black background */
   --chord-yellow: #FF9F1C;      /* accent / primary yellow-orange */
   --chord-yellow-hover: #e68c15;
   --chord-white: #FFFFFF;       /* for text and contrast */
   --chord-gray: #1E1E1E;        /* surface panels */
   --chord-muted: #B3B3B3;       /* muted text */
-  --chord-border: #141414;      /* subtle UI borders */
+  --chord-border: #2A2A2A;      /* subtle UI borders */
   --chord-danger: #FF4C4C;      /* error or destructive color */
 
   --transition-duration: 500ms;

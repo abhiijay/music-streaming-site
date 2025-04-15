@@ -30,6 +30,7 @@ function App() {
         <Route path="/collection/favorites" element={<Collection />} />
         <Route path="/for-you" element={<ForYou />} />
         <Route path="/explore" element={<Explore />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/artist/:id" element={<Artist />} />
         <Route path="/profile" element={<Profile />} />

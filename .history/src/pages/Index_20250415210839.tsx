@@ -84,7 +84,7 @@ const Index = () => {
     { name: "Trending", icon: <TrendingUp size={18} className="mr-2 text-chord-red" />, path: "/trending" },
     { name: "New Releases", icon: <Disc size={18} className="mr-2 text-chord-red" />, path: "/new-releases" },
     { name: "Stations", icon: <Radio size={18} className="mr-2 text-chord-red" />, path: "/stations" },
-   
+    { name: "Podcasts", icon: <Headphones size={18} className="mr-2 text-chord-red" />, path: "/podcasts" },
   ];
 
   return (

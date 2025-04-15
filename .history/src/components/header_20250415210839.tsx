@@ -74,7 +74,7 @@ const Header = ({ isScrolled = false }: HeaderProps) => {
         {/* Desktop Navigation */}
         <nav className="flex items-center space-x-8">
           <NavLink to="/" label="Home" isActive={isActive("/")} />
-          
+          <NavLink to="/search" label="Search" isActive={isActive("/search")} />
           <NavLink to="/collection" label="Library" isActive={isActive("/collection")} />
           <NavLink to="/explore" label="Discover" isActive={isActive("/explore")} />
         </nav>

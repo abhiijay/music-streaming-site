@@ -6,7 +6,7 @@
 @layer base {
   :root {
     /* Dark theme variables based on updated Chord palette */
-    --background: #0f0d0e; /* dark black */
+    --background: #02020B; /* dark black */
     --foreground: #FFFFFF; /* bright white for contrast */
   
     --accent: #FF9F1C; /* golden-yellow */
@@ -40,7 +40,7 @@
     --radius: 0.75rem;
   
     /* Chord brand colors */
-    --chord-bg: #131111;
+    --chord-bg: #02020B;
     --chord-yellow: #FF9F1C;
     --chord-text: #FFFFFF;
     --chord-hover: #1A1A1A;

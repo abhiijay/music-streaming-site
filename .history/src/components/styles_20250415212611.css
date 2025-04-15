@@ -17,7 +17,7 @@
 
 :root {
   /* Chord Core Colors */
-  --chord-black: #131111;       /* deep black background */
+  --chord-black: #0a0909;       /* deep black background */
   --chord-yellow: #FF9F1C;      /* accent / primary yellow-orange */
   --chord-yellow-hover: #e68c15;
   --chord-white: #FFFFFF;       /* for text and contrast */

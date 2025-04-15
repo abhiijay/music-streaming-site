@@ -5,48 +5,47 @@
 
 @layer base {
   :root {
-    /* Dark theme variables based on updated Chord palette */
-    --background: #0f0d0e; /* dark black */
-    --foreground: #FFFFFF; /* bright white for contrast */
-  
-    --accent: #FF9F1C; /* golden-yellow */
-  
+    /* Dark theme variables based on Chord color palette */
+    --background: #0C120C; /* rich blackish green */
+    --foreground: #F8F4F9; /* off-white */
+    --accent: #C20114; /* deep red */
+    
     /* UI component variables */
-    --card: #02020B;
-    --card-foreground: #FFFFFF;
-  
-    --popover: #02020B;
-    --popover-foreground: #FFFFFF;
-  
-    --primary: #FF9F1C;
-    --primary-foreground: #02020B;
-  
-    --secondary: #1E1E1E;
-    --secondary-foreground: #FFFFFF;
-  
-    --muted: #1E1E1E;
-    --muted-foreground: #B3B3B3;
-  
-    --accent-hover: #e68c15;
-    --accent-foreground: #02020B;
-  
-    --destructive: #FF4C4C;
-    --destructive-foreground: #FFFFFF;
-  
-    --border: #2A2A2A;
-    --input: #2A2A2A;
-    --ring: #FF9F1C;
-  
+    --card: #0C120C;
+    --card-foreground: #F8F4F9;
+    
+    --popover: #0C120C;
+    --popover-foreground: #F8F4F9;
+    
+    --primary: #C20114;
+    --primary-foreground: #F8F4F9;
+    
+    --secondary: #121d12;
+    --secondary-foreground: #F8F4F9;
+    
+    --muted: #121d12;
+    --muted-foreground: #b3b3b3;
+    
+    --accent-hover: #9a0110;
+    --accent-foreground: #F8F4F9;
+    
+    --destructive: #C20114;
+    --destructive-foreground: #F8F4F9;
+    
+    --border: #1e2e1e;
+    --input: #1e2e1e;
+    --ring: #C20114;
+    
     --radius: 0.75rem;
-  
+    
     /* Chord brand colors */
-    --chord-bg: #131111;
-    --chord-yellow: #FF9F1C;
-    --chord-text: #FFFFFF;
-    --chord-hover: #1A1A1A;
-    --chord-active: #FF9F1C;
+    --chord-bg: #0C120C;
+    --chord-red: #C20114;
+    --chord-text: #F8F4F9;
+    --chord-hover: #1a231a;
+    --chord-active: #C20114;
   }
-}  
+}
 
 @layer base {
   * {
@@ -102,16 +101,16 @@
   }
 
   .text-chord-red {
-    color: #FF9F1C;
+    color: #C20114;
   }
   
   /* Background colors for Chord */
   .bg-chord-bg {
-    background-color: #02020B;
+    background-color: #0C120C;
   }
 
   .bg-chord-red {
-    background-color: #FF9F1C;
+    background-color: #C20114;
   }
 
   .bg-chord-hover {
@@ -199,7 +198,7 @@
   }
   
   .waveform-bar {
-    @apply w-1 rounded-sm bg-[#FF9F1C];
+    @apply w-1 rounded-sm bg-[#C20114];
     animation: wave 1.2s ease-in-out infinite;
   }
   
@@ -299,12 +298,12 @@
   
   .nav-active::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-full h-0.5 bg-[#FF9F1C] rounded-full;
+    @apply absolute bottom-0 left-0 w-full h-0.5 bg-[#C20114] rounded-full;
   }
   
   /* Profile icon */
   .profile-icon {
-    @apply rounded-full border-2 border-[#FF9F1C]/80 shadow-sm hover:shadow-[#C20114]/30 transition-all duration-300;
+    @apply rounded-full border-2 border-[#C20114]/80 shadow-sm hover:shadow-[#C20114]/30 transition-all duration-300;
   }
 
   @keyframes pulse {
