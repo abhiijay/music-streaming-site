@@ -10,6 +10,8 @@ import AmbientBackground from "./ambient-background";
 import { Toaster } from "sonner";
 import RippleEffect from "./ripple-effect";
 import Footer from "./footer";
+import { extractDominantColor } from "@/utils/colorUtils";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 interface LayoutProps {
   children: ReactNode;
@@ -21,6 +23,24 @@ const Layout = ({ children, pageColor }: LayoutProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showMiniPlayer, setShowMiniPlayer] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [dominantColor, setDominantColor] = useState<string | undefined>(pageColor);
+  
+  const { currentSong } = usePlayer();
+
+  // Extract dominant color from current song if available
+  useEffect(() => {
+    if (currentSong?.imageUrl) {
+      extractDominantColor(currentSong.imageUrl)
+        .then(color => {
+          setDominantColor(color);
+        })
+        .catch(err => {
+          console.error("Error extracting color:", err);
+        });
+    } else if (pageColor) {
+      setDominantColor(pageColor);
+    }
+  }, [currentSong, pageColor]);
   
   // Load theme preference from localStorage
   useEffect(() => {
@@ -54,18 +74,30 @@ const Layout = ({ children, pageColor }: LayoutProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   
+  // Base gradient for theme
+  const baseGradient = theme === "dark"
+    ? "bg-gradient-to-b from-mq-navy to-mq-navy/90"
+    : "bg-gradient-to-b from-mq-sand to-white";
+
+  // Dynamic gradient if we have a dominant color
+  const dynamicGradient = dominantColor
+    ? {
+        background: `linear-gradient(180deg, ${dominantColor}40 0%, ${
+          theme === "dark" ? "#001828" : "#FFFFFF"
+        } 100%)`,
+      }
+    : {};
+  
   return (
-    <div className={cn(
-      "min-h-screen text-white flex flex-col transition-colors duration-500",
-      theme === "dark" 
-        ? "bg-gradient-to-b from-mq-navy to-mq-navy/90" 
-        : "bg-gradient-to-b from-mq-sand to-white"
-    )}
-    style={pageColor ? { 
-      background: `linear-gradient(180deg, ${pageColor} 0%, ${theme === "dark" ? "#001828" : "#FFFFFF"} 100%)`,
-    } : {}}>
+    <div 
+      className={cn(
+        "min-h-screen text-white flex flex-col transition-colors duration-500",
+        baseGradient
+      )}
+      style={dominantColor ? dynamicGradient : {}}
+    >
       {/* Ambient background with enhanced visuals */}
-      <AmbientBackground theme={theme} accentColor={pageColor} />
+      <AmbientBackground theme={theme} accentColor={dominantColor} />
       
       {/* Animated gradient background effect */}
       <div className="ambient-background"></div>
@@ -134,7 +166,7 @@ const Layout = ({ children, pageColor }: LayoutProps) => {
       {showMiniPlayer && <MiniPlayer theme={theme} />}
       
       {/* Main player */}
-      <NowPlaying theme={theme} />
+      <NowPlaying theme={theme} dominantColor={dominantColor} />
     </div>
   );
 };

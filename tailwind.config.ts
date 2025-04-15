@@ -54,6 +54,7 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				mq: {
+					// Core MQ color palette - these colors remain consistent
 					navy: '#003049',
 					red: '#D62828',
 					orange: '#F77F00',
@@ -147,6 +148,15 @@ export default {
 					'0%': { transform: 'translateX(0) translateY(0)' },
 					'50%': { transform: 'translateX(5px) translateY(-5px)' },
 					'100%': { transform: 'translateX(0) translateY(0)' }
+				},
+				'parallax-float': {
+					'0%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-5px)' },
+					'100%': { transform: 'translateY(0px)' }
+				},
+				'color-transition': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
 				}
 			},
 			animation: {
@@ -167,7 +177,9 @@ export default {
 				'bounce': 'bounce 1s ease infinite',
 				'wave': 'wave 1.2s ease-in-out infinite',
 				'float': 'float 3s ease-in-out infinite',
-				'ambient': 'ambient-wave 8s ease-in-out infinite'
+				'ambient': 'ambient-wave 8s ease-in-out infinite',
+				'parallax-hover': 'parallax-float 3s ease-in-out infinite',
+				'color-fade': 'color-transition 0.5s ease-in-out'
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

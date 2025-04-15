@@ -1,7 +1,9 @@
 
 /**
- * Utility functions for color manipulation and extraction
- * Used for dynamic theming based on album artwork
+ * Enhanced color utilities for MQ theme:
+ * - Dynamic color extraction from album art
+ * - Color manipulation functions
+ * - Accessibility helpers for contrast
  */
 
 // Helper to convert RGB to HSL
@@ -103,7 +105,7 @@ export const withOpacity = (hexColor: string, opacity: number): string => {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
 
-// Extract dominant color from an image
+// Extract dominant color from an image - Enhanced for MQ theme
 export const extractDominantColor = async (imageUrl: string): Promise<string> => {
   try {
     return new Promise((resolve) => {
@@ -205,4 +207,139 @@ export const createGradientFromColor = (hexColor: string, isDark: boolean = true
     adjustLuminosity(hexColor, 1.2);
   
   return `linear-gradient(to bottom, ${baseColor} 0%, ${endColor} 100%)`;
+};
+
+// Generate a complementary color
+export const getComplementaryColor = (hexColor: string): string => {
+  const hex = hexColor.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  
+  // Compute complementary color
+  const rComp = 255 - r;
+  const gComp = 255 - g;
+  const bComp = 255 - b;
+  
+  // Convert to hex
+  return `#${((1 << 24) | (rComp << 16) | (gComp << 8) | bComp).toString(16).slice(1)}`;
+};
+
+// Create color palette from base color (for theme generation)
+export const createPaletteFromColor = (baseColor: string): {
+  primary: string;
+  secondary: string;
+  accent: string;
+  background: string;
+  text: string;
+} => {
+  const hex = baseColor.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  
+  // Convert to HSL for easier manipulation
+  const [h, s, l] = rgbToHsl(r, g, b);
+  
+  // Generate palette based on HSL adjustments
+  const primary = baseColor;
+  const secondary = hslToHex((h + 0.1) % 1, s * 0.8, l);
+  const accent = hslToHex((h + 0.5) % 1, s * 0.9, l * 1.1);
+  
+  // Background based on lightness
+  const background = l > 0.5 
+    ? hslToHex(h, s * 0.1, 0.95) // Light background for dark colors
+    : hslToHex(h, s * 0.2, 0.15); // Dark background for light colors
+  
+  // Text color based on background
+  const text = l > 0.5 ? '#003049' : '#FFFFFF';
+  
+  return { primary, secondary, accent, background, text };
+};
+
+// Convert HSL to Hex
+const hslToHex = (h: number, s: number, l: number): string => {
+  const rgb = hslToRgb(h, s, l);
+  return `#${((1 << 24) | (rgb[0] << 16) | (rgb[1] << 8) | rgb[2]).toString(16).slice(1)}`;
+};
+
+// Create a muted version of a color for backgrounds
+export const getMutedColor = (hexColor: string, amount: number = 0.85): string => {
+  const hex = hexColor.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  
+  // Convert to HSL
+  const [h, s, l] = rgbToHsl(r, g, b);
+  
+  // Return muted version (reduced saturation)
+  return hslToHex(h, s * amount, l);
+};
+
+// Ensure color meets accessibility standards
+export const ensureAccessibleColor = (
+  textColor: string, 
+  backgroundColor: string, 
+  minContrastRatio: number = 4.5
+): string => {
+  const contrastRatio = calculateContrastRatio(textColor, backgroundColor);
+  
+  if (contrastRatio >= minContrastRatio) {
+    return textColor; // Already accessible
+  }
+  
+  // Not accessible, make it accessible
+  const textHex = textColor.replace('#', '');
+  const r = parseInt(textHex.substring(0, 2), 16);
+  const g = parseInt(textHex.substring(2, 4), 16);
+  const b = parseInt(textHex.substring(4, 6), 16);
+  
+  // Convert to HSL
+  const [h, s, l] = rgbToHsl(r, g, b);
+  
+  // Determine if we need to lighten or darken
+  const bgIsLight = isLightColor(backgroundColor);
+  
+  // Start with current lightness
+  let newL = l;
+  let newColor = textColor;
+  let newContrast = contrastRatio;
+  
+  // Incrementally adjust until we meet the contrast requirement
+  const step = bgIsLight ? -0.05 : 0.05;
+  
+  while (newContrast < minContrastRatio && newL >= 0 && newL <= 1) {
+    newL += step;
+    newColor = hslToHex(h, s, newL);
+    newContrast = calculateContrastRatio(newColor, backgroundColor);
+  }
+  
+  return newColor;
+};
+
+// Calculate contrast ratio between two colors
+const calculateContrastRatio = (color1: string, color2: string): number => {
+  const luminance1 = calculateLuminance(color1);
+  const luminance2 = calculateLuminance(color2);
+  
+  // Make sure the lighter color is always the first one
+  const lighter = Math.max(luminance1, luminance2);
+  const darker = Math.min(luminance1, luminance2);
+  
+  return (lighter + 0.05) / (darker + 0.05);
+};
+
+// Calculate luminance of a color
+const calculateLuminance = (color: string): number => {
+  const hex = color.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16) / 255;
+  const g = parseInt(hex.substring(2, 4), 16) / 255;
+  const b = parseInt(hex.substring(4, 6), 16) / 255;
+  
+  const rLinear = r <= 0.03928 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4);
+  const gLinear = g <= 0.03928 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4);
+  const bLinear = b <= 0.03928 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4);
+  
+  return 0.2126 * rLinear + 0.7152 * gLinear + 0.0722 * bLinear;
 };

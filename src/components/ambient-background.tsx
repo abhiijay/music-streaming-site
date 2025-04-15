@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 interface AmbientBackgroundProps {
   theme: "dark" | "light";
-  accentColor?: string; // Added accentColor prop as optional
+  accentColor?: string; // Optional accent color for the background
 }
 
 const AmbientBackground = ({ theme, accentColor }: AmbientBackgroundProps) => {
@@ -40,9 +40,9 @@ const AmbientBackground = ({ theme, accentColor }: AmbientBackgroundProps) => {
     canvas.width = dimensions.width;
     canvas.height = dimensions.height;
     
-    // Particles config
-    const particleCount = 50;
-    const particleRadius = 80;
+    // Particles config - adjusted for MQ theme
+    const particleCount = 40;
+    const particleRadius = 120;
     const particles: any[] = [];
     
     // Colors based on theme and accentColor
@@ -56,10 +56,18 @@ const AmbientBackground = ({ theme, accentColor }: AmbientBackgroundProps) => {
         `${accentColor}1a`, // ~10% opacity
       ];
     } else {
-      // Default colors based on theme
+      // Default colors based on theme using MQ palette
       colors = theme === 'dark' 
-        ? ['rgba(0, 99, 229, 0.05)', 'rgba(155, 135, 245, 0.05)', 'rgba(0, 255, 221, 0.05)']
-        : ['rgba(0, 99, 229, 0.03)', 'rgba(155, 135, 245, 0.03)', 'rgba(0, 255, 221, 0.03)'];
+        ? [
+            'rgba(0, 48, 73, 0.08)',      // Navy
+            'rgba(252, 191, 73, 0.05)',   // Yellow
+            'rgba(247, 127, 0, 0.06)'     // Orange
+          ]
+        : [
+            'rgba(234, 226, 183, 0.08)',  // Sand
+            'rgba(214, 40, 40, 0.03)',    // Red
+            'rgba(247, 127, 0, 0.04)'     // Orange
+          ];
     }
       
     // Create particles
@@ -70,8 +78,8 @@ const AmbientBackground = ({ theme, accentColor }: AmbientBackgroundProps) => {
         radius: Math.random() * particleRadius + 20,
         color: colors[Math.floor(Math.random() * colors.length)],
         velocity: {
-          x: Math.random() * 0.4 - 0.2,
-          y: Math.random() * 0.4 - 0.2
+          x: Math.random() * 0.3 - 0.15,
+          y: Math.random() * 0.3 - 0.15
         }
       });
     }
@@ -120,14 +128,14 @@ const AmbientBackground = ({ theme, accentColor }: AmbientBackgroundProps) => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [dimensions, theme, accentColor]); // Added accentColor to dependencies
+  }, [dimensions, theme, accentColor]);
 
   return (
     <canvas
       ref={canvasRef}
       className={cn(
-        "fixed top-0 left-0 -z-10 pointer-events-none opacity-50 transition-opacity duration-1000",
-        theme === "light" ? "opacity-30" : "opacity-40"
+        "fixed top-0 left-0 -z-10 pointer-events-none transition-opacity duration-1000",
+        theme === "light" ? "opacity-30" : "opacity-60"
       )}
       width={dimensions.width}
       height={dimensions.height}

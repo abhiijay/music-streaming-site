@@ -5,9 +5,9 @@
 
 @layer base {
   :root {
-    /* Light mode variables */
-    --background: 46 57% 88%; /* EAE2B7 */
-    --foreground: 201 100% 14%; /* 003049 */
+    /* Light mode variables - based on MQ color palette */
+    --background: 46 57% 88%; /* EAE2B7 (Sand) */
+    --foreground: 201 100% 14%; /* 003049 (Navy) */
 
     --card: 46 57% 88%;
     --card-foreground: 201 100% 14%;
@@ -15,16 +15,16 @@
     --popover: 46 57% 88%;
     --popover-foreground: 201 100% 14%;
 
-    --primary: 5 70% 50%; /* D62828 */
+    --primary: 5 70% 50%; /* D62828 (Red) */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 35 100% 48%; /* F77F00 */
+    --secondary: 35 100% 48%; /* F77F00 (Orange) */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 46 57% 80%;
     --muted-foreground: 201 70% 30%;
 
-    --accent: 39 97% 64%; /* FCBF49 */
+    --accent: 39 97% 64%; /* FCBF49 (Yellow) */
     --accent-foreground: 201 100% 14%;
 
     --destructive: 5 70% 50%;
@@ -49,8 +49,8 @@
   }
 
   .dark {
-    /* Dark mode variables */
-    --background: 201 100% 14%; /* 003049 */
+    /* Dark mode variables - based on MQ color palette */
+    --background: 201 100% 14%; /* 003049 (Navy) */
     --foreground: 0 0% 98%;
 
     --card: 201 90% 16%;
@@ -59,16 +59,16 @@
     --popover: 201 90% 16%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 5 70% 50%; /* D62828 with slightly less saturation */
+    --primary: 5 70% 50%; /* D62828 (Red) with slightly less saturation for dark mode */
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 35 90% 45%; /* F77F00 muted for dark mode */
+    --secondary: 35 90% 45%; /* F77F00 (Orange) muted for dark mode */
     --secondary-foreground: 0 0% 98%;
 
     --muted: 201 60% 20%;
     --muted-foreground: 201 20% 70%;
 
-    --accent: 39 90% 50%; /* FCBF49 less saturated for dark mode */
+    --accent: 39 90% 50%; /* FCBF49 (Yellow) less saturated for dark mode */
     --accent-foreground: 0 0% 98%;
 
     --destructive: 5 60% 40%;
@@ -183,7 +183,7 @@
     @apply bg-mq-darkgray/70 backdrop-blur-md border border-white/5 bg-opacity-80;
   }
   
-  /* Updated glassomorphism for light/dark modes */
+  /* Updated glassmorphism for light/dark modes */
   .light-mode .glass {
     @apply backdrop-blur-md border border-mq-navy/10 bg-mq-sand/80;
   }
@@ -192,9 +192,23 @@
     @apply backdrop-blur-lg border border-mq-navy/10 bg-white/60 shadow-lg;
   }
   
-  /* Hover lift effect */
+  /* Hover lift effect with parallax */
   .hover-lift {
     @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .parallax-effect {
+    @apply transition-transform duration-300 transform-gpu;
+    transform-style: preserve-3d;
+  }
+  
+  .parallax-element {
+    @apply transition-transform duration-300;
+    will-change: transform;
+  }
+
+  .parallax-container:hover .parallax-element {
+    transform: translateY(-5px) scale(1.02);
   }
   
   /* Button hover effects */
@@ -336,6 +350,45 @@
   
   :root:not(.light-mode) .mq-secondary-btn {
     @apply border-white/20 text-white hover:border-white hover:bg-white/5;
+  }
+  
+  /* Theme-specific album card styles */
+  .album-card {
+    @apply rounded-md overflow-hidden transition-all duration-300;
+  }
+
+  .light-mode .album-card {
+    @apply bg-white shadow-sm hover:shadow-md border border-mq-navy/10;
+  }
+
+  :root:not(.light-mode) .album-card {
+    @apply bg-mq-gray/40 hover:bg-mq-gray/60 border border-white/5;
+  }
+
+  /* Dynamic player background with album colors */
+  .player-dynamic-bg {
+    @apply bg-opacity-85 backdrop-blur-md transition-colors duration-700;
+  }
+
+  .light-mode .player-dynamic-bg {
+    @apply bg-opacity-70 text-mq-navy;
+  }
+
+  :root:not(.light-mode) .player-dynamic-bg {
+    @apply text-white;
+  }
+
+  /* Album art hover effects */
+  .album-art-container {
+    @apply overflow-hidden rounded-md relative;
+  }
+
+  .album-art {
+    @apply transition-all duration-300 w-full h-full object-cover;
+  }
+
+  .album-art-container:hover .album-art {
+    @apply scale-105;
   }
 }
 
