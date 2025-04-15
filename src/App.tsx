@@ -26,6 +26,8 @@ function App() {
         <Route path="/album/:id" element={<Album />} />
         <Route path="/playlist/:id" element={<Playlist />} />
         <Route path="/collection" element={<Collection />} />
+        <Route path="/collection/playlists" element={<Collection />} />
+        <Route path="/collection/favorites" element={<Collection />} />
         <Route path="/for-you" element={<ForYou />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/search" element={<Search />} />

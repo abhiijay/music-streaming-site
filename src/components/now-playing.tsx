@@ -167,23 +167,26 @@ const NowPlaying = ({ dominantColor }: NowPlayingProps) => {
     setIsLiked(!isLiked);
   };
 
-  // Dynamic gradient background
+  // Dynamic background style with the dominant color
   const bgStyle = dominantColor ? {
-    background: `linear-gradient(to bottom, ${withOpacity(dominantColor, 0.8)} 0%, ${withOpacity(dominantColor, 0.6)} 50%, ${withOpacity('#0C120C', 0.98)} 100%)`,
+    background: `linear-gradient(to bottom, ${withOpacity(dominantColor, 0.8)} 0%, ${withOpacity('#0C120C', 0.98)} 100%)`,
     backdropFilter: "blur(20px)",
-  } : {};
+  } : {
+    background: "#0C120C",
+    backdropFilter: "blur(20px)",
+  };
   
   if (!currentSong) return null;
 
   return (
     <div 
-      className="fixed bottom-0 w-full border-t border-white/5 z-20 transition-all duration-500 pb-[56px] md:pb-0"
+      className="fixed bottom-0 w-full border-t border-white/5 z-20 transition-all duration-500 pb-0"
       style={bgStyle}
     >
       <div className="mx-auto transition-all duration-300">
-        <div className="flex flex-col md:flex-row md:items-center px-4 py-3">
+        <div className="flex items-center px-4 py-3">
           {/* Song Info */}
-          <div className="flex items-center mb-3 md:mb-0 md:w-1/4">
+          <div className="flex items-center w-1/4">
             <div className="mr-3 relative group">
               <img
                 src={currentSong.imageUrl}
@@ -196,7 +199,7 @@ const NowPlaying = ({ dominantColor }: NowPlayingProps) => {
               />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-md transition-opacity duration-300">
                 <button 
-                  className="text-white hover:scale-110 transition-transform duration-300"
+                  className="text-chord-text hover:scale-110 transition-transform duration-300"
                   onClick={togglePlayPause}
                 >
                   {isPlaying ? <Pause size={16} /> : <Play size={16} />}
@@ -228,7 +231,7 @@ const NowPlaying = ({ dominantColor }: NowPlayingProps) => {
           </div>
           
           {/* Playback Controls */}
-          <div className="flex flex-col items-center md:w-2/4">
+          <div className="flex flex-col items-center w-2/4">
             <div className="flex items-center justify-center space-x-3 mb-2">
               <TooltipProvider>
                 <Tooltip>
@@ -258,7 +261,7 @@ const NowPlaying = ({ dominantColor }: NowPlayingProps) => {
               
               <button
                 onClick={togglePlayPause}
-                className="bg-chord-red text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-chord-red/90 transition-all duration-200 hover:shadow-[0_0_15px_rgba(194,1,20,0.5)]"
+                className="bg-chord-red text-chord-text w-8 h-8 rounded-full flex items-center justify-center hover:bg-chord-red/90 transition-all duration-200 hover:shadow-[0_0_15px_rgba(194,1,20,0.5)]"
               >
                 {isPlaying ? <Pause size={16} /> : <Play size={16} className="ml-0.5" />}
               </button>
@@ -294,7 +297,7 @@ const NowPlaying = ({ dominantColor }: NowPlayingProps) => {
             
             {/* Progress Bar */}
             <div className="w-full flex items-center space-x-2 px-2">
-              <span className="text-xs text-chord-text/70 font-mono w-10 text-right">
+              <span className="text-xs text-chord-text/70 font-mono w-10 text-right font-bold">
                 {formatTime(currentTime)}
               </span>
               
@@ -309,14 +312,14 @@ const NowPlaying = ({ dominantColor }: NowPlayingProps) => {
                 />
               </div>
               
-              <span className="text-xs text-chord-text/70 font-mono w-10">
+              <span className="text-xs text-chord-text/70 font-mono w-10 font-bold">
                 {formatTime(duration)}
               </span>
             </div>
           </div>
           
           {/* Volume & Extra Controls */}
-          <div className="hidden md:flex items-center justify-end md:w-1/4 mt-2 md:mt-0">
+          <div className="flex items-center justify-end w-1/4">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

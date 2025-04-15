@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Heart, Facebook, Twitter, Instagram } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { cn } from "@/lib/utils";
 import AppLogo from "./app-logo";
 
@@ -55,6 +55,14 @@ const Footer = () => {
               className="text-chord-text/70 hover:text-chord-text hover:scale-110 transition-all duration-200"
             >
               <Instagram size={18} />
+            </a>
+            <a 
+              href="https://youtube.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-chord-text/70 hover:text-chord-text hover:scale-110 transition-all duration-200"
+            >
+              <Youtube size={18} />
             </a>
           </div>
         </div>

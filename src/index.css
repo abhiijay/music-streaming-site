@@ -86,15 +86,37 @@
 
   /* Bold typography */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold text-chord-text;
+    @apply font-bold text-[#F8F4F9];
   }
   
   p, span, a, button, input, textarea {
-    @apply font-medium;
+    @apply font-bold;
   }
 }
 
 @layer utilities {
+  /* Text colors for Chord */
+  .text-chord-text {
+    color: #F8F4F9;
+  }
+
+  .text-chord-red {
+    color: #C20114;
+  }
+  
+  /* Background colors for Chord */
+  .bg-chord-bg {
+    background-color: #0C120C;
+  }
+
+  .bg-chord-red {
+    background-color: #C20114;
+  }
+
+  .bg-chord-hover {
+    background-color: #1a231a;
+  }
+  
   /* Track card hover effects */
   .track-card:hover .play-button {
     opacity: 1;
@@ -102,7 +124,7 @@
   }
 
   .playlist-item:hover {
-    @apply bg-chord-hover;
+    @apply bg-[#1a231a];
   }
   
   /* Custom scrollbar */
@@ -176,7 +198,7 @@
   }
   
   .waveform-bar {
-    @apply w-1 rounded-sm bg-chord-red;
+    @apply w-1 rounded-sm bg-[#C20114];
     animation: wave 1.2s ease-in-out infinite;
   }
   
@@ -217,8 +239,7 @@
   
   /* Tooltip */
   .tooltip {
-    @apply invisible absolute bg-secondary;
-    @apply text-xs py-1 px-2 rounded opacity-0 transition-opacity duration-200 z-50 whitespace-nowrap;
+    @apply invisible absolute bg-[#121d12] text-[#F8F4F9] text-xs py-1 px-2 rounded opacity-0 transition-opacity duration-200 z-50 whitespace-nowrap;
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -227,7 +248,7 @@
   
   .tooltip::after {
     content: "";
-    @apply absolute border-[5px] border-transparent border-t-secondary;
+    @apply absolute border-[5px] border-transparent border-t-[#121d12];
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -239,24 +260,22 @@
   
   /* Chord-themed action buttons */
   .chord-action-btn {
-    @apply transition-all duration-300 rounded-full flex items-center justify-center bg-chord-red;
-    @apply text-chord-text hover:bg-[#9a0110] hover:shadow-[0_0_15px_rgba(194,1,20,0.3)];
+    @apply transition-all duration-300 rounded-full flex items-center justify-center bg-[#C20114] text-[#F8F4F9] hover:bg-[#9a0110] hover:shadow-[0_0_15px_rgba(194,1,20,0.3)];
   }
   
   /* Chord secondary buttons */
   .chord-secondary-btn {
-    @apply transition-all duration-300 border rounded-full flex items-center justify-center border-white/20;
-    @apply text-chord-text hover:border-white hover:bg-white/5;
+    @apply transition-all duration-300 border rounded-full flex items-center justify-center border-white/20 text-[#F8F4F9] hover:border-white hover:bg-white/5;
   }
   
   /* Theme-specific album card styles */
   .album-card {
-    @apply rounded-md overflow-hidden transition-all duration-300 bg-secondary/40 hover:bg-secondary/60 border border-white/5;
+    @apply rounded-md overflow-hidden transition-all duration-300 bg-[#121d12]/40 hover:bg-[#121d12]/60 border border-white/5;
   }
 
   /* Dynamic player background with album colors */
   .player-dynamic-bg {
-    @apply bg-opacity-85 backdrop-blur-md transition-colors duration-700 text-chord-text;
+    @apply bg-opacity-85 backdrop-blur-md transition-colors duration-700 text-[#F8F4F9];
   }
 
   /* Album art hover effects */
@@ -274,17 +293,17 @@
   
   /* Active navigation indicator */
   .nav-active {
-    @apply relative font-semibold text-chord-text;
+    @apply relative font-semibold text-[#F8F4F9];
   }
   
   .nav-active::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-full h-0.5 bg-chord-red rounded-full;
+    @apply absolute bottom-0 left-0 w-full h-0.5 bg-[#C20114] rounded-full;
   }
   
   /* Profile icon */
   .profile-icon {
-    @apply rounded-full border-2 border-chord-red/80 shadow-sm hover:shadow-chord-red/30 transition-all duration-300;
+    @apply rounded-full border-2 border-[#C20114]/80 shadow-sm hover:shadow-[#C20114]/30 transition-all duration-300;
   }
 
   @keyframes pulse {
